@@ -90,11 +90,11 @@ export default function Hero() {
                     >
                         <button className="group relative flex-1 px-4 py-3 md:px-8 md:py-4 bg-white text-black font-bold text-xs md:text-sm tracking-wide overflow-hidden rounded-sm transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center justify-center">
                             <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                            <span className="relative z-10 whitespace-nowrap">START CREATING</span>
+                            <span className="relative z-10 whitespace-nowrap">START BUILDING</span>
                         </button>
                         <button className="flex-1 px-4 py-3 md:px-8 md:py-4 bg-white/5 border border-white/10 text-white font-bold text-xs md:text-sm tracking-wide hover:bg-white/10 transition-colors flex items-center justify-center gap-2 backdrop-blur-md rounded-sm whitespace-nowrap">
                             <Code className="w-4 h-4 text-violet-400" />
-                            COMPONENTS
+                            EXPERIMENT
                         </button>
                     </motion.div>
 

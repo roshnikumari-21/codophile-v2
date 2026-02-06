@@ -16,8 +16,8 @@ export default function Footer() {
                     {/* Brand Column */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-linear-to-br from-violet-600 to-pink-500 flex items-center justify-center text-white font-bold text-lg sharp-border shadow-[0_0_15px_rgba(139,92,246,0.3)]">
-                                C
+                            <div className="relative w-8 h-8 flex items-center justify-center">
+                                <img src="/logo.png" alt="Codophile Logo" className="w-full h-full object-contain" />
                             </div>
                             <span className="text-xl font-bold tracking-tight text-white">
                                 Codophile

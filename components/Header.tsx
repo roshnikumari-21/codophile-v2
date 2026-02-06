@@ -14,8 +14,8 @@ export default function Header() {
 
                 {/* Logo */}
                 <div className="flex items-center gap-2 shrink-0 z-50">
-                    <div className="w-8 h-8 bg-linear-to-br from-violet-600 to-pink-500 flex items-center justify-center text-white font-bold text-lg sharp-border shadow-[0_0_15px_rgba(139,92,246,0.3)]">
-                        C
+                    <div className="relative w-8 h-8 flex items-center justify-center">
+                        <img src="/logo.png" alt="Codophile Logo" className="w-full h-full object-contain" />
                     </div>
                     <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-white to-white/70">
                         Codophile
@@ -45,7 +45,7 @@ export default function Header() {
                         {["Playground", "Templates", "Docs"].map((item) => (
                             <Link
                                 key={item}
-                                href={`#${item.toLowerCase()}`}
+                                href={`/${item.toLowerCase()}`}
                                 className="text-sm font-medium text-gray-400 hover:text-white transition-colors relative group"
                             >
                                 {item}
@@ -95,7 +95,7 @@ export default function Header() {
                                 {["Playground", "Templates", "Docs"].map((item) => (
                                     <Link
                                         key={item}
-                                        href={`#${item.toLowerCase()}`}
+                                        href={`/${item.toLowerCase()}`}
                                         onClick={() => setIsMenuOpen(false)}
                                         className="text-lg font-medium text-gray-300 hover:text-white py-2 border-b border-white/5"
                                     >
