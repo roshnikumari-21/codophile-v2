@@ -18,7 +18,7 @@ export default function ClientEditor() {
     const [htmlCode, setHtmlCode] = useState("");
     const [cssCode, setCssCode] = useState("");
     const [jsCode, setJsCode] = useState("");
-    const [activeTab, setActiveTab] = useState<'html' | 'css' | 'js'>('html');
+    const [activeTab, setActiveTab] = useState<'html' | 'css' | 'js' | 'react' | 'next'>('html');
 
     // Layout State
     const [layout, setLayout] = useState<'split' | 'preview' | 'editor'>('split');
@@ -29,6 +29,8 @@ export default function ClientEditor() {
     // Console State
     const [logs, setLogs] = useState<{ type: 'log' | 'error' | 'warn'; message: string }[]>([]);
     const [showConsole, setShowConsole] = useState(false);
+    const [showExportModal, setShowExportModal] = useState(false);
+    const [exportFormat, setExportFormat] = useState<'html' | 'react' | 'next'>('react');
 
     // Use srcDoc for rendering
     const [srcDoc, setSrcDoc] = useState("");
@@ -98,10 +100,12 @@ export default function ClientEditor() {
     }, [isDragging, onDrag, stopDragging]);
 
 
-    // Download Function
-    const handleDownload = () => {
-        const fullCode = `
-<!DOCTYPE html>
+
+    // Export Functionality
+    const generateCode = (format: 'html' | 'react' | 'next') => {
+        try {
+            if (format === 'html') {
+                return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -119,15 +123,96 @@ export default function ClientEditor() {
     </script>
 </body>
 </html>`;
-        const blob = new Blob([fullCode], { type: 'text/html' });
+            }
+
+            // Helper to convert simple HTML to JSX (basic approximation)
+            let jsxHtml = htmlCode.replace(/class=/g, 'className=');
+
+            // Basic self-closing tag fix for common void elements if missing /
+            const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+            voidTags.forEach(tag => {
+                const regex = new RegExp(`<${tag}([^>]*?)(?<!/)>`, 'gi');
+                jsxHtml = jsxHtml.replace(regex, `<${tag}$1 />`);
+            });
+
+            // Construct React Component
+            const reactComponent = `import React, { useEffect, useRef } from 'react';
+
+export default function ${effectId?.replace(/-./g, x => x[1].toUpperCase()).replace(/^./, x => x.toUpperCase()) || 'EffectComponent'}() {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        // Scoped JS execution
+        const runEffect = () => {
+            try {
+                // We wrap the user's JS in a scope where 'document' calls might need adjustment
+                // But for simplicity in this export, we assume the user adapts it or we provide a wrapper
+                // Ideally, we'd query selectors inside 'container'
+                
+                // --- USER JS START ---
+                ${jsCode.replace(/document\.querySelector/g, 'container.querySelector').replace(/document\.querySelectorAll/g, 'container.querySelectorAll')}
+                // --- USER JS END ---
+            } catch (err) {
+                console.error("Effect error:", err);
+            }
+        };
+
+        runEffect();
+        
+        // Cleanup if needed (user would need to define cleanup logic in real world)
+        return () => {};
+    }, []);
+
+    return (
+        <>
+            <style>{\`
+                ${cssCode}
+            \`}</style>
+            <div ref={containerRef} className="effect-container">
+                ${jsxHtml}
+            </div>
+        </>
+    );
+}`;
+
+            if (format === 'next') {
+                return `"use client";
+
+${reactComponent}`;
+            }
+
+            return reactComponent;
+        } catch (e) {
+            console.error("Code generation error:", e);
+            return "// Error generating code. Please check your HTML/JS syntax.";
+        }
+    };
+
+    const handleDownload = () => {
+        const code = generateCode(exportFormat);
+        const extension = exportFormat === 'html' ? 'html' : 'tsx';
+        const mime = exportFormat === 'html' ? 'text/html' : 'text/plain';
+
+        const blob = new Blob([code], { type: mime });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${effectId || 'effect'}.html`;
+        a.download = `${effectId || 'effect'}.${extension}`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        setShowExportModal(false);
+    };
+
+    const handleCopy = () => {
+        const code = generateCode(exportFormat);
+        navigator.clipboard.writeText(code);
+        alert("Code copied to clipboard!"); // Replace with toast in real app
+        setShowExportModal(false);
     };
 
     // Listen for console messages from iframe
@@ -395,13 +480,28 @@ export default function ClientEditor() {
                                 label="JS"
                                 color="text-yellow-400"
                             />
+                            <div className="w-px h-6 bg-white/10 mx-2 self-center" />
+                            <TabButton
+                                active={activeTab === 'react'}
+                                onClick={() => setActiveTab('react')}
+                                icon={Code}
+                                label="React"
+                                color="text-cyan-400"
+                            />
+                            <TabButton
+                                active={activeTab === 'next'}
+                                onClick={() => setActiveTab('next')}
+                                icon={Layout}
+                                label="Next.js"
+                                color="text-white"
+                            />
                         </div>
 
                         <div className="flex items-center gap-2 pr-2">
                             <button
-                                onClick={handleDownload}
+                                onClick={() => setShowExportModal(true)}
                                 className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-md transition-colors"
-                                title="Download Code"
+                                title="Export Code"
                             >
                                 <Download className="w-4 h-4" />
                             </button>
@@ -420,14 +520,22 @@ export default function ClientEditor() {
                     <div className="flex-1 relative min-h-0 bg-[#0f0f0f]">
                         <div className="absolute inset-0">
                             <Editor
+                                key={activeTab}
                                 height="100%"
-                                language={activeTab === 'js' ? 'javascript' : activeTab}
+                                language={activeTab === 'js' || activeTab === 'react' || activeTab === 'next' ? 'javascript' : activeTab}
                                 theme="vs-dark"
-                                value={activeTab === 'html' ? htmlCode : activeTab === 'css' ? cssCode : jsCode}
+                                value={
+                                    activeTab === 'html' ? htmlCode :
+                                        activeTab === 'css' ? cssCode :
+                                            activeTab === 'js' ? jsCode :
+                                                activeTab === 'react' ? generateCode('react') :
+                                                    generateCode('next')
+                                }
                                 onChange={(value: string | undefined) => {
                                     if (activeTab === 'html') setHtmlCode(value || "");
                                     else if (activeTab === 'css') setCssCode(value || "");
-                                    else setJsCode(value || "");
+                                    else if (activeTab === 'js') setJsCode(value || "");
+                                    // React/Next tabs are read-only for now or just don't update state back to source
                                 }}
                                 options={{
                                     minimap: { enabled: false },
@@ -438,12 +546,56 @@ export default function ClientEditor() {
                                     automaticLayout: true,
                                     tabSize: 4,
                                     fontFamily: "'Geist Mono', monospace",
+                                    readOnly: activeTab === 'react' || activeTab === 'next', // Read-only for generated views
                                 }}
                             />
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Export Modal */}
+            {showExportModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-[#111] border border-white/10 rounded-xl p-6 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-200">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-semibold">Export Effect</h2>
+                            <button onClick={() => setShowExportModal(false)} className="text-gray-400 hover:text-white transition-colors">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="flex gap-2 mb-6 bg-white/5 p-1 rounded-lg">
+                            {(['html', 'react', 'next'] as const).map((format) => (
+                                <button
+                                    key={format}
+                                    onClick={() => setExportFormat(format)}
+                                    className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all ${exportFormat === format
+                                        ? 'bg-pink-600 text-white shadow-lg'
+                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                        }`}
+                                >
+                                    {format === 'html' ? 'HTML/JS' : format === 'react' ? 'React' : 'Next.js'}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="space-y-3">
+                            <button
+                                onClick={handleDownload}
+                                className="w-full py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+                            >
+                                <Download className="w-4 h-4" /> Download File
+                            </button>
+                            <button
+                                onClick={handleCopy}
+                                className="w-full py-3 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-colors border border-white/5"
+                            >
+                                Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
