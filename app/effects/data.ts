@@ -447,5 +447,198 @@ btn.addEventListener('click', () => {
     alert("Impossible! You caught me! 🤯");
 });`
         }
+    },
+{
+    id: "neon-typewriter",
+    title: "Glow-Flow Typewriter",
+    description: "A high-end text rotation effect with a rhythmic blinking cursor. Features a multi-layered text-shadow for a neon 'bloom' effect that matches modern dark-mode aesthetics.",
+    keywords: ["typewriter", "neon text", "blinking cursor", "modern ui"],
+    code: {
+        html: `<div class="tw-wrapper">
+    <h1 class="tw-title">
+        Always <span id="tw-target" class="tw-accent"></span><span class="tw-cursor">_</span>
+    </h1>
+</div>`,
+        css: `/* Update your Typewriter Effect CSS to this */
+.tw-wrapper {
+    /* Ensure the container is always full-width/height of the iframe */
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    
+    /* Centralize content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* This forces the background color to fill the entire preview area */
+    background-color: #030014; 
+    overflow: hidden;
+    position: relative;
+}
+
+.tw-title {
+    color: #fff;
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    /* Use flex here to keep "Always", the text, and cursor in one line */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em; /* This controls the gap between "Always" and your changing text */
+}
+
+.tw-accent {
+    /* Remove the large min-width that was pushing the cursor away */
+    display: inline-block;
+    min-width: 20px; 
+    text-align: left;
+    background: linear-gradient(to right, #f472b6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.tw-cursor {
+    color: #f472b6;
+    /* Use margin-left to pull it slightly closer to the text if needed */
+    margin-left: -0.1em; 
+    font-weight: 200;
+    animation: blink 0.8s step-end infinite;
+}
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}`,
+        js: `const target = document.getElementById('tw-target');
+const words = ["Evolving", "Coding", "Scaling", "Refining"];
+let wordIdx = 0, charIdx = 0, deleting = false;
+
+function play() {
+    const word = words[wordIdx];
+    target.innerText = word.substring(0, charIdx + (deleting ? -1 : 1));
+    charIdx += deleting ? -1 : 1;
+
+    let speed = deleting ? 100 : 200;
+    if (!deleting && charIdx === word.length) {
+        deleting = true;
+        speed = 2000;
+    } else if (deleting && charIdx === 0) {
+        deleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        speed = 500;
     }
+    setTimeout(play, speed);
+}
+play();`
+    }
+},
+{
+    id: "magnetic-social-icons",
+    title: "Gravity-Flex Social Dock",
+    description: "A liquid-interaction social bar where icons exhibit gravitational pull. Icons are wrapped in anchor tags, making it a fully functional navigation component for your portfolio or landing page.",
+    keywords: ["magnetic icons", "social media links", "navigation dock", "javascript interaction", "vector math"],
+    code: {
+        html: `<div class="social-dock">
+    <a href="/" target="_blank" class="magnetic-item" data-platform="github" title="GitHub">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+        </div>
+    </a>
+    <a href="/" target="_blank" class="magnetic-item" data-platform="youtube" title="YouTube">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+        </div>
+    </a>
+    <a href="/" target="_blank" class="magnetic-item" data-platform="instagram" title="Instagram">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+        </div>
+    </a>
+    <a href="/" target="_blank" class="magnetic-item" data-platform="twitter" title="X (Twitter)">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+        </div>
+    </a>
+    <a href="/" target="_blank" class="magnetic-item" data-platform="linkedin" title="LinkedIn">
+        <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </div>
+    </a>
+</div>`,
+        css: `/* (Keeping the same CSS as before) */
+body {
+    background: #030014;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.social-dock {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.magnetic-item {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* Important for links */
+    cursor: pointer;
+    position: relative;
+}
+
+.icon-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #64748b;
+    transition: color 0.3s ease, transform 0.15s ease-out;
+}
+
+.icon-wrapper svg {
+    width: 22px;
+    height: 22px;
+}
+
+.magnetic-item[data-platform="github"]:hover .icon-wrapper { color: #fff; filter: drop-shadow(0 0 8px #fff); }
+.magnetic-item[data-platform="youtube"]:hover .icon-wrapper { color: #ff0000; filter: drop-shadow(0 0 8px #ff0000); }
+.magnetic-item[data-platform="instagram"]:hover .icon-wrapper { color: #f472b6; filter: drop-shadow(0 0 8px #f472b6); }
+.magnetic-item[data-platform="twitter"]:hover .icon-wrapper { color: #38bdf8; filter: drop-shadow(0 0 8px #38bdf8); }
+.magnetic-item[data-platform="linkedin"]:hover .icon-wrapper { color: #60a5fa; filter: drop-shadow(0 0 8px #60a5fa); }`,
+        js: `const items = document.querySelectorAll('.magnetic-item');
+
+items.forEach(item => {
+    const wrapper = item.querySelector('.icon-wrapper');
+    
+    item.addEventListener('mousemove', (e) => {
+        const rect = item.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+        
+        wrapper.style.transform = \`translate(\${dx * 0.4}px, \${dy * 0.4}px) scale(1.2)\`;
+    });
+    
+    item.addEventListener('mouseleave', () => {
+        wrapper.style.transform = 'translate(0px, 0px) scale(1)';
+    });
+});`
+    }
+}
 ];
