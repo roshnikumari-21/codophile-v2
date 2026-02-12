@@ -2003,5 +2003,168 @@ earthToggle.addEventListener('click', () => {
     wrapper.classList.toggle('active');
 });`
     }
+},
+{
+    id: "bioluminescent-tendrils",
+    title: "Bioluminescent Tendril Field",
+    description: "An organic, reactive background where glowing fiber-optic tendrils sprout from the cursor. Uses inverse kinematics and spring physics to simulate life-like movement and fluid decay.",
+    keywords: ["procedural animation", "bioluminescence", "interactive background", "canvas physics", "inverse kinematics"],
+    code: {
+        html: `<div class="tendril-container">
+    <canvas id="tendrilCanvas"></canvas>
+    <div class="tendril-ui">
+        <h1>NEURAL BLOOM</h1>
+        <p>Move your cursor to spark life</p>
+    </div>
+</div>`,
+        css: `.tendril-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #010208; /* Deep abyss blue */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#tendrilCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tendril-ui {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 200;
+    letter-spacing: 15px;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom, #fff, #444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.4;
+}`,
+        js: `const canvas = document.getElementById('tendrilCanvas');
+const ctx = canvas.getContext('2d');
+
+let tendrils = [];
+const mouse = { x: 0, y: 0, moved: false };
+
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener('resize', init);
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.moved = true;
+    // Spawn a new tendril on move
+    if (Math.random() > 0.5) {
+        tendrils.push(new Tendril(mouse.x, mouse.y));
+    }
+});
+
+class Tendril {
+    constructor(x, y) {
+        this.segments = [];
+        this.numSegments = Math.floor(Math.random() * 15 + 10);
+        this.length = Math.random() * 8 + 4;
+        this.angle = Math.random() * Math.PI * 2;
+        this.v = { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 4 };
+        this.life = 1.0;
+        this.decay = Math.random() * 0.01 + 0.005;
+        this.color = \`hsl(\${Math.random() * 40 + 180}, 100%, 60%)\`; // Cyan/Blue range
+
+        for (let i = 0; i < this.numSegments; i++) {
+            this.segments.push({ x: x, y: y });
+        }
+    }
+
+    update() {
+        this.life -= this.decay;
+        
+        // Head movement
+        this.segments[0].x += this.v.x;
+        this.segments[0].y += this.v.y;
+        
+        // Waving motion
+        this.v.x += Math.sin(this.life * 10) * 0.2;
+        this.v.y += Math.cos(this.life * 10) * 0.2;
+
+        // Follow the leader logic (Inverse Kinematics)
+        for (let i = 1; i < this.numSegments; i++) {
+            const seg = this.segments[i];
+            const prev = this.segments[i - 1];
+            const dx = prev.x - seg.x;
+            const dy = prev.y - seg.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx);
+            
+            if (distance > this.length) {
+                seg.x = prev.x - Math.cos(angle) * this.length;
+                seg.y = prev.y - Math.sin(angle) * this.length;
+            }
+        }
+    }
+
+    draw() {
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.globalAlpha = this.life;
+        ctx.strokeStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 15 * this.life;
+
+        ctx.beginPath();
+        ctx.moveTo(this.segments[0].x, this.segments[0].y);
+
+        for (let i = 1; i < this.numSegments; i++) {
+            ctx.lineWidth = (this.numSegments - i) * 0.8 * this.life;
+            ctx.lineTo(this.segments[i].x, this.segments[i].y);
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+}
+
+function animate() {
+    // Slight trail effect by not clearing fully
+    ctx.fillStyle = 'rgba(1, 2, 8, 0.2)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    tendrils = tendrils.filter(t => t.life > 0);
+    tendrils.forEach(t => {
+        t.update();
+        t.draw();
+    });
+
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();`
+    }
+},
+
+
 ];
