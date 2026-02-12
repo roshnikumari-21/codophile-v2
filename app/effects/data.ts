@@ -2165,6 +2165,202 @@ init();
 animate();`
     }
 },
+{
+  id: "Solar-System-Navbar",
+  title: "Solar System Inspired Navbar",
+  description: "A high-fidelity spatial navbar. Planets feature procedural light-tracking, holographic telemetry, and a cinematic 'Warp' transition that stretches the starfield on click.",
+  keywords: ["cinematic navbar", "warp speed transition", "spatial ui", "nasa aesthetics", "canvas physics"],
+  code: {
+    html: `
+<div class="space-viewport" id="viewport">
+    <div class="warp-tunnel"></div>
+    <div class="starfield-v2"></div>
+    <canvas id="voidCanvas"></canvas>
+    <div id="ui-labels"></div>
+</div>
+`,
+    css: `
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+.space-viewport {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+/* Starfield with depth */
+.starfield-v2 {
+    position: absolute;
+    inset: -10%;
+    background: 
+        radial-gradient(1px 1px at 10% 10%, #fff, transparent),
+        radial-gradient(2px 2px at 50% 50%, #fff 50%, transparent),
+        radial-gradient(1px 1px at 80% 30%, #fff, transparent);
+    background-size: 300px 300px;
+    opacity: 0.4;
+    transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* Warp Animation Class */
+.warping .starfield-v2 {
+    transform: scale(4) rotate(5deg) !important;
+    filter: blur(2px) contrast(2);
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+#voidCanvas { position: absolute; inset: 0; z-index: 5; }
+
+/* Futuristic Labels */
+.nav-tag {
+    position: absolute;
+    padding: 10px;
+    border-left: 1px solid rgba(0, 255, 255, 0.5);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+.nav-tag .title {
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.nav-tag .coord {
+    font-size: 8px;
+    color: #0ff;
+    opacity: 0.7;
+}
+`,
+    js: `
+const canvas = document.getElementById("voidCanvas");
+const ctx = canvas.getContext("2d");
+const uiLayer = document.getElementById("ui-labels");
+const viewport = document.getElementById("viewport");
+
+let width, height;
+let planets = [];
+const mouse = { x: 0, y: 0 };
+
+// High-end planetary colors
+const system = [
+  { name: "Terminal", radius: 180, speed: 0.003, size: 25, color: "#1a2c42", detail: "#4facfe" },
+  { name: "Sector-7", radius: 280, speed: 0.002, size: 45, color: "#2d1b42", detail: "#f093fb" },
+  { name: "Nexus", radius: 400, speed: 0.0015, size: 35, color: "#1b4231", detail: "#43e97b" },
+  { name: "Void", radius: 550, speed: 0.001, size: 55, color: "#42281b", detail: "#fa709a" }
+];
+
+function init() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  uiLayer.innerHTML = '';
+  
+  planets = system.map(data => {
+    const el = document.createElement('div');
+    el.className = 'nav-tag';
+    el.innerHTML = \`<span class="title">\${data.name}</span><span class="coord">VECT_0\${Math.floor(Math.random()*9)}</span>\`;
+    uiLayer.appendChild(el);
+    
+    return { ...data, angle: (Math.random()-0.5) * Math.PI, el, hover: 0 };
+  });
+}
+
+// Click to Warp Transition
+canvas.addEventListener('mousedown', () => {
+  viewport.classList.add('warping');
+  setTimeout(() => viewport.classList.remove('warping'), 2000);
+});
+
+window.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function drawSun() {
+  const sunX = 0, sunY = height/2;
+  const g = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, 150);
+  g.addColorStop(0, "#fff");
+  g.addColorStop(0.1, "rgba(255, 255, 255, 0.8)");
+  g.addColorStop(0.4, "rgba(0, 255, 255, 0.1)");
+  g.addColorStop(1, "transparent");
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, 150, 0, Math.PI*2);
+  ctx.fill();
+}
+
+function drawPlanet(p) {
+  p.angle += p.speed * (1 - p.hover * 0.7);
+  if(p.angle > Math.PI/2) p.angle = -Math.PI/2;
+
+  const x = Math.cos(p.angle) * p.radius;
+  const y = height/2 + Math.sin(p.angle) * p.radius;
+
+  const dist = Math.hypot(mouse.x - x, mouse.y - y);
+  p.hover += (dist < p.size * 1.5 ? 1 - p.hover : 0 - p.hover) * 0.1;
+
+  // Orbit path
+  ctx.strokeStyle = \`rgba(255,255,255, \${0.05 + p.hover * 0.1})\`;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(0, height/2, p.radius, -Math.PI/2, Math.PI/2);
+  ctx.stroke();
+
+  // Planet Shading
+  ctx.save();
+  ctx.translate(x, y);
+  
+  const grad = ctx.createRadialGradient(-p.size*0.3, -p.size*0.3, 0, 0, 0, p.size);
+  grad.addColorStop(0, "#fff");
+  grad.addColorStop(0.4, p.color);
+  grad.addColorStop(1, "#000");
+
+  ctx.shadowBlur = 20 * p.hover;
+  ctx.shadowColor = p.detail;
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(0, 0, p.size * (1 + p.hover * 0.1), 0, Math.PI*2);
+  ctx.fill();
+
+  // Atmosphere Rim
+  ctx.strokeStyle = \`rgba(0, 255, 255, \${0.2 + p.hover * 0.3})\`;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
+
+  // UI Placement
+  p.el.style.opacity = p.hover > 0.1 ? 1 : 0;
+  p.el.style.left = \`\${x + 40}px\`;
+  p.el.style.top = \`\${y}px\`;
+}
+
+function animate() {
+  ctx.clearRect(0,0,width,height);
+  
+  const sX = (mouse.x - width/2) * 0.02;
+  const sY = (mouse.y - height/2) * 0.02;
+  document.querySelector('.starfield-v2').style.transform = \`translate(\${sX}px, \${sY}px)\`;
+  
+  drawSun();
+  planets.forEach(drawPlanet);
+  requestAnimationFrame(animate);
+}
+
+init();
+animate();
+window.addEventListener("resize", init);
+`
+  }
+}
+
 
 
 ];
