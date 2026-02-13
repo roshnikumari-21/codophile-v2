@@ -102,98 +102,135 @@ export default function ClientEditor() {
 
 
     // Export Functionality
-    const generateCode = (format: 'html' | 'react' | 'next') => {
-        try {
-            if (format === 'html') {
-                return `<!DOCTYPE html>
+   const generateCode = (format: "html" | "react" | "next") => {
+  try {
+    const componentName =
+      effectId
+        ?.replace(/-./g, x => x[1].toUpperCase())
+        .replace(/^./, x => x.toUpperCase()) || "EffectComponent";
+
+    if (format === "html") {
+      return `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${effect?.title || 'Effect'}</title>
-    <style>
-        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #0e0e0e; color: white; font-family: sans-serif; }
-        ${cssCode}
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${effect?.title || "Effect"}</title>
+<style>
+body {
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background:#0e0e0e;
+}
+${cssCode}
+</style>
 </head>
 <body>
-    ${htmlCode}
-    <script>
-        ${jsCode}
-    </script>
+${htmlCode}
+<script>
+${jsCode}
+</script>
 </body>
 </html>`;
-            }
+    }
 
-            // Helper to convert simple HTML to JSX (basic approximation)
-            let jsxHtml = htmlCode.replace(/class=/g, 'className=');
+    // ---- SANITIZE HTML TO JSX ----
+    let jsxHtml = htmlCode.replace(/class=/g, "className=");
 
-            // Basic self-closing tag fix for common void elements if missing /
-            const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-            voidTags.forEach(tag => {
-                const regex = new RegExp(`<${tag}([^>]*?)(?<!/)>`, 'gi');
-                jsxHtml = jsxHtml.replace(regex, `<${tag}$1 />`);
-            });
+    const voidTags = [
+      "area","base","br","col","embed","hr","img",
+      "input","link","meta","param","source","track","wbr"
+    ];
 
-            // Construct React Component
-            const reactComponent = `import React, { useEffect, useRef } from 'react';
+    voidTags.forEach(tag => {
+      const regex = new RegExp(`<${tag}([^>]*?)(?<!/)>`, "gi");
+      jsxHtml = jsxHtml.replace(regex, `<${tag}$1 />`);
+    });
 
-export default function ${effectId?.replace(/-./g, x => x[1].toUpperCase()).replace(/^./, x => x.toUpperCase()) || 'EffectComponent'}() {
-    const containerRef = useRef(null);
+    // ---- AUTO-SCOPE USER JS ----
+    let scopedJS = jsCode
+      .replace(/document\.getElementById/g, "container.querySelector")
+      .replace(/document\.querySelector/g, "container.querySelector")
+      .replace(/document\.querySelectorAll/g, "container.querySelectorAll");
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
+    // ---- FULL REACT COMPONENT ----
+    const component = `
+import React, { useEffect, useRef } from "react";
 
-        // Scoped JS execution
-        const runEffect = () => {
-            try {
-                // We wrap the user's JS in a scope where 'document' calls might need adjustment
-                // But for simplicity in this export, we assume the user adapts it or we provide a wrapper
-                // Ideally, we'd query selectors inside 'container'
-                
-                // --- USER JS START ---
-                ${jsCode.replace(/document\.querySelector/g, 'container.querySelector').replace(/document\.querySelectorAll/g, 'container.querySelectorAll')}
-                // --- USER JS END ---
-            } catch (err) {
-                console.error("Effect error:", err);
-            }
-        };
+export default function ${componentName}() {
+  const containerRef = useRef(null);
 
-        runEffect();
-        
-        // Cleanup if needed (user would need to define cleanup logic in real world)
-        return () => {};
-    }, []);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    return (
-        <>
-            <style>{\`
-                ${cssCode}
-            \`}</style>
-            <div ref={containerRef} className="effect-container">
-                ${jsxHtml}
-            </div>
-        </>
-    );
-}`;
+    const cleanups = [];
 
-            if (format === 'next') {
-                return `"use client";
-
-${reactComponent}`;
-            }
-
-            return reactComponent;
-        } catch (e) {
-            console.error("Code generation error:", e);
-            return "// Error generating code. Please check your HTML/JS syntax.";
-        }
+    const safeAddEvent = (target, type, handler, options) => {
+      target.addEventListener(type, handler, options);
+      cleanups.push(() => target.removeEventListener(type, handler));
     };
+
+    const originalRAF = window.requestAnimationFrame;
+    const rafIds = [];
+    window.requestAnimationFrame = (cb) => {
+      const id = originalRAF(cb);
+      rafIds.push(id);
+      return id;
+    };
+
+    try {
+${scopedJS}
+    } catch (err) {
+      console.error("Effect runtime error:", err);
+    }
+
+    return () => {
+      cleanups.forEach(fn => fn());
+      rafIds.forEach(id => cancelAnimationFrame(id));
+      window.requestAnimationFrame = originalRAF;
+    };
+  }, []);
+
+  return (
+    <>
+      <style>{\`
+${cssCode}
+      \`}</style>
+      <div ref={containerRef}>
+${jsxHtml}
+      </div>
+    </>
+  );
+}
+`;
+
+    if (format === "next") {
+      return `"use client";
+
+${component}`;
+    }
+
+    return component;
+  } catch (err) {
+    console.error(err);
+    return "// Error generating component";
+  }
+};
+
 
     const handleDownload = () => {
         const code = generateCode(exportFormat);
-        const extension = exportFormat === 'html' ? 'html' : 'tsx';
+       const extension =
+  exportFormat === "html"
+    ? "html"
+    : exportFormat === "react"
+    ? "jsx"
+    : "tsx";
+
         const mime = exportFormat === 'html' ? 'text/html' : 'text/plain';
 
         const blob = new Blob([code], { type: mime });
