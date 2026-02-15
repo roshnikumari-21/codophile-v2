@@ -314,7 +314,7 @@ export function GridClient() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="flex-1 flex flex-col gap-6"
+                    className="flex-1 flex flex-col gap-6 min-w-0"
                 >
                     {/* Visual Preview */}
                     <div className="flex-1 min-h-[400px] rounded-2xl border border-white/10 relative overflow-hidden flex flex-col bg-[#1a1a1a]">
