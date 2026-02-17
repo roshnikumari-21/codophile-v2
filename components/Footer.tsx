@@ -126,7 +126,7 @@ export default function Footer() {
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                         <span>Made with</span>
                         <Heart size={12} className="text-red-500 fill-red-500" />
-                        <span>in India by chotiiii</span>
+                        <span>in India</span>
                     </div>
                 </div>
             </div>
