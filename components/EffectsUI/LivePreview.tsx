@@ -60,7 +60,7 @@ export function LivePreview({ html, css, js }: LivePreviewProps) {
   `;
 
   return (
-    <div ref={containerRef} className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+    <div ref={containerRef} className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top_left,#1f1545,#0d0b1a_70%)]">
       {shouldRender ? (
         <iframe
           srcDoc={srcDoc}
