@@ -122,6 +122,13 @@ const categories = [
         icon: "/icons/interactivity.png",
         href: "/playground/tailwind/checkboxes",
         color: "from-green-400 to-teal-500"
+    },
+    {
+        title: "Tabs",
+        description: "Navigation tabs with underline, pills, and bar styles.",
+        icon: "/icons/Layout-utilities.png",
+        href: "/playground/tailwind/tabs",
+        color: "from-blue-500 to-indigo-500"
     }
 ];
 
