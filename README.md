@@ -77,6 +77,36 @@ Follow these steps to set up the project locally.
 4.  **Open your browser**
     Navigate to [http://localhost:3000](http://localhost:3000) to confirm the installation.
 
+## 🐳 Docker Support
+
+You can also run this project using Docker.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed
+
+### Running with Docker Compose (Recommended)
+
+1.  **Build and run the container**
+    ```bash
+    docker-compose up -d --build
+    ```
+
+2.  **Access the application**
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Running with Docker CLI
+
+1.  **Build the image**
+    ```bash
+    docker build -t codophile .
+    ```
+
+2.  **Run the container**
+    ```bash
+    docker run -p 3000:3000 codophile
+    ```
+
 ## 🎮 How to Use
 
 1.  **Select a Category**: Choose from `CSS` or `Tailwind` playgrounds from the simplified navigation.

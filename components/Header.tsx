@@ -73,7 +73,7 @@ export default function Header() {
                             rel="noopener noreferrer"
                             className="p-2 text-gray-400 hover:text-white transition-colors hover:bg-white/5 rounded-md"
                         >
-                            <Github className="w-5 h-5" />
+                            <Github className="w-5 h-5" /> 
                         </a>
 
                         <button className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold transition-all shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] border border-white/10">
