@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const algoliaModule = require("algoliasearch");
+// import {algoliaModule} from "algoliasearch";
 
 const algoliasearch =
   algoliaModule.default ??
