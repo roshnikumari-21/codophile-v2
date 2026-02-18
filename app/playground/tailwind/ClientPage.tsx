@@ -129,6 +129,13 @@ const categories = [
         icon: "/icons/Layout-utilities.png",
         href: "/playground/tailwind/tabs",
         color: "from-blue-500 to-indigo-500"
+    },
+    {
+        title: "Select Menus",
+        description: "Customizable dropdowns with avatars, status indicators, and rich content.",
+        icon: "/icons/interactivity.png",
+        href: "/playground/tailwind/select-menus",
+        color: "from-violet-500 to-purple-500"
     }
 ];
 
