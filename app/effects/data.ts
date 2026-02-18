@@ -9416,6 +9416,254 @@ document.addEventListener('mousemove', (e) => {
 `
     }
 },
+{
+    id: "kinetic-auth-premium",
+    title: "Kinetic Auth — Premium Glass",
+    description: "A luxury-grade authentication component featuring high-fidelity glassmorphism, realistic metallic accents, and a frictionless 360° kinetic transition. Designed for high-end web applications.",
+    tags: ["3D", "Premium", "Glassmorphism", "Auth", "Kinetic", "Production-Ready"],
+    code: {
+        html: `
+<div class="premium-scene">
+    <div class="mount-base"></div>
+    
+    <div class="suspension-bar">
+        <div class="cap left"></div>
+        <div class="cap right"></div>
+    </div>
+    
+    <div class="kinetic-assembly" id="swingPlate">
+        <div class="hinge-group">
+            <div class="hinge left"></div>
+            <div class="hinge right"></div>
+        </div>
+
+        <div class="glass-card" id="plateContent">
+            <div class="state-container">
+                <div class="top-accent"></div>
+                <h2 class="card-heading">New here?</h2>
+                <p class="card-sub">Choose your path to continue.</p>
+                <div class="btn-group">
+                    <button class="choice-btn yes" onclick="swingToState('signup')">Yes</button>
+                    <button class="choice-btn no" onclick="swingToState('login')">No</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="surface-glare"></div>
+    </div>
+</div>`,
+        css: `
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+.premium-scene {
+    width: 100%; height: 550px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    perspective: 1600px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
+}
+
+/* --- HARDWARE --- */
+.mount-base {
+    width: 140px; height: 12px; background: #222;
+    border-radius: 0 0 12px 12px; margin-bottom: -6px; z-index: 5;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-top: none;
+}
+
+.suspension-bar {
+    position: relative;
+    width: 360px; height: 12px;
+    background: linear-gradient(180deg, #999, #eee 40%, #777);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+    z-index: 10;
+}
+
+.cap {
+    position: absolute; top: -3px; width: 18px; height: 18px;
+    background: radial-gradient(circle at 30% 30%, #fff, #888);
+    border-radius: 50%;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+.cap.left { left: -4px; }
+.cap.right { right: -4px; }
+
+/* --- KINETIC ASSEMBLY --- */
+.kinetic-assembly {
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: top center;
+    transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1); /* Elegant easing */
+    top: -6px;
+}
+
+.hinge-group {
+    display: flex; justify-content: space-between; width: 220px; margin: 0 auto;
+}
+.hinge {
+    width: 14px; height: 28px;
+    background: linear-gradient(90deg, #333, #aaa, #333);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+    border-radius: 2px;
+}
+
+/* --- THE CARD --- */
+.glass-card {
+    position: relative;
+    width: 340px; height: 220px;
+    background: rgba(30, 30, 35, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-top: 3px solid #555; /* Hinge Weight */
+    border-radius: 0 0 20px 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 
+        0 25px 60px rgba(0,0,0,0.7),
+        inset 0 0 0 1px rgba(255,255,255,0.03);
+    backdrop-filter: blur(24px);
+    overflow: hidden;
+}
+
+/* --- CONTENT --- */
+.state-container {
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+    animation: fade-up 0.5s ease forwards;
+}
+
+.top-accent {
+    width: 40px; height: 4px; border-radius: 10px;
+    background: rgba(255,255,255,0.1); margin-bottom: 25px;
+}
+
+.card-heading {
+    color: #fff; font-size: 26px; margin: 0 0 8px 0; font-weight: 800; letter-spacing: -0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.card-sub {
+    color: rgba(255,255,255,0.5); font-size: 13px; margin: 0 0 30px 0; font-weight: 500;
+}
+
+.btn-group { display: flex; gap: 16px; }
+
+.choice-btn {
+    padding: 12px 36px; border-radius: 10px; border: none;
+    font-weight: 700; font-size: 15px; cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.yes { 
+    background: linear-gradient(135deg, #fff, #e0e0e0); 
+    color: #000; 
+    box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+}
+.yes:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,255,255,0.25); }
+
+.no { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: rgba(255,255,255,0.8); 
+}
+.no:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* --- DYNAMIC STATES --- */
+.glass-card.signup-mode {
+    background: radial-gradient(circle at 50% 0%, rgba(255, 50, 100, 0.15), rgba(30, 30, 35, 0.95) 70%);
+    border-color: rgba(255, 50, 100, 0.4);
+    box-shadow: 0 30px 80px rgba(255, 0, 85, 0.15);
+}
+.glass-card.login-mode {
+    background: radial-gradient(circle at 50% 0%, rgba(0, 200, 255, 0.15), rgba(30, 30, 35, 0.95) 70%);
+    border-color: rgba(0, 200, 255, 0.4);
+    box-shadow: 0 30px 80px rgba(0, 242, 255, 0.15);
+}
+
+.final-btn {
+    width: 80%; padding: 16px 0; border: none; border-radius: 10px;
+    font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+    cursor: pointer; margin-top: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+.final-btn:hover { transform: translateY(-2px); }
+
+.signup-btn { background: linear-gradient(135deg, #ff3366, #ff0044); color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.login-btn { background: linear-gradient(135deg, #00eeff, #00bbff); color: #000; }
+
+.back-link {
+    margin-top: 25px; color: rgba(255,255,255,0.3); font-size: 12px; cursor: pointer; font-weight: 600;
+    transition: color 0.2s;
+}
+.back-link:hover { color: #fff; }
+
+.surface-glare {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.0) 50%);
+    z-index: 20;
+}
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+`,
+        js: `
+const plate = document.getElementById('swingPlate');
+const contentBox = document.getElementById('plateContent');
+let currentRotation = 0; 
+let isAnimating = false;
+
+// Content Templates
+const templates = {
+    initial: \`
+        <div class="state-container">
+            <div class="top-accent"></div>
+            <h2 class="card-heading">New here?</h2>
+            <p class="card-sub">Choose your path to continue.</p>
+            <div class="btn-group">
+                <button class="choice-btn yes" onclick="swingToState('signup')">Yes</button>
+                <button class="choice-btn no" onclick="swingToState('login')">No</button>
+            </div>
+        </div>\`,
+    signup: \`
+        <div class="state-container">
+            <h2 class="card-heading">Create Account</h2>
+            <p class="card-sub">Start your premium journey.</p>
+            <button class="final-btn signup-btn">Sign Up Now</button>
+            <div class="back-link" onclick="swingToState('initial')">Go back</div>
+        </div>\`,
+    login: \`
+        <div class="state-container">
+            <h2 class="card-heading">Welcome Back</h2>
+            <p class="card-sub">Access your dashboard.</p>
+            <button class="final-btn login-btn">Log In</button>
+            <div class="back-link" onclick="swingToState('initial')">Go back</div>
+        </div>\`
+};
+
+window.swingToState = function(targetState) {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    // 1. Kinetic Spin
+    currentRotation += 360;
+    plate.style.transform = \`rotateX(\${currentRotation}deg)\`;
+
+    // 2. Invisible Content Swap (at 250ms)
+    setTimeout(() => {
+        contentBox.className = 'glass-card'; // Reset
+        
+        if (targetState === 'signup') contentBox.classList.add('signup-mode');
+        if (targetState === 'login') contentBox.classList.add('login-mode');
+        
+        contentBox.innerHTML = templates[targetState];
+    }, 250);
+
+    // 3. Reset Lock
+    setTimeout(() => {
+        isAnimating = false;
+    }, 900);
+}`
+    }
+},
 
 
 
