@@ -140,6 +140,11 @@ export const playgroundData = {
                 title: "Tailwind Pagination Playground - Navigation Components",
                 description: "Design and customize Tailwind CSS pagination links. Experiment with various styles like bordered, rounded, active states, and hover effects using utility classes.",
                 keywords: ["tailwind pagination", "pagination components", "active state tailwind", "hover effects tailwind", "breadcrumb tailwind"]
+            },
+            buttons: {
+                title: "Tailwind Buttons Playground - Button Components & Variants",
+                description: "Design and customize Tailwind CSS buttons. Experiment with sizes, rounded corners, colors, hover states, and button groups using utility classes.",
+                keywords: ["tailwind buttons", "button components", "tailwind button variants", "button hover tailwind", "button group tailwind"]
             }
         }
     }

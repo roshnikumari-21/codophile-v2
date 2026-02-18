@@ -94,6 +94,13 @@ const categories = [
         icon: "/icons/Layout-utilities.png",
         href: "/playground/tailwind/pagination",
         color: "from-sky-500 to-indigo-500"
+    },
+    {
+        title: "Buttons",
+        description: "Design and customize Tailwind CSS buttons with variants and sizes.",
+        icon: "/icons/interactivity.png",
+        href: "/playground/tailwind/buttons",
+        color: "from-orange-500 to-red-500"
     }
 ];
 
