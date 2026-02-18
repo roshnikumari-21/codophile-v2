@@ -115,6 +115,13 @@ const categories = [
         icon: "/icons/interactivity.png",
         href: "/playground/tailwind/toggles",
         color: "from-teal-400 to-emerald-500"
+    },
+    {
+        title: "Checkboxes",
+        description: "Accessible checkbox lists with descriptions and various layouts.",
+        icon: "/icons/interactivity.png",
+        href: "/playground/tailwind/checkboxes",
+        color: "from-green-400 to-teal-500"
     }
 ];
 
