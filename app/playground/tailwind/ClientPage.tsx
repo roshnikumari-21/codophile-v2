@@ -101,6 +101,20 @@ const categories = [
         icon: "/icons/interactivity.png",
         href: "/playground/tailwind/buttons",
         color: "from-orange-500 to-red-500"
+    },
+    {
+        title: "Tables",
+        description: "Style tables with borders, striping, spacing, and responsive wrappers.",
+        icon: "/icons/Layout-utilities.png",
+        href: "/playground/tailwind/table",
+        color: "from-blue-400 to-cyan-500"
+    },
+    {
+        title: "Toggles",
+        description: "Interactive switch components with simple, short, and icon variations.",
+        icon: "/icons/interactivity.png",
+        href: "/playground/tailwind/toggles",
+        color: "from-teal-400 to-emerald-500"
     }
 ];
 
