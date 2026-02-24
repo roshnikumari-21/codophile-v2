@@ -155,6 +155,11 @@ export const playgroundData = {
                 title: "Tailwind Scroll Utilities Playground - Behavior & Snap Alignment",
                 description: "Master Tailwind scroll utilities including scroll-behavior, scroll-snap-type, scroll-snap-align, and scroll-padding with interactive controls.",
                 keywords: ["tailwind scroll", "scroll-behavior", "scroll-snap", "scroll-padding", "scroll-margin"]
+            },
+            transitions: {
+                title: "Tailwind Transition Utilities Playground - Duration, Easing & Delay",
+                description: "Master Tailwind transition utilities including transition-property, duration, timing-function, delay, and transition-behavior with interactive controls.",
+                keywords: ["tailwind transition", "transition-property", "transition-duration", "transition-timing-function", "transition-delay"]
             }
         }
     }

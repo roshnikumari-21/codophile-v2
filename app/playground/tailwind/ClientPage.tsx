@@ -150,6 +150,13 @@ const categories = [
         icon: "/icons/interactivity.png",
         href: "/playground/tailwind/scroll",
         color: "from-blue-400 to-indigo-500"
+    },
+    {
+        title: "Transitions",
+        description: "Control transition properties, duration, easing, and delays.",
+        icon: "/icons/animations.png",
+        href: "/playground/tailwind/transitions",
+        color: "from-indigo-500 to-purple-500"
     }
 ];
 
