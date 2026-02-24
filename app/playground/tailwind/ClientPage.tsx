@@ -143,6 +143,13 @@ const categories = [
         icon: "/icons/filters.png",
         href: "/playground/tailwind/masks",
         color: "from-teal-400 to-cyan-500"
+    },
+    {
+        title: "Scroll",
+        description: "Master scroll behavior, snap alignment, padding, and margin.",
+        icon: "/icons/interactivity.png",
+        href: "/playground/tailwind/scroll",
+        color: "from-blue-400 to-indigo-500"
     }
 ];
 

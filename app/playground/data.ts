@@ -150,6 +150,11 @@ export const playgroundData = {
                 title: "Tailwind Mask Utilities Playground - Image & Gradient Masking",
                 description: "Master Tailwind mask utilities including mask-image, mask-clip, mask-size, and gradient masks with interactive controls.",
                 keywords: ["tailwind mask", "mask-image", "mask-clip", "gradient mask", "tailwind masking"]
+            },
+            scroll: {
+                title: "Tailwind Scroll Utilities Playground - Behavior & Snap Alignment",
+                description: "Master Tailwind scroll utilities including scroll-behavior, scroll-snap-type, scroll-snap-align, and scroll-padding with interactive controls.",
+                keywords: ["tailwind scroll", "scroll-behavior", "scroll-snap", "scroll-padding", "scroll-margin"]
             }
         }
     }
