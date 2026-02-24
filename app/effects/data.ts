@@ -1,9670 +1,1499 @@
+/* for each of the effects you have to do the following 
+
+1., the name currently are so useless , the name kinetic Auth - premium glass would tell nothing the users about what it is , so change all the "ids", "titles" and "description" to meaningful things , which tells the user alll about it , which are meaningful and which users actually searches on google to get a result hence make them SEO friendly . they should be actually very meaningful 
+
+2.add 20 relevent keywords in the keywords field and 20 tags in the tag field which would be used for searching and filtering , the tags should be relevent and useful should tell exactly about the component 
+
+3.you have to rewrite the codes ( html , css , js ) in a very smart way , to improve the exportability and changeability of the code you have to do these things in the code portion 
+
+3.1 anything which can be modified like which could have a style control , for example color of any part , speed of some animation , font of some text , everything which could be adjusted according to user , should have a variable at the top of code with value assigned which could be changed manually by the user , now these variables should have proper comments along with them on how to change these for the user ,
+
+3.2 any other unnecessary comment should be removed 
+
+3.3 the preview sections already have a background so for example if the component is a button then there's no need of an external div element with button if not needed 
+
+3.3 make sure you do the style controls part correctly and comment them nicely.*/
+
+
 export const effectsData = [
     {
-        id: "gravity-mesh-lines",
-        title: "Gravity Mesh Interactive Grid",
-        description: "A procedurally generated 3D grid that deforms in real-time. Features spring-physics for realistic relaxation and Euclidean distance calculations for the magnetic 'gravity' pull.",
-        tags: ["Gravity", "Mesh", "Grid", "Interactive", "Physics", "Spacetime", "Canvas", "3D", "Procedural", "Geometric", "Lines", "Simulation", "WebGL", "Animation", "Fluid"],
-        keywords: ["gravity mesh", "interactive grid", "spacetime fabric", "canvas physics", "futuristic UI"],
-        code: {
-            html: `<div class="mesh-container">
-    <canvas id="meshCanvas"></canvas>
-    <div class="content-overlay">
-        <h1>SPACETIME FABRIC</h1>
-        <p>Interactive Gravity Field Active</p>
-    </div>
-</div>`,
-            css: `.mesh-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #030014; /* Deep space dark */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#meshCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    /* Key for integration: pointer-events none allows clicks to pass through to buttons/links below */
-    pointer-events: none; 
-}
-
-.content-overlay {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    pointer-events: auto; /* Re-enable pointer events for content */
-}
-
-h1 {
-    font-size: 3.5rem;
-    font-weight: 900;
-    letter-spacing: 0.2em;
-    background: linear-gradient(to right, #fff, #444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}`,
-            js: `const canvas = document.getElementById('meshCanvas');
-const ctx = canvas.getContext('2d');
-
-let nodes = [];
-const spacing = 45; // Grid density
-const mouse = { x: -1000, y: -1000, radius: 250 };
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    nodes = [];
-
-    // Create a 2D array of nodes
-    for (let x = 0; x <= canvas.width + spacing; x += spacing) {
-        for (let y = 0; y <= canvas.height + spacing; y += spacing) {
-            nodes.push({
-                baseX: x, baseY: y,
-                x: x, y: y,
-                vx: 0, vy: 0
-            });
-        }
-    }
-}
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-window.addEventListener('resize', init);
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw horizontal and vertical lines would be expensive in loops
-    // Instead, we draw dots and let the logic handle the "bending"
-    
-    ctx.strokeStyle = 'rgba(100, 100, 255, 0.2)';
-    ctx.lineWidth = 1;
-
-    // Update Physics
-    nodes.forEach(node => {
-        const dx = mouse.x - node.x;
-        const dy = mouse.y - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < mouse.radius) {
-            const force = (mouse.radius - dist) / mouse.radius;
-            const angle = Math.atan2(dy, dx);
-            
-            // Gravity Pull
-            node.vx += Math.cos(angle) * force * 4;
-            node.vy += Math.sin(angle) * force * 4;
-        }
-
-        // Spring Physics (Return to home)
-        node.vx += (node.baseX - node.x) * 0.04;
-        node.vy += (node.baseY - node.y) * 0.04;
-        
-        // Friction
-        node.vx *= 0.88;
-        node.vy *= 0.88;
-
-        node.x += node.vx;
-        node.y += node.vy;
-    });
-
-    // Drawing Grid Lines beautifully
-    const rows = Math.ceil(canvas.height / spacing) + 1;
-    const cols = Math.ceil(canvas.width / spacing) + 1;
-
-    for (let i = 0; i < cols; i++) {
-        ctx.beginPath();
-        for (let j = 0; j < rows; j++) {
-            const node = nodes[i * rows + j];
-            if (j === 0) ctx.moveTo(node.x, node.y);
-            else ctx.lineTo(node.x, node.y);
-        }
-        ctx.stroke();
-    }
-
-    for (let j = 0; j < rows; j++) {
-        ctx.beginPath();
-        for (let i = 0; i < cols; i++) {
-            const node = nodes[i * rows + j];
-            if (i === 0) ctx.moveTo(node.x, node.y);
-            else ctx.lineTo(node.x, node.y);
-        }
-        ctx.stroke();
-    }
-    
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();`
+        "id": "interactive-3d-grid-distortion-canvas",
+        "title": "Interactive 3D Grid Distortion Canvas Background",
+        "description": "A high-performance, procedural 3D grid built with HTML5 Canvas and JavaScript. Features real-time cursor tracking, spring physics for mesh relaxation, and simulated magnetic gravity pull. Perfect for modern tech hero sections and AI-themed website backgrounds.",
+        "tags": [
+            "HTML5 Canvas", "Interactive Background", "Grid Animation", "Physics Simulation", 
+            "Mouse Interaction", "3D Distortion", "Gravity Effect", "Spacetime Fabric", 
+            "Tech Hero Section", "WebGL Alternative", "Javascript Animation", "Particle Physics", 
+            "Magnetic Cursor", "Modern UI", "Cyberpunk", "Procedural Grid", 
+            "Creative Coding", "Frontend Design", "UI/UX", "Visual Effects"
+        ],
+        "keywords": [
+            "interactive grid background", "canvas physics animation", "cursor gravity effect", 
+            "3D mesh distortion", "HTML5 canvas hero", "spacetime grid javascript", 
+            "mouse follow grid", "spring physics animation", "tech website background", 
+            "AI themed UI", "magnetic cursor effect", "interactive spacetime fabric", 
+            "frontend physics engine", "creative coding canvas", "web design visual effects", 
+            "mouse interaction design", "custom canvas grid", "procedural animation js", 
+            "dynamic mesh background", "webgl style grid"
+        ],
+        "code": {
+            "html": "<div class=\"mesh-container\">\n    <canvas id=\"meshCanvas\"></canvas>\n    \n    <div class=\"content-overlay\">\n        <h1>SPACETIME FABRIC</h1>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --mesh-bg-color: #030014; /* Deep space background color */\n    --overlay-text-color: #ffffff; /* Color for overlay text */\n    --overlay-text-gradient: linear-gradient(to right, #ffffff, #444444); /* Gradient for heading */\n}\n\n.mesh-container {\n    position: relative;\n    width: 100%;\n    height: 100vh;\n    background: var(--mesh-bg-color);\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n#meshCanvas {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    /* Allows clicks to pass through the canvas to links/buttons underneath */\n    pointer-events: none; \n}\n\n.content-overlay {\n    position: relative;\n    z-index: 10;\n    text-align: center;\n    font-family: 'Inter', sans-serif;\n    pointer-events: auto;\n}\n\nh1 {\n    font-size: 3.5rem;\n    font-weight: 900;\n    letter-spacing: 0.2em;\n    color: var(--overlay-text-color);\n    background: var(--overlay-text-gradient);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}",
+            "js": "// --- BEHAVIOR & STYLE CONTROLS --- \nconst CONFIG = {\n    gridSpacing: 45,            // Density of the grid (lower = denser grid, higher performance cost)\n    mouseRadius: 250,           // Area of effect around the cursor\n    pullStrength: 4,            // How strongly the grid pulls towards the cursor\n    springForce: 0.04,          // How fast the grid snaps back to its original position\n    friction: 0.88,             // Movement dampening (lower = stops faster, higher = bouncier)\n    lineColor: 'rgba(100, 100, 255, 0.2)', // Color and opacity of the grid lines\n    lineWidth: 1                // Thickness of the grid lines\n};\n\nconst canvas = document.getElementById('meshCanvas');\nconst ctx = canvas.getContext('2d');\n\nlet nodes = [];\nconst mouse = { x: -1000, y: -1000 };\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n    nodes = [];\n\n    for (let x = 0; x <= canvas.width + CONFIG.gridSpacing; x += CONFIG.gridSpacing) {\n        for (let y = 0; y <= canvas.height + CONFIG.gridSpacing; y += CONFIG.gridSpacing) {\n            nodes.push({\n                baseX: x, baseY: y,\n                x: x, y: y,\n                vx: 0, vy: 0\n            });\n        }\n    }\n}\n\nwindow.addEventListener('mousemove', (e) => {\n    mouse.x = e.clientX;\n    mouse.y = e.clientY;\n});\n\nwindow.addEventListener('resize', init);\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    ctx.strokeStyle = CONFIG.lineColor;\n    ctx.lineWidth = CONFIG.lineWidth;\n\n    nodes.forEach(node => {\n        const dx = mouse.x - node.x;\n        const dy = mouse.y - node.y;\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist < CONFIG.mouseRadius) {\n            const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;\n            const angle = Math.atan2(dy, dx);\n            \n            node.vx += Math.cos(angle) * force * CONFIG.pullStrength;\n            node.vy += Math.sin(angle) * force * CONFIG.pullStrength;\n        }\n\n        node.vx += (node.baseX - node.x) * CONFIG.springForce;\n        node.vy += (node.baseY - node.y) * CONFIG.springForce;\n        \n        node.vx *= CONFIG.friction;\n        node.vy *= CONFIG.friction;\n\n        node.x += node.vx;\n        node.y += node.vy;\n    });\n\n    const rows = Math.ceil(canvas.height / CONFIG.gridSpacing) + 1;\n    const cols = Math.ceil(canvas.width / CONFIG.gridSpacing) + 1;\n\n    for (let i = 0; i < cols; i++) {\n        ctx.beginPath();\n        for (let j = 0; j < rows; j++) {\n            const node = nodes[i * rows + j];\n            if (j === 0) ctx.moveTo(node.x, node.y);\n            else ctx.lineTo(node.x, node.y);\n        }\n        ctx.stroke();\n    }\n\n    for (let j = 0; j < rows; j++) {\n        ctx.beginPath();\n        for (let i = 0; i < cols; i++) {\n            const node = nodes[i * rows + j];\n            if (i === 0) ctx.moveTo(node.x, node.y);\n            else ctx.lineTo(node.x, node.y);\n        }\n        ctx.stroke();\n    }\n    \n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();"
         }
     },
     {
-        id: "solar-gravity-well",
-        title: "Solar Gravity Well",
-        description: "A heavy-mass gravity simulation featuring a glowing central orb. Grid lines are thickened and use proximity-based luminance to simulate light reflection on a 3D spacetime fabric.",
-        tags: ["Gravity", "Solar", "Orb", "Glow", "Space", "Physics", "Canvas", "3D", "Interactive", "Simulation", "Cosmic", "Star", "Field", "Orbit", "System"],
-        keywords: ["gravity well", "solar effect", "glowing orb", "spacetime mesh", "3D grid animation"],
-        code: {
-            html: `<div class="space-container">
-    <canvas id="solarCanvas"></canvas>
-    <div class="sun-orb" id="sunOrb"></div>
-</div>`,
-            css: `.space-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #020008;
-    overflow: hidden;
-}
-
-#solarCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.sun-orb {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: #fff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10;
-    /* The Glow: Multi-layered box shadow for a 'heat' effect */
-    box-shadow: 
-        0 0 20px #e05757ff,
-        0 0 60px #f59e0b,
-        0 0 100px #ea580c,
-        0 0 200px rgba(234, 88, 12, 0.4);
-    transform: translate(-50%, -50%);
-    mix-blend-mode: screen;
-}`,
-            js: `const canvas = document.getElementById('solarCanvas');
-const ctx = canvas.getContext('2d');
-const orb = document.getElementById('sunOrb');
-
-let nodes = [];
-const spacing = 50; 
-const mouse = { x: -1000, y: -1000, radius: 350, strength: 12 };
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    nodes = [];
-    for (let x = -spacing; x <= canvas.width + spacing; x += spacing) {
-        for (let y = -spacing; y <= canvas.height + spacing; y += spacing) {
-            nodes.push({ baseX: x, baseY: y, x: x, y: y, vx: 0, vy: 0 });
-        }
-    }
-}
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    // Move the DOM orb with the mouse
-    orb.style.left = e.clientX + 'px';
-    orb.style.top = e.clientY + 'px';
-});
-
-window.addEventListener('resize', init);
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Line Aesthetics: Thicker and slightly brighter
-    ctx.strokeStyle = 'rgba(147, 197, 253, 0.3)'; 
-    ctx.lineWidth = 2;
-
-    nodes.forEach(node => {
-        const dx = mouse.x - node.x;
-        const dy = mouse.y - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < mouse.radius) {
-            const force = (mouse.radius - dist) / mouse.radius;
-            const angle = Math.atan2(dy, dx);
-            
-            // Heavier pull for that "Sun" feel
-            node.vx += Math.cos(angle) * force * mouse.strength;
-            node.vy += Math.sin(angle) * force * mouse.strength;
-        }
-
-        node.vx += (node.baseX - node.x) * 0.05;
-        node.vy += (node.baseY - node.y) * 0.05;
-        node.vx *= 0.85;
-        node.vy *= 0.85;
-        node.x += node.vx;
-        node.y += node.vy;
-    });
-
-    const rows = Math.ceil(canvas.height / spacing) + 2;
-    const cols = Math.ceil(canvas.width / spacing) + 2;
-
-    // Drawing Vertical Bends
-    for (let i = 0; i < cols; i++) {
-        ctx.beginPath();
-        for (let j = 0; j < rows; j++) {
-            const node = nodes[i * rows + j];
-            if (!node) continue;
-            if (j === 0) ctx.moveTo(node.x, node.y);
-            else ctx.lineTo(node.x, node.y);
-        }
-        ctx.stroke();
-    }
-
-    // Drawing Horizontal Bends
-    for (let j = 0; j < rows; j++) {
-        ctx.beginPath();
-        for (let i = 0; i < cols; i++) {
-            const node = nodes[i * rows + j];
-            if (!node) continue;
-            if (i === 0) ctx.moveTo(node.x, node.y);
-            else ctx.lineTo(node.x, node.y);
-        }
-        ctx.stroke();
-    }
-    
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();`
+        "id": "glowing-cursor-gravity-well-animation",
+        "title": "Glowing Cursor Gravity Well & Spacetime Mesh Animation",
+        "description": "An interactive, cosmic-themed canvas animation where a glowing orb follows the cursor, creating a heavy mass 'gravity well' that dynamically bends the surrounding neon grid. Ideal for space-themed designs, gaming websites, and immersive web experiences.",
+        "tags": [
+            "Gravity Well", "Cursor Tracking", "Glowing Orb", "Space Theme", 
+            "Neon Grid", "Interactive Canvas", "Physics Animation", "Cosmic Design", 
+            "Black Hole Effect", "Mouse Hover", "Dynamic Lighting", "Web Design", 
+            "Creative Coding", "Javascript Physics", "Immersive UI", "Gaming Website", 
+            "Sci-Fi UI", "Hero Animation", "Visual FX", "Motion Design"
+        ],
+        "keywords": [
+            "glowing cursor animation", "gravity well canvas effect", "space theme website background", 
+            "neon grid distortion", "black hole cursor effect", "interactive solar system ui", 
+            "custom cursor tracking", "javascript physics simulation", "sci-fi hero section", 
+            "gaming website background", "dynamic lighting canvas", "creative coding gravity", 
+            "html5 space animation", "mouse follow glow", "3d grid bending", 
+            "interactive cosmic effect", "heavy mass simulation", "web visual effects", 
+            "immersive web design", "cursor interaction physics"
+        ],
+        "code": {
+            "html": "<div class=\"space-container\">\n    <canvas id=\"solarCanvas\"></canvas>\n    <div class=\"sun-orb\" id=\"sunOrb\"></div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --space-bg-color: #020008;       /* Deep space background */\n    --orb-size: 50px;                /* Size of the central cursor orb */\n    --orb-core-color: #ffffff;       /* Solid center color of the orb */\n    \n    /* Orb Box-Shadow Glow Layers (From inner to outer) */\n    --orb-glow-1: #e05757ff;\n    --orb-glow-2: #f59e0b;\n    --orb-glow-3: #ea580c;\n    --orb-glow-4: rgba(234, 88, 12, 0.4);\n}\n\n.space-container {\n    position: relative;\n    width: 100%;\n    height: 100vh;\n    background: var(--space-bg-color);\n    overflow: hidden;\n}\n\n#solarCanvas {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    pointer-events: none;\n}\n\n.sun-orb {\n    position: absolute;\n    width: var(--orb-size);\n    height: var(--orb-size);\n    background: var(--orb-core-color);\n    border-radius: 50%;\n    pointer-events: none;\n    z-index: 10;\n    box-shadow: \n        0 0 20px var(--orb-glow-1),\n        0 0 60px var(--orb-glow-2),\n        0 0 100px var(--orb-glow-3),\n        0 0 200px var(--orb-glow-4);\n    transform: translate(-50%, -50%);\n    mix-blend-mode: screen;\n}",
+            "js": "// --- BEHAVIOR & STYLE CONTROLS --- \nconst CONFIG = {\n    gridSpacing: 50,                 // Distance between grid intersections\n    mouseRadius: 350,                // Size of the gravity well effect area\n    gravityStrength: 12,             // Force of the pull (higher = deeper gravity well)\n    springForce: 0.05,               // Speed at which the grid returns to normal\n    friction: 0.85,                  // Dampening of the movement (smoothness)\n    lineColor: 'rgba(147, 197, 253, 0.3)', // Color and opacity of the spacetime grid\n    lineWidth: 2                     // Thickness of the grid lines\n};\n\nconst canvas = document.getElementById('solarCanvas');\nconst ctx = canvas.getContext('2d');\nconst orb = document.getElementById('sunOrb');\n\nlet nodes = [];\nconst mouse = { x: -1000, y: -1000 };\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n    nodes = [];\n    for (let x = -CONFIG.gridSpacing; x <= canvas.width + CONFIG.gridSpacing; x += CONFIG.gridSpacing) {\n        for (let y = -CONFIG.gridSpacing; y <= canvas.height + CONFIG.gridSpacing; y += CONFIG.gridSpacing) {\n            nodes.push({ baseX: x, baseY: y, x: x, y: y, vx: 0, vy: 0 });\n        }\n    }\n}\n\nwindow.addEventListener('mousemove', (e) => {\n    mouse.x = e.clientX;\n    mouse.y = e.clientY;\n    orb.style.left = e.clientX + 'px';\n    orb.style.top = e.clientY + 'px';\n});\n\nwindow.addEventListener('resize', init);\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    ctx.strokeStyle = CONFIG.lineColor; \n    ctx.lineWidth = CONFIG.lineWidth;\n\n    nodes.forEach(node => {\n        const dx = mouse.x - node.x;\n        const dy = mouse.y - node.y;\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist < CONFIG.mouseRadius) {\n            const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;\n            const angle = Math.atan2(dy, dx);\n            \n            node.vx += Math.cos(angle) * force * CONFIG.gravityStrength;\n            node.vy += Math.sin(angle) * force * CONFIG.gravityStrength;\n        }\n\n        node.vx += (node.baseX - node.x) * CONFIG.springForce;\n        node.vy += (node.baseY - node.y) * CONFIG.springForce;\n        node.vx *= CONFIG.friction;\n        node.vy *= CONFIG.friction;\n        node.x += node.vx;\n        node.y += node.vy;\n    });\n\n    const rows = Math.ceil(canvas.height / CONFIG.gridSpacing) + 2;\n    const cols = Math.ceil(canvas.width / CONFIG.gridSpacing) + 2;\n\n    for (let i = 0; i < cols; i++) {\n        ctx.beginPath();\n        for (let j = 0; j < rows; j++) {\n            const node = nodes[i * rows + j];\n            if (!node) continue;\n            if (j === 0) ctx.moveTo(node.x, node.y);\n            else ctx.lineTo(node.x, node.y);\n        }\n        ctx.stroke();\n    }\n\n    for (let j = 0; j < rows; j++) {\n        ctx.beginPath();\n        for (let i = 0; i < cols; i++) {\n            const node = nodes[i * rows + j];\n            if (!node) continue;\n            if (i === 0) ctx.moveTo(node.x, node.y);\n            else ctx.lineTo(node.x, node.y);\n        }\n        ctx.stroke();\n    }\n    \n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();"
         }
     },
     {
-        id: "orbital-flux-field",
-        title: "Orbital Flux Field",
-        description: "A high-density interactive particle system. Thousands of colorful dots react to the cursor with a physical repulsion effect, mimicking the Google Antigravity project's landing page.",
-        tags: ["Particles", "Flux", "Orbital", "Interactive", "Repulsion", "Physics", "Canvas", "Google Style", "Colorful", "Scatter", "Force", "Field", "Motion", "Web Interaction"],
-        keywords: ["particle system", "antigravity", "cursor interaction", "canvas animation", "physics"],
-        code: {
-            html: `<div class="ag-container">
-    <canvas id="agCanvas"></canvas>
-    <div class="ag-content">
-        <h1>ORBITAL FLUX</h1>
-        <p>Interactive Particle Field Active</p>
-    </div>
-</div>`,
-            css: `.ag-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #ffffff; /* White background like Google's site */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#agCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.ag-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    color: #3c4043;
-    font-family: 'Google Sans', Arial, sans-serif;
-}
-
-h1 { font-size: 3rem; font-weight: 400; letter-spacing: -1px; }`,
-            js: `const canvas = document.getElementById('agCanvas');
-const ctx = canvas.getContext('2d');
-
-let particles = [];
-const mouse = { x: -100, y: -100, radius: 150 };
-const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853']; // Google Colors
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    particles = [];
-    
-    // High density: approx 1 particle per 400 pixels
-    const numberOfParticles = (canvas.width * canvas.height) / 400;
-    
-    for (let i = 0; i < numberOfParticles; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        particles.push({
-            x: x, y: y,
-            baseX: x, baseY: y,
-            size: Math.random() * 2 + 1,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            density: (Math.random() * 30) + 1
-        });
-    }
-}
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-window.addEventListener('resize', init);
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        
-        // Calculate interaction
-        let dx = mouse.x - p.x;
-        let dy = mouse.y - p.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        let forceDirectionX = dx / distance;
-        let forceDirectionY = dy / distance;
-        
-        // Max distance, past that the force is 0
-        let maxDistance = mouse.radius;
-        let force = (maxDistance - distance) / maxDistance;
-        let directionX = forceDirectionX * force * p.density;
-        let directionY = forceDirectionY * force * p.density;
-
-        if (distance < mouse.radius) {
-            p.x -= directionX;
-            p.y -= directionY;
-        } else {
-            // Return to home position
-            if (p.x !== p.baseX) {
-                let dx = p.x - p.baseX;
-                p.x -= dx / 10;
-            }
-            if (p.y !== p.baseY) {
-                let dy = p.y - p.baseY;
-                p.y -= dy / 10;
-            }
-        }
-
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();`
+        "id": "mouse-repulsion-particle-system",
+        "title": "Interactive Mouse Repulsion Particle System",
+        "description": "A dense, high-performance particle system using HTML5 Canvas. Thousands of colorful dots react to cursor movements with a fluid repulsion and scatter effect. Inspired by the Google Antigravity project, it is perfect for engaging landing pages and interactive brand experiences.",
+        "tags": [
+            "Particle System", "Mouse Repulsion", "Interactive Particles", "HTML5 Canvas", 
+            "Scatter Effect", "Antigravity", "Fluid Motion", "Colorful Dots", 
+            "Physics Engine", "Landing Page Background", "Google Style", "Hover Interaction", 
+            "Kinetic Typography", "Generative Art", "Web Animation", "Creative Coding", 
+            "Frontend Development", "UI Interaction", "Visual Effects", "Particle Physics"
+        ],
+        "keywords": [
+            "interactive particle system", "mouse repulsion effect", "canvas scatter animation", 
+            "antigravity particles javascript", "colorful dots background", "fluid motion canvas", 
+            "physics based particle engine", "google antigravity style", "interactive landing page", 
+            "cursor scatter effect", "html5 particle animation", "creative coding particles", 
+            "web design hover effects", "custom javascript physics", "generative art web", 
+            "kinetic background animation", "frontend particle system", "high density particles", 
+            "mouse interaction dots", "dynamic visual effects"
+        ],
+        "code": {
+            "html": "<div class=\"ag-container\">\n    <canvas id=\"agCanvas\"></canvas>\n    \n    <div class=\"ag-content\">\n        <h1>ORBITAL FLUX</h1>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --flux-bg-color: #ffffff;    /* Background color of the canvas area */\n    --flux-text-color: #3c4043;  /* Color for the typography overlay */\n}\n\n.ag-container {\n    position: relative;\n    width: 100%;\n    height: 100vh;\n    background: var(--flux-bg-color);\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n#agCanvas {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    pointer-events: none;\n}\n\n.ag-content {\n    position: relative;\n    z-index: 10;\n    text-align: center;\n    color: var(--flux-text-color);\n    font-family: 'Google Sans', Arial, sans-serif;\n}\n\nh1 {\n    font-size: 3rem;\n    font-weight: 400;\n    letter-spacing: -1px;\n}",
+            "js": "// --- BEHAVIOR & STYLE CONTROLS --- \nconst CONFIG = {\n    density: 400,            // Number of pixels per particle (lower = more particles, heavier performance)\n    mouseRadius: 150,        // Radius of the cursor repulsion field\n    minSize: 1,              // Minimum radius of a particle\n    maxSize: 3,              // Maximum radius of a particle\n    returnSpeed: 10,         // Divisor for return speed (lower = faster return to home position)\n    colors: ['#4285F4', '#EA4335', '#FBBC05', '#34A853'] // Array of colors for particles to randomly select\n};\n\nconst canvas = document.getElementById('agCanvas');\nconst ctx = canvas.getContext('2d');\n\nlet particles = [];\nconst mouse = { x: -100, y: -100 };\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n    particles = [];\n    \n    const numberOfParticles = (canvas.width * canvas.height) / CONFIG.density;\n    \n    for (let i = 0; i < numberOfParticles; i++) {\n        const x = Math.random() * canvas.width;\n        const y = Math.random() * canvas.height;\n        particles.push({\n            x: x, y: y,\n            baseX: x, baseY: y,\n            size: Math.random() * (CONFIG.maxSize - CONFIG.minSize) + CONFIG.minSize,\n            color: CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)],\n            density: (Math.random() * 30) + 1\n        });\n    }\n}\n\nwindow.addEventListener('mousemove', (e) => {\n    mouse.x = e.clientX;\n    mouse.y = e.clientY;\n});\n\nwindow.addEventListener('resize', init);\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    for (let i = 0; i < particles.length; i++) {\n        let p = particles[i];\n        \n        let dx = mouse.x - p.x;\n        let dy = mouse.y - p.y;\n        let distance = Math.sqrt(dx * dx + dy * dy);\n        let forceDirectionX = dx / distance;\n        let forceDirectionY = dy / distance;\n        \n        let force = (CONFIG.mouseRadius - distance) / CONFIG.mouseRadius;\n        let directionX = forceDirectionX * force * p.density;\n        let directionY = forceDirectionY * force * p.density;\n\n        if (distance < CONFIG.mouseRadius) {\n            p.x -= directionX;\n            p.y -= directionY;\n        } else {\n            if (p.x !== p.baseX) {\n                let dx = p.x - p.baseX;\n                p.x -= dx / CONFIG.returnSpeed;\n            }\n            if (p.y !== p.baseY) {\n                let dy = p.y - p.baseY;\n                p.y -= dy / CONFIG.returnSpeed;\n            }\n        }\n\n        ctx.fillStyle = p.color;\n        ctx.beginPath();\n        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);\n        ctx.fill();\n    }\n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();"
         }
     },
     {
-        id: "3d-snowfall",
-        title: "3D Snowfall",
-        description: "An advanced 3D snowfall simulation where each particle possesses unique physical properties, resulting in randomized, non-uniform drifting patterns.",
-        tags: ["Snow", "3D", "Weather", "Particles", "Atmospheric", "Winter", "Canvas", "Physics", "Procedural", "Animation", "Storm", "Cold", "Effect", "Visuals"],
-        keywords: ["random motion", "atmospheric snow", "canvas physics", "3d particles", "procedural drift"],
-        code: {
-            html: `<div class="snow-scene">
-    <canvas id="snowCanvas"></canvas>
-    <div class="snow-ui">
-        <h1>WINTER ARCHIVE</h1>
-    </div>
-</div>`,
-            css: `.snow-scene {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#snowCanvas {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-.snow-ui {
-    position: relative;
-    z-index: 10;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.8em;
-    opacity: 0.4;
-    pointer-events: none;
-}`,
-            js: `const canvas = document.getElementById('snowCanvas');
-const ctx = canvas.getContext('2d');
-let flakes = [];
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    flakes = Array.from({ length: 130 }, () => new Snowflake());
-}
-
-class Snowflake {
-    constructor() { this.reset(); }
-
-    reset() {
-        this.z = Math.random(); 
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height - canvas.height;
-        this.size = (this.z * 5) + 1.5; 
-        this.speedY = (this.z * 0.6) + 0.3; 
-        
-        // RANDOMIZATION LOGIC:
-        // Each flake gets a unique 'swing' speed and offset
-        this.swingSpeed = Math.random() * 0.02 + 0.005; 
-        this.swingRadius = Math.random() * 1.5 + 0.5;
-        this.swingStep = Math.random() * Math.PI * 2; // Random starting phase
-        
-        this.opacity = (this.z * 0.5) + 0.1;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.spin = (Math.random() - 0.5) * 0.015;
-        this.isCrystal = Math.random() > 0.65;
-    }
-
-    update() {
-        this.y += this.speedY;
-        
-        // Apply individualized sine-wave horizontal motion
-        this.swingStep += this.swingSpeed;
-        this.x += Math.sin(this.swingStep) * this.swingRadius;
-        
-        // Add a slight constant drift based on size (simulating wind)
-        this.x += (this.z * 0.2); 
-
-        this.rotation += this.spin;
-        if (this.y > canvas.height + 20) this.reset();
-        if (this.x > canvas.width + 20) this.x = -20;
-        if (this.x < -20) this.x = canvas.width + 20;
-    }
-
-    draw(ctx) {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        
-        if (this.isCrystal) {
-            ctx.scale(1, Math.abs(Math.cos(this.rotation * 0.3)));
-            ctx.strokeStyle = \`rgba(255, 255, 255, \${this.opacity})\`;
-            ctx.lineWidth = 0.8;
-            for (let i = 0; i < 6; i++) {
-                ctx.rotate(Math.PI / 3);
-                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, this.size);
-                ctx.moveTo(0, this.size * 0.4); ctx.lineTo(this.size * 0.3, this.size * 0.6);
-                ctx.stroke();
-            }
-        } else {
-            ctx.beginPath();
-            ctx.arc(0, 0, this.size * 0.3, 0, Math.PI * 2);
-            ctx.fillStyle = \`rgba(255, 255, 255, \${this.opacity * 0.7})\`;
-            ctx.fill();
-        }
-        ctx.restore();
-    }
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    flakes.sort((a, b) => a.z - b.z).forEach(f => {
-        f.update();
-        f.draw(ctx);
-    });
-    requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', init);
-init();
-animate();`
+        "id": "interactive-3d-snowfall-canvas-background",
+        "title": "Interactive 3D Snowfall Canvas Background",
+        "description": "A highly realistic, procedural 3D snowfall animation built with HTML5 Canvas. Features randomized particle drifting, wind simulation, and depth-based scaling. Perfect for winter-themed websites, holiday landing pages, and immersive weather backgrounds.",
+        "tags": [
+            "HTML5 Canvas", "Snowfall Animation", "Winter Background", "3D Particles", 
+            "Weather Effect", "Procedural Animation", "Javascript Physics", "Holiday UI", 
+            "Snow Drift", "Web Design", "Interactive Background", "Particle System", 
+            "Creative Coding", "Frontend Design", "UI/UX", "Immersive Visuals", 
+            "Storm Simulation", "Wind Effect", "Canvas Rendering", "Website Decor"
+        ],
+        "keywords": [
+            "3d snowfall canvas", "javascript snow effect", "winter website background", 
+            "procedural snow animation", "canvas weather simulation", "html5 particle snow", 
+            "falling snow background code", "interactive holiday ui", "web design snow effect", 
+            "realistic snow drift", "canvas 3d particles", "animated winter background", 
+            "storm simulation web", "javascript physics snowfall", "creative coding weather", 
+            "frontend winter design", "immersive snow effect", "ui snowfall background", 
+            "canvas rendering snow", "custom snow particles"
+        ],
+        "code": {
+            "html": "<canvas id=\"snowCanvas\" class=\"snow-canvas\"></canvas>\n\n\n<div class=\"snow-content\">\n    <h1>WINTER ARCHIVE</h1>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --snow-bg-top: #0f172a;      /* Top gradient color */\n    --snow-bg-bottom: #020617;   /* Bottom gradient color */\n    --overlay-color: #ffffff;    /* Text overlay color */\n}\n\nbody, html {\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    background: radial-gradient(circle at top, var(--snow-bg-top), var(--snow-bg-bottom));\n    overflow: hidden;\n}\n\n.snow-canvas {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    pointer-events: none; /* Let clicks pass through */\n    z-index: 1;\n}\n\n.snow-content {\n    position: relative;\n    z-index: 10;\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    color: var(--overlay-color);\n    font-family: 'Inter', sans-serif;\n    letter-spacing: 0.8em;\n    opacity: 0.5;\n    pointer-events: none;\n}",
+            "js": "// --- BEHAVIOR CONTROLS --- \nconst CONFIG = {\n    flakeCount: 130,           // Total number of snowflakes\n    baseSize: 1.5,             // Minimum flake size\n    sizeMultiplier: 5,         // Variance in size based on Z-depth\n    baseSpeed: 0.3,            // Minimum falling speed\n    speedMultiplier: 0.6,      // Variance in speed based on Z-depth\n    windDrift: 0.2,            // Horizontal wind strength\n    crystalProbability: 0.65,  // Chance (0 to 1) of rendering a detailed crystal vs a simple dot\n    snowColorRGB: '255, 255, 255' // Base color for the snow (RGB format)\n};\n\nconst canvas = document.getElementById('snowCanvas');\nconst ctx = canvas.getContext('2d');\nlet flakes = [];\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n    flakes = Array.from({ length: CONFIG.flakeCount }, () => new Snowflake());\n}\n\nclass Snowflake {\n    constructor() { this.reset(); }\n\n    reset() {\n        this.z = Math.random(); \n        this.x = Math.random() * canvas.width;\n        this.y = Math.random() * canvas.height - canvas.height;\n        this.size = (this.z * CONFIG.sizeMultiplier) + CONFIG.baseSize; \n        this.speedY = (this.z * CONFIG.speedMultiplier) + CONFIG.baseSpeed; \n        \n        this.swingSpeed = Math.random() * 0.02 + 0.005; \n        this.swingRadius = Math.random() * 1.5 + 0.5;\n        this.swingStep = Math.random() * Math.PI * 2;\n        \n        this.opacity = (this.z * 0.5) + 0.1;\n        this.rotation = Math.random() * Math.PI * 2;\n        this.spin = (Math.random() - 0.5) * 0.015;\n        this.isCrystal = Math.random() > CONFIG.crystalProbability;\n    }\n\n    update() {\n        this.y += this.speedY;\n        this.swingStep += this.swingSpeed;\n        this.x += Math.sin(this.swingStep) * this.swingRadius;\n        this.x += (this.z * CONFIG.windDrift); \n        this.rotation += this.spin;\n\n        if (this.y > canvas.height + 20) this.reset();\n        if (this.x > canvas.width + 20) this.x = -20;\n        if (this.x < -20) this.x = canvas.width + 20;\n    }\n\n    draw(ctx) {\n        ctx.save();\n        ctx.translate(this.x, this.y);\n        ctx.rotate(this.rotation);\n        \n        if (this.isCrystal) {\n            ctx.scale(1, Math.abs(Math.cos(this.rotation * 0.3)));\n            ctx.strokeStyle = `rgba(${CONFIG.snowColorRGB}, ${this.opacity})`;\n            ctx.lineWidth = 0.8;\n            for (let i = 0; i < 6; i++) {\n                ctx.rotate(Math.PI / 3);\n                ctx.beginPath(); \n                ctx.moveTo(0, 0); \n                ctx.lineTo(0, this.size);\n                ctx.moveTo(0, this.size * 0.4); \n                ctx.lineTo(this.size * 0.3, this.size * 0.6);\n                ctx.stroke();\n            }\n        } else {\n            ctx.beginPath();\n            ctx.arc(0, 0, this.size * 0.3, 0, Math.PI * 2);\n            ctx.fillStyle = `rgba(${CONFIG.snowColorRGB}, ${this.opacity * 0.7})`;\n            ctx.fill();\n        }\n        ctx.restore();\n    }\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    flakes.sort((a, b) => a.z - b.z).forEach(f => {\n        f.update();\n        f.draw(ctx);\n    });\n    requestAnimationFrame(animate);\n}\n\nwindow.addEventListener('resize', init);\ninit();\nanimate();"
         }
     },
     {
-        id: "neural-3d-constellation",
-        title: "3D Neural Constellation",
-        description: "A localized 3D particle mesh that drifts autonomously. Features depth-based perspective projection and elastic cursor interaction where lines 'snap' based on proximity.",
-        tags: ["Neural", "Network", "Constellation", "3D", "Mesh", "Connections", "Canvas", "Interactive", "Geometric", "Nodes", "Data", "Visualization", "Graph", "Lines"],
-        keywords: ["3D mesh", "neural network", "kinetic geometry", "canvas 3d", "interactive constellation"],
-        code: {
-            html: `<div class="constellation-container">
-    <canvas id="neuralCanvas"></canvas>
-</div>`,
-            css: `.constellation-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #030014;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#neuralCanvas {
-    /* Ensures the canvas occupies the space provided by the flex container */
-    width: 100%;
-    height: 100%;
-    max-width: 800px;
-    max-height: 600px;
-    display: block;
-    pointer-events: auto; 
-}`,
-            js: `const canvas = document.getElementById('neuralCanvas');
-const ctx = canvas.getContext('2d');
-
-let points = [];
-const numPoints = 50;
-const mouse = { x: 0, y: 0, active: false };
-const center = { x: 0, y: 0 };
-
-function init() {
-    // FIX: Using window dimensions or explicit parent client rect ensures rendering in previews
-    canvas.width = canvas.clientWidth || 800;
-    canvas.height = canvas.clientHeight || 600;
-    center.x = canvas.width / 2;
-    center.y = canvas.height / 2;
-    points = [];
-
-    for (let i = 0; i < numPoints; i++) {
-        points.push({
-            x: (Math.random() - 0.5) * 400,
-            y: (Math.random() - 0.5) * 400,
-            z: (Math.random() - 0.5) * 400,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            vz: (Math.random() - 0.5) * 0.5
-        });
-    }
-}
-
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left - center.x;
-    mouse.y = e.clientY - rect.top - center.y;
-    mouse.active = true;
-});
-
-canvas.addEventListener('mouseleave', () => { mouse.active = false; });
-
-function project(p) {
-    const focalLength = 400;
-    const scale = focalLength / (focalLength + p.z);
-    return {
-        x: p.x * scale + center.x,
-        y: p.y * scale + center.y,
-        scale: scale
-    };
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const projected = points.map(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.z += p.vz;
-
-        if (Math.abs(p.x) > 200) p.vx *= -1;
-        if (Math.abs(p.y) > 200) p.vy *= -1;
-        if (Math.abs(p.z) > 200) p.vz *= -1;
-
-        if (mouse.active) {
-            const dx = mouse.x - p.x;
-            const dy = mouse.y - p.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 150) {
-                p.x += dx * 0.02;
-                p.y += dy * 0.02;
-            }
-        }
-        return project(p);
-    });
-
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < projected.length; i++) {
-        for (let j = i + 1; j < projected.length; j++) {
-            const dx = projected[i].x - projected[j].x;
-            const dy = projected[i].y - projected[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 100) {
-                ctx.beginPath();
-                ctx.strokeStyle = \`rgba(99, 102, 241, \${1 - dist/100})\`;
-                ctx.moveTo(projected[i].x, projected[i].y);
-                ctx.lineTo(projected[j].x, projected[j].y);
-                ctx.stroke();
-            }
-        }
-    }
-
-    projected.forEach(p => {
-        ctx.fillStyle = p.scale > 1 ? '#fff' : '#bbbac5ff';
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2 * p.scale, 0, Math.PI * 2);
-        ctx.fill();
-    });
-
-    requestAnimationFrame(animate);
-}
-
-// Ensure init is called before animation starts
-init();
-animate();
-window.addEventListener('resize', init);`
+        "id": "interactive-3d-neural-network-particle-mesh",
+        "title": "Interactive 3D Neural Network Particle Mesh",
+        "description": "A dynamic 3D particle mesh animation using HTML5 Canvas. Nodes autonomously drift in 3D space and connect with lines based on proximity, while reacting elastically to cursor movement. Ideal for AI, technology, and data visualization website backgrounds.",
+        "tags": [
+            "Neural Network", "3D Mesh", "Particle Web", "Interactive Nodes", 
+            "Data Visualization", "HTML5 Canvas", "AI Background", "Tech UI", 
+            "Cursor Interaction", "Geometry", "Constellation", "Javascript Animation", 
+            "Web Design", "Creative Coding", "Network Graph", "Frontend Design", 
+            "Immersive Tech", "Proximity Connections", "Particle System", "WebGL Alternative"
+        ],
+        "keywords": [
+            "3d neural network canvas", "interactive particle mesh", "data visualization background", 
+            "ai website background", "javascript node graph", "html5 canvas constellation", 
+            "connecting dots animation", "cursor interactive particles", "tech startup background", 
+            "geometric network mesh", "3d web geometry", "procedural particle web", 
+            "interactive data nodes", "proximity line connection", "javascript network animation", 
+            "creative coding ai", "frontend tech design", "immersive node graph", 
+            "canvas particle lines", "webgl alternative 3d"
+        ],
+        "code": {
+            "html": "<div class=\"neural-wrapper\">\n    <canvas id=\"neuralCanvas\" class=\"neural-canvas\"></canvas>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --neural-bg-color: #030014; /* Deep background color */\n    --canvas-max-width: 800px;  /* Max width of the network cluster */\n    --canvas-max-height: 600px; /* Max height of the network cluster */\n}\n\n.neural-wrapper {\n    width: 100%;\n    height: 100vh;\n    background: var(--neural-bg-color);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n}\n\n.neural-canvas {\n    width: 100%;\n    height: 100%;\n    max-width: var(--canvas-max-width);\n    max-height: var(--canvas-max-height);\n    display: block;\n    pointer-events: auto;\n}",
+            "js": "// --- BEHAVIOR CONTROLS --- \nconst CONFIG = {\n    nodeCount: 50,              // Total number of nodes in the network\n    driftSpeed: 0.5,            // Base autonomous floating speed\n    connectDistance: 100,       // Distance under which lines form between nodes\n    mouseRadius: 150,           // Cursor interaction radius\n    mouseRepulsion: 0.02,       // How strongly nodes dodge the cursor\n    focalLength: 400,           // 3D perspective depth\n    lineColorRGB: '99, 102, 241', // Color of connections (RGB)\n    nodeBaseColor: '#bbbac5',   // Far node color\n    nodeHighlightColor: '#ffffff' // Near node color\n};\n\nconst canvas = document.getElementById('neuralCanvas');\nconst ctx = canvas.getContext('2d');\n\nlet points = [];\nconst mouse = { x: 0, y: 0, active: false };\nconst center = { x: 0, y: 0 };\n\nfunction init() {\n    canvas.width = canvas.clientWidth || 800;\n    canvas.height = canvas.clientHeight || 600;\n    center.x = canvas.width / 2;\n    center.y = canvas.height / 2;\n    points = [];\n\n    for (let i = 0; i < CONFIG.nodeCount; i++) {\n        points.push({\n            x: (Math.random() - 0.5) * 400,\n            y: (Math.random() - 0.5) * 400,\n            z: (Math.random() - 0.5) * 400,\n            vx: (Math.random() - 0.5) * CONFIG.driftSpeed,\n            vy: (Math.random() - 0.5) * CONFIG.driftSpeed,\n            vz: (Math.random() - 0.5) * CONFIG.driftSpeed\n        });\n    }\n}\n\ncanvas.addEventListener('mousemove', (e) => {\n    const rect = canvas.getBoundingClientRect();\n    mouse.x = e.clientX - rect.left - center.x;\n    mouse.y = e.clientY - rect.top - center.y;\n    mouse.active = true;\n});\n\ncanvas.addEventListener('mouseleave', () => { mouse.active = false; });\n\nfunction project(p) {\n    const scale = CONFIG.focalLength / (CONFIG.focalLength + p.z);\n    return {\n        x: p.x * scale + center.x,\n        y: p.y * scale + center.y,\n        scale: scale\n    };\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    const projected = points.map(p => {\n        p.x += p.vx;\n        p.y += p.vy;\n        p.z += p.vz;\n\n        if (Math.abs(p.x) > 200) p.vx *= -1;\n        if (Math.abs(p.y) > 200) p.vy *= -1;\n        if (Math.abs(p.z) > 200) p.vz *= -1;\n\n        if (mouse.active) {\n            const dx = mouse.x - p.x;\n            const dy = mouse.y - p.y;\n            const dist = Math.sqrt(dx*dx + dy*dy);\n            if (dist < CONFIG.mouseRadius) {\n                p.x += dx * CONFIG.mouseRepulsion;\n                p.y += dy * CONFIG.mouseRepulsion;\n            }\n        }\n        return project(p);\n    });\n\n    ctx.lineWidth = 0.5;\n    for (let i = 0; i < projected.length; i++) {\n        for (let j = i + 1; j < projected.length; j++) {\n            const dx = projected[i].x - projected[j].x;\n            const dy = projected[i].y - projected[j].y;\n            const dist = Math.sqrt(dx * dx + dy * dy);\n\n            if (dist < CONFIG.connectDistance) {\n                ctx.beginPath();\n                ctx.strokeStyle = `rgba(${CONFIG.lineColorRGB}, ${1 - dist/CONFIG.connectDistance})`;\n                ctx.moveTo(projected[i].x, projected[i].y);\n                ctx.lineTo(projected[j].x, projected[j].y);\n                ctx.stroke();\n            }\n        }\n    }\n\n    projected.forEach(p => {\n        ctx.fillStyle = p.scale > 1 ? CONFIG.nodeHighlightColor : CONFIG.nodeBaseColor;\n        ctx.beginPath();\n        ctx.arc(p.x, p.y, 2 * p.scale, 0, Math.PI * 2);\n        ctx.fill();\n    });\n\n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();\nwindow.addEventListener('resize', init);"
         }
     },
     {
-        id: "aether-core-elastic",
-        title: "Elastic Aether-Core",
-        description: "A stable 3D constellation that deforms under cursor pressure and elastically restores its shape. Features restorative vector physics and depth-sorted crystalline facets.",
-        tags: ["Elastic", "Aether", "Core", "3D", "Physics", "Deformation", "Holographic", "Canvas", "Interactive", "Geometry", "Crystalline", "Facet", "Structure", "Web UI"],
-        keywords: ["restorative physics", "3D mesh", "elastic interaction", "holographic UI", "kinetic geometry"],
-        code: {
-            html: `<div class="aether-container">
-    <canvas id="elasticAetherCanvas"></canvas>
-</div>`,
-            css: `.aether-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #050510, #000);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#elasticAetherCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    cursor: crosshair;
-}`,
-            js: `const canvas = document.getElementById('elasticAetherCanvas');
-const ctx = canvas.getContext('2d');
-
-let points = [];
-const numPoints = 60;
-const mouse = { x: 0, y: 0, active: false };
-let rotationAngle = 0;
-
-function init() {
-    // Fix: Force window dimensions for preview rendering
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    points = [];
-    for (let i = 0; i < numPoints; i++) {
-        const x = (Math.random() - 0.5) * 450;
-        const y = (Math.random() - 0.5) * 450;
-        const z = (Math.random() - 0.5) * 450;
-        points.push({
-            x: x, y: y, z: z,
-            homeX: x, homeY: y, homeZ: z,
-            color: Math.random() > 0.8 ? '#06b6d4' : '#6366f1'
-        });
-    }
-}
-
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left - canvas.width/2;
-    mouse.y = e.clientY - rect.top - canvas.height/2;
-    mouse.active = true;
-});
-
-canvas.addEventListener('mouseleave', () => { mouse.active = false; });
-
-function project(p) {
-    const cos = Math.cos(rotationAngle);
-    const sin = Math.sin(rotationAngle);
-    const rx = p.x * cos - p.z * sin;
-    const rz = p.x * sin + p.z * cos;
-
-    const focalLength = 500;
-    const scale = focalLength / (focalLength + rz);
-    return {
-        x: rx * scale + canvas.width/2,
-        y: p.y * scale + canvas.height/2,
-        z: rz,
-        scale: scale,
-        baseColor: p.color
-    };
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    rotationAngle += 0.002; 
-
-    const projected = points.map(p => {
-        if (mouse.active) {
-            const dx = mouse.x - p.x;
-            const dy = mouse.y - p.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 180) {
-                const force = (180 - dist) / 180;
-                p.x += dx * force * 0.1;
-                p.y += dy * force * 0.1;
-            }
-        }
-        p.x += (p.homeX - p.x) * 0.05;
-        p.y += (p.homeY - p.y) * 0.05;
-        p.z += (p.homeZ - p.z) * 0.05;
-        return project(p);
-    });
-
-    projected.sort((a, b) => b.z - a.z);
-
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < projected.length; i++) {
-        for (let j = i + 1; j < projected.length; j++) {
-            const dist = Math.hypot(projected[i].x - projected[j].x, projected[i].y - projected[j].y);
-            if (dist < 100) {
-                ctx.beginPath();
-                ctx.strokeStyle = \`rgba(99, 102, 241, \${(1 - dist/100) * 0.2})\`;
-                ctx.moveTo(projected[i].x, projected[i].y);
-                ctx.lineTo(projected[j].x, projected[j].y);
-                ctx.stroke();
-
-                for (let k = j + 1; k < projected.length; k++) {
-                    const dist2 = Math.hypot(projected[j].x - projected[k].x, projected[j].y - projected[k].y);
-                    if (dist2 < 70) {
-                        ctx.beginPath();
-                        ctx.fillStyle = \`rgba(6, 182, 212, \${(1 - dist/100) * 0.04})\`;
-                        ctx.moveTo(projected[i].x, projected[i].y);
-                        ctx.lineTo(projected[j].x, projected[j].y);
-                        ctx.lineTo(projected[k].x, projected[k].y);
-                        ctx.fill();
-                        break; 
-                    }
-                }
-            }
-        }
-    }
-
-    projected.forEach(p => {
-        ctx.fillStyle = p.scale > 1.1 ? '#fff' : p.baseColor;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2 * p.scale, 0, Math.PI * 2);
-        ctx.fill();
-    });
-
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();
-window.addEventListener('resize', init);`
+        "id": "interactive-3d-crystalline-core-polygon-mesh",
+        "title": "Interactive 3D Crystalline Polygon Core Mesh",
+        "description": "A visually striking 3D crystalline structure built on HTML5 Canvas. The geometry dynamically rotates and elastically deforms under cursor interaction, rendering interconnected triangles and facets. Excellent for modern tech, web3, and sci-fi hero sections.",
+        "tags": [
+            "3D Geometry", "Crystalline Mesh", "Interactive Canvas", "Polygon Structure", 
+            "Web3 Background", "Elastic Physics", "Holographic UI", "Sci-Fi Design", 
+            "Javascript Animation", "Tech Hero Section", "Creative Coding", "Node Facets", 
+            "Kinetic UI", "Frontend Development", "UI/UX", "Particle Physics", 
+            "Canvas Rendering", "Immersive Experience", "Geometric Art", "Cursor Deformation"
+        ],
+        "keywords": [
+            "3d crystalline core canvas", "interactive polygon mesh", "elastic geometry javascript", 
+            "web3 hero background", "holographic ui design", "sci-fi website animation", 
+            "html5 canvas physics", "elastic cursor interaction", "kinetic 3d geometry", 
+            "tech startup hero", "procedural polygon art", "javascript node facets", 
+            "creative coding 3d", "frontend mesh animation", "immersive sci-fi background", 
+            "canvas rendering geometry", "interactive crystal structure", "dynamic tech background", 
+            "webgl alternative physics", "cursor deformation mesh"
+        ],
+        "code": {
+            "html": "<div class=\"crystal-wrapper\">\n    <canvas id=\"elasticAetherCanvas\" class=\"crystal-canvas\"></canvas>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --crystal-bg-center: #050510; /* Center of background gradient */\n    --crystal-bg-edge: #000000;   /* Edge of background gradient */\n}\n\n.crystal-wrapper {\n    width: 100%;\n    height: 100vh;\n    background: radial-gradient(circle at center, var(--crystal-bg-center), var(--crystal-bg-edge));\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.crystal-canvas {\n    width: 100%;\n    height: 100%;\n    display: block;\n    cursor: crosshair;\n}",
+            "js": "// --- BEHAVIOR CONTROLS --- \nconst CONFIG = {\n    nodeCount: 60,               // Number of vertices in the crystal\n    rotationSpeed: 0.002,        // Speed of 3D rotation\n    mouseRadius: 180,            // Cursor interaction radius\n    repulsionForce: 0.1,         // How strongly the mesh deforms away from cursor\n    springForce: 0.05,           // How fast the mesh snaps back to shape\n    lineConnectDist: 100,        // Max distance for drawing wireframe lines\n    facetFillDist: 70,           // Max distance for filling solid triangles\n    lineColorRGB: '99, 102, 241',// Color of wireframe lines (RGB)\n    fillColorRGB: '6, 182, 212', // Color of solid facets (RGB)\n    nodePalette: ['#06b6d4', '#6366f1'] // Array of colors for individual nodes\n};\n\nconst canvas = document.getElementById('elasticAetherCanvas');\nconst ctx = canvas.getContext('2d');\n\nlet points = [];\nconst mouse = { x: 0, y: 0, active: false };\nlet rotationAngle = 0;\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n    points = [];\n    for (let i = 0; i < CONFIG.nodeCount; i++) {\n        const x = (Math.random() - 0.5) * 450;\n        const y = (Math.random() - 0.5) * 450;\n        const z = (Math.random() - 0.5) * 450;\n        points.push({\n            x: x, y: y, z: z,\n            homeX: x, homeY: y, homeZ: z,\n            color: Math.random() > 0.8 ? CONFIG.nodePalette[0] : CONFIG.nodePalette[1]\n        });\n    }\n}\n\ncanvas.addEventListener('mousemove', (e) => {\n    const rect = canvas.getBoundingClientRect();\n    mouse.x = e.clientX - rect.left - canvas.width/2;\n    mouse.y = e.clientY - rect.top - canvas.height/2;\n    mouse.active = true;\n});\n\ncanvas.addEventListener('mouseleave', () => { mouse.active = false; });\n\nfunction project(p) {\n    const cos = Math.cos(rotationAngle);\n    const sin = Math.sin(rotationAngle);\n    const rx = p.x * cos - p.z * sin;\n    const rz = p.x * sin + p.z * cos;\n\n    const focalLength = 500;\n    const scale = focalLength / (focalLength + rz);\n    return {\n        x: rx * scale + canvas.width/2,\n        y: p.y * scale + canvas.height/2,\n        z: rz,\n        scale: scale,\n        baseColor: p.color\n    };\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    rotationAngle += CONFIG.rotationSpeed; \n\n    const projected = points.map(p => {\n        if (mouse.active) {\n            const dx = mouse.x - p.x;\n            const dy = mouse.y - p.y;\n            const dist = Math.sqrt(dx*dx + dy*dy);\n            if (dist < CONFIG.mouseRadius) {\n                const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;\n                p.x += dx * force * CONFIG.repulsionForce;\n                p.y += dy * force * CONFIG.repulsionForce;\n            }\n        }\n        p.x += (p.homeX - p.x) * CONFIG.springForce;\n        p.y += (p.homeY - p.y) * CONFIG.springForce;\n        p.z += (p.homeZ - p.z) * CONFIG.springForce;\n        return project(p);\n    });\n\n    projected.sort((a, b) => b.z - a.z);\n\n    ctx.lineWidth = 0.5;\n    for (let i = 0; i < projected.length; i++) {\n        for (let j = i + 1; j < projected.length; j++) {\n            const dist = Math.hypot(projected[i].x - projected[j].x, projected[i].y - projected[j].y);\n            if (dist < CONFIG.lineConnectDist) {\n                ctx.beginPath();\n                ctx.strokeStyle = `rgba(${CONFIG.lineColorRGB}, ${(1 - dist/CONFIG.lineConnectDist) * 0.2})`;\n                ctx.moveTo(projected[i].x, projected[i].y);\n                ctx.lineTo(projected[j].x, projected[j].y);\n                ctx.stroke();\n\n                for (let k = j + 1; k < projected.length; k++) {\n                    const dist2 = Math.hypot(projected[j].x - projected[k].x, projected[j].y - projected[k].y);\n                    if (dist2 < CONFIG.facetFillDist) {\n                        ctx.beginPath();\n                        ctx.fillStyle = `rgba(${CONFIG.fillColorRGB}, ${(1 - dist/CONFIG.lineConnectDist) * 0.04})`;\n                        ctx.moveTo(projected[i].x, projected[i].y);\n                        ctx.lineTo(projected[j].x, projected[j].y);\n                        ctx.lineTo(projected[k].x, projected[k].y);\n                        ctx.fill();\n                        break; \n                    }\n                }\n            }\n        }\n    }\n\n    projected.forEach(p => {\n        ctx.fillStyle = p.scale > 1.1 ? '#fff' : p.baseColor;\n        ctx.beginPath();\n        ctx.arc(p.x, p.y, 2 * p.scale, 0, Math.PI * 2);\n        ctx.fill();\n    });\n\n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();\nwindow.addEventListener('resize', init);"
         }
     },
     {
-        id: "Earth-rotation-dark-mode-toggle",
-        title: "Cinematic Earth - Dark Mode Toggle Button",
-        description: "A full-screen cinematic day-night simulation controlled by a compact Earth toggle. Features animated sky transitions, city skyline, starry night background and smooth planet rotation.",
-        tags: ["Earth", "Toggle", "Dark Mode", "Cinematic", "Planet", "Animation", "UI Component", "Switch", "Day/Night", "CSS", "Environment", "Global", "World", "Interactive"],
-        keywords: ["dark mode toggle", "earth animation button", "cinematic theme switch", "starry night ui"],
-        code: {
-            html: `<div class="earth-wrapper">
-    <button class="earth-toggle" id="earthToggle">
-
-        <!-- SKY -->
-        <div class="sky">
-            <div class="day-sky"></div>
-            <div class="night-sky"></div>
-        </div>
-
-        <!-- GROUND -->
-        <div class="ground">
-            <div class="landscape"></div>
-            <div class="city">
-                <div class="building"></div>
-                <div class="building tall"></div>
-                <div class="building small"></div>
-            </div>
-        </div>
-
-        <!-- SUN + MOON -->
-        <div class="sun"></div>
-        <div class="moon"></div>
-
-        <!-- EARTH -->
-        <div class="earth">
-            <div class="earth-core"></div>
-            <div class="clouds"></div>
-            <div class="atmosphere"></div>
-        </div>
-
-    </button>
-</div>`,
-            css: `* { margin:0; padding:0; box-sizing:border-box; }
-
-/* ============================= */
-/* FULL SCREEN CONTAINER */
-/* ============================= */
-
-.earth-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 1.2s ease;
-}
-
-/* LIGHT MODE BACKGROUND */
-.earth-wrapper {
-    background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4), transparent 40%),
-        linear-gradient(to top, #dbeafe, #93c5fd);
-}
-
-/* DARK MODE BACKGROUND */
-.earth-wrapper.active {
-    background:
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,0.05), transparent 40%),
-        linear-gradient(to top, #020617, #000);
-}
-
-/* STAR FIELD (FULL SCREEN) */
-.earth-wrapper.active::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-        radial-gradient(1px 1px at 60% 70%, #fff, transparent),
-        radial-gradient(1.5px 1.5px at 80% 20%, #fff, transparent),
-        radial-gradient(1px 1px at 30% 80%, #fff, transparent);
-    opacity: 0.5;
-    animation: twinkle 4s infinite alternate;
-    pointer-events: none;
-}
-
-@keyframes twinkle {
-    from { opacity: 0.3; }
-    to { opacity: 0.7; }
-}
-
-/* ============================= */
-/* TOGGLE BUTTON */
-/* ============================= */
-
-.earth-toggle {
-    position: relative;
-    width: 140px;
-    height: 60px;
-    border-radius: 60px;
-    border: 2px solid rgba(255,255,255,0.5);
-    backdrop-filter: blur(8px);
-    cursor: pointer;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    transition: border 0.6s ease, box-shadow 0.6s ease;
-}
-
-/* Dark glow border */
-.earth-wrapper.active .earth-toggle {
-    border: 2px solid rgba(255,255,255,0.15);
-    box-shadow:
-        0 0 15px rgba(56,189,248,0.5),
-        0 10px 30px rgba(0,0,0,0.6);
-}
-
-/* ============================= */
-/* SKY INSIDE BUTTON */
-/* ============================= */
-
-.sky {
-    position: absolute;
-    inset: 0;
-}
-
-.day-sky {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, #93c5fd, #e0f2fe);
-}
-
-.night-sky {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, #020617, #000);
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-/* ============================= */
-/* GROUND INSIDE BUTTON */
-/* ============================= */
-
-.ground {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 20px;
-}
-
-.landscape {
-    width: 100%;
-    height: 20px;
-    background: #166534;
-    clip-path: polygon(0% 100%, 15% 70%, 30% 85%, 50% 65%, 70% 80%, 85% 60%, 100% 100%);
-    transition: opacity 1s ease;
-}
-
-.city {
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    bottom: 0;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-.building {
-    position: absolute;
-    bottom: 0;
-    width: 8px;
-    height: 16px;
-    background: #111827;
-}
-
-.building::after {
-    content:"";
-    position:absolute;
-    inset:2px;
-    background: repeating-linear-gradient(
-        to bottom,
-        #facc15 0px,
-        #facc15 2px,
-        transparent 2px,
-        transparent 4px
-    );
-}
-
-.tall { left: 50px; height: 20px; }
-.small { left: 80px; height: 12px; }
-
-/* ============================= */
-/* SUN & MOON */
-/* ============================= */
-
-.sun {
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    top: 16px;
-    left: 18px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fde047, #f97316);
-    box-shadow: 0 0 20px #facc15;
-    transition: opacity 1s ease;
-}
-
-.moon {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    top: 18px;
-    right: 18px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #fff, #d1d5db);
-    box-shadow: inset -4px -4px 0 #9ca3af;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-/* ============================= */
-/* EARTH */
-/* ============================= */
-
-.earth {
-    position: absolute;
-    width: 42px;
-    height: 42px;
-    top: 9px;
-    left: 9px;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: transform 1.2s cubic-bezier(0.65,0,0.35,1);
-}
-
-.earth-core {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 40%),
-        linear-gradient(180deg, #1e90ff, #0f172a);
-    animation: spin 25s linear infinite;
-}
-
-.clouds {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background:
-        radial-gradient(circle at 40% 50%, rgba(255,255,255,0.5) 8%, transparent 20%);
-    animation: spinReverse 40s linear infinite;
-}
-
-.atmosphere {
-    position: absolute;
-    inset: -2px;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(56,189,248,0.8);
-}
-
-/* ============================= */
-/* ACTIVE STATES */
-/* ============================= */
-
-.earth-toggle.active .night-sky { opacity: 1; }
-.earth-toggle.active .city { opacity: 1; }
-.earth-toggle.active .landscape { opacity: 0; }
-.earth-toggle.active .sun { opacity: 0; }
-.earth-toggle.active .moon { opacity: 1; }
-
-.earth-toggle.active .earth {
-    transform: translateX(75px) rotate(360deg);
-}
-
-/* Animations */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes spinReverse {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-}`,
-            js: `const earthToggle = document.getElementById('earthToggle');
-const wrapper = document.querySelector('.earth-wrapper');
-
-earthToggle.addEventListener('click', () => {
-    earthToggle.classList.toggle('active');
-    wrapper.classList.toggle('active');
-});`
+        "id": "realistic-3d-earth-day-night-theme-toggle",
+        "title": "3D Earth Day and Night Theme Toggle Switch Button",
+        "description": "A highly realistic, interactive 3D earth-themed toggle switch for dark mode and light mode transitions. Features purely CSS-animated spinning clouds, city lights, day-to-night sky transitions, and a cinematic sun/moon swap.",
+        "tags": [
+            "Toggle", "Switch", "Dark Mode", "Light Mode", "Theme", "Earth", "3D", 
+            "CSS Animation", "UI Component", "Button", "Day", "Night", "Sun", "Moon", 
+            "Planet", "Interactive", "Frontend", "Web Design", "Realistic", "Creative"
+        ],
+        "keywords": [
+            "dark mode toggle", "theme switch button", "3d earth animation", "day night toggle css", 
+            "realistic earth toggle", "sun moon switch", "light mode dark mode", "pure css toggle", 
+            "animated switch button", "interactive theme toggle", "ui component switch", 
+            "cinematic dark mode", "earth spinning css", "starry night button", "landscape toggle button", 
+            "creative theme switcher", "javascript toggle switch", "frontend ui button", 
+            "modern toggle design", "custom checkbox css"
+        ],
+        "code": {
+            "html": "<button class=\"earth-toggle\" id=\"earthToggle\" aria-label=\"Toggle Dark Mode\">\n    <div class=\"sky\">\n        <div class=\"day-sky\"></div>\n        <div class=\"night-sky\"></div>\n    </div>\n    <div class=\"ground\">\n        <div class=\"landscape\"></div>\n        <div class=\"city\">\n            <div class=\"building\"></div>\n            <div class=\"building tall\"></div>\n            <div class=\"building small\"></div>\n        </div>\n    </div>\n    <div class=\"sun\"></div>\n    <div class=\"moon\"></div>\n    <div class=\"earth\">\n        <div class=\"earth-core\"></div>\n        <div class=\"clouds\"></div>\n        <div class=\"atmosphere\"></div>\n    </div>\n</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    /* Button Dimensions */\n    --toggle-width: 140px;\n    --toggle-height: 60px;\n    --toggle-border-radius: 60px;\n    \n    /* Day Theme Colors */\n    --day-sky-bottom: #93c5fd;\n    --day-sky-top: #e0f2fe;\n    --sun-color-center: #fde047;\n    --sun-color-edge: #f97316;\n    --sun-glow: #facc15;\n    --landscape-color: #166534;\n    \n    /* Night Theme Colors */\n    --night-sky-bottom: #020617;\n    --night-sky-top: #000000;\n    --moon-color-center: #ffffff;\n    --moon-color-edge: #d1d5db;\n    --moon-crater: #9ca3af;\n    --city-building: #111827;\n    --city-window-glow: #facc15;\n    \n    /* Earth Colors */\n    --earth-water: #1e90ff;\n    --earth-land: #0f172a;\n    --atmosphere-glow: rgba(56, 189, 248, 0.8);\n    \n    /* Animation Speeds */\n    --transition-speed: 1s;\n    --earth-spin-speed: 25s;\n}\n\n.earth-toggle {\n    position: relative;\n    width: var(--toggle-width);\n    height: var(--toggle-height);\n    border-radius: var(--toggle-border-radius);\n    border: 2px solid rgba(255, 255, 255, 0.5);\n    cursor: pointer;\n    overflow: hidden;\n    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n    transition: border 0.6s ease, box-shadow 0.6s ease;\n    background: transparent;\n    padding: 0;\n    display: block;\n}\n\n.earth-toggle.active {\n    border: 2px solid rgba(255, 255, 255, 0.15);\n    box-shadow: \n        0 0 15px rgba(56, 189, 248, 0.5), \n        0 10px 30px rgba(0, 0, 0, 0.6);\n}\n\n.sky {\n    position: absolute;\n    inset: 0;\n}\n\n.day-sky {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(to top, var(--day-sky-bottom), var(--day-sky-top));\n}\n\n.night-sky {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(to top, var(--night-sky-bottom), var(--night-sky-top));\n    opacity: 0;\n    transition: opacity var(--transition-speed) ease;\n}\n\n.ground {\n    position: absolute;\n    bottom: 0;\n    width: 100%;\n    height: 20px;\n}\n\n.landscape {\n    width: 100%;\n    height: 20px;\n    background: var(--landscape-color);\n    clip-path: polygon(0% 100%, 15% 70%, 30% 85%, 50% 65%, 70% 80%, 85% 60%, 100% 100%);\n    transition: opacity var(--transition-speed) ease;\n}\n\n.city {\n    position: absolute;\n    width: 100%;\n    height: 20px;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity var(--transition-speed) ease;\n}\n\n.building {\n    position: absolute;\n    bottom: 0;\n    width: 8px;\n    height: 16px;\n    background: var(--city-building);\n}\n\n.building::after {\n    content: \"\";\n    position: absolute;\n    inset: 2px;\n    background: repeating-linear-gradient(\n        to bottom,\n        var(--city-window-glow) 0px,\n        var(--city-window-glow) 2px,\n        transparent 2px,\n        transparent 4px\n    );\n}\n\n.tall { left: 50px; height: 20px; }\n.small { left: 80px; height: 12px; }\n\n.sun {\n    position: absolute;\n    width: 26px;\n    height: 26px;\n    top: 16px;\n    left: 18px;\n    border-radius: 50%;\n    background: radial-gradient(circle, var(--sun-color-center), var(--sun-color-edge));\n    box-shadow: 0 0 20px var(--sun-glow);\n    transition: opacity var(--transition-speed) ease;\n}\n\n.moon {\n    position: absolute;\n    width: 22px;\n    height: 22px;\n    top: 18px;\n    right: 18px;\n    border-radius: 50%;\n    background: radial-gradient(circle at 30% 30%, var(--moon-color-center), var(--moon-color-edge));\n    box-shadow: inset -4px -4px 0 var(--moon-crater);\n    opacity: 0;\n    transition: opacity var(--transition-speed) ease;\n}\n\n.earth {\n    position: absolute;\n    width: 42px;\n    height: 42px;\n    top: 9px;\n    left: 9px;\n    border-radius: 50%;\n    overflow: hidden;\n    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);\n}\n\n.earth-core {\n    position: absolute;\n    inset: 0;\n    border-radius: 50%;\n    background: \n        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), transparent 40%), \n        linear-gradient(180deg, var(--earth-water), var(--earth-land));\n    animation: spin var(--earth-spin-speed) linear infinite;\n}\n\n.clouds {\n    position: absolute;\n    inset: 0;\n    border-radius: 50%;\n    background: radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.5) 8%, transparent 20%);\n    animation: spinReverse calc(var(--earth-spin-speed) * 1.6) linear infinite;\n}\n\n.atmosphere {\n    position: absolute;\n    inset: -2px;\n    border-radius: 50%;\n    box-shadow: 0 0 15px var(--atmosphere-glow);\n}\n\n.earth-toggle.active .night-sky { opacity: 1; }\n.earth-toggle.active .city { opacity: 1; }\n.earth-toggle.active .landscape { opacity: 0; }\n.earth-toggle.active .sun { opacity: 0; }\n.earth-toggle.active .moon { opacity: 1; }\n\n.earth-toggle.active .earth {\n    transform: translateX(75px) rotate(360deg);\n}\n\n@keyframes spin {\n    from { transform: rotate(0deg); }\n    to { transform: rotate(360deg); }\n}\n\n@keyframes spinReverse {\n    from { transform: rotate(0deg); }\n    to { transform: rotate(-360deg); }\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst toggleButton = document.getElementById('earthToggle');\n\ntoggleButton.addEventListener('click', () => {\n    // Toggles the active state for the animation\n    toggleButton.classList.toggle('active');\n    \n    // Accessibility update\n    const isDark = toggleButton.classList.contains('active');\n    toggleButton.setAttribute('aria-pressed', isDark);\n});"
         }
     },
     {
-        id: "bioluminescent-tendrils",
-        title: "Bioluminescent Tendril Field",
-        description: "An organic, reactive background where glowing fiber-optic tendrils sprout from the cursor. Uses inverse kinematics and spring physics to simulate life-like movement and fluid decay.",
-        tags: ["Tendrils", "Bioluminescent", "Organic", "Inverse Kinematics", "Canvas", "Interactive", "Procedural", "Glow", "Nature", "Deep Sea", "Fiber Optic", "Simulation", "Fluid"],
-        keywords: ["procedural animation", "bioluminescence", "interactive background", "canvas physics", "inverse kinematics"],
-        code: {
-            html: `<div class="tendril-container">
-    <canvas id="tendrilCanvas"></canvas>
-    <div class="tendril-ui">
-        <h1>NEURAL BLOOM</h1>
-        <p>Move your cursor to spark life</p>
-    </div>
-</div>`,
-            css: `.tendril-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #010208; /* Deep abyss blue */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#tendrilCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.tendril-ui {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    pointer-events: none;
-    text-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-h1 {
-    font-size: 3rem;
-    font-weight: 200;
-    letter-spacing: 15px;
-    margin-bottom: 10px;
-    background: linear-gradient(to bottom, #fff, #444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-p {
-    font-size: 0.9rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    opacity: 0.4;
-}`,
-            js: `const canvas = document.getElementById('tendrilCanvas');
-const ctx = canvas.getContext('2d');
-
-let tendrils = [];
-const mouse = { x: 0, y: 0, moved: false };
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-window.addEventListener('resize', init);
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.moved = true;
-    // Spawn a new tendril on move
-    if (Math.random() > 0.5) {
-        tendrils.push(new Tendril(mouse.x, mouse.y));
-    }
-});
-
-class Tendril {
-    constructor(x, y) {
-        this.segments = [];
-        this.numSegments = Math.floor(Math.random() * 15 + 10);
-        this.length = Math.random() * 8 + 4;
-        this.angle = Math.random() * Math.PI * 2;
-        this.v = { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 4 };
-        this.life = 1.0;
-        this.decay = Math.random() * 0.01 + 0.005;
-        this.color = \`hsl(\${Math.random() * 40 + 180}, 100%, 60%)\`; // Cyan/Blue range
-
-        for (let i = 0; i < this.numSegments; i++) {
-            this.segments.push({ x: x, y: y });
-        }
-    }
-
-    update() {
-        this.life -= this.decay;
-        
-        // Head movement
-        this.segments[0].x += this.v.x;
-        this.segments[0].y += this.v.y;
-        
-        // Waving motion
-        this.v.x += Math.sin(this.life * 10) * 0.2;
-        this.v.y += Math.cos(this.life * 10) * 0.2;
-
-        // Follow the leader logic (Inverse Kinematics)
-        for (let i = 1; i < this.numSegments; i++) {
-            const seg = this.segments[i];
-            const prev = this.segments[i - 1];
-            const dx = prev.x - seg.x;
-            const dy = prev.y - seg.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx);
-            
-            if (distance > this.length) {
-                seg.x = prev.x - Math.cos(angle) * this.length;
-                seg.y = prev.y - Math.sin(angle) * this.length;
-            }
-        }
-    }
-
-    draw() {
-        ctx.save();
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.globalAlpha = this.life;
-        ctx.strokeStyle = this.color;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 15 * this.life;
-
-        ctx.beginPath();
-        ctx.moveTo(this.segments[0].x, this.segments[0].y);
-
-        for (let i = 1; i < this.numSegments; i++) {
-            ctx.lineWidth = (this.numSegments - i) * 0.8 * this.life;
-            ctx.lineTo(this.segments[i].x, this.segments[i].y);
-        }
-        ctx.stroke();
-        ctx.restore();
-    }
-}
-
-function animate() {
-    // Slight trail effect by not clearing fully
-    ctx.fillStyle = 'rgba(1, 2, 8, 0.2)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    tendrils = tendrils.filter(t => t.life > 0);
-    tendrils.forEach(t => {
-        t.update();
-        t.draw();
-    });
-
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();`
+        "id": "interactive-bioluminescent-neural-tendrils-canvas",
+        "title": "Interactive Bioluminescent Neural Tendrils Canvas Animation",
+        "description": "An interactive HTML5 Canvas background featuring procedural bioluminescent tendrils. Uses inverse kinematics and fluid physics to follow the user's cursor, creating an organic, glowing neural bloom effect. Highly customizable colors and physics parameters.",
+        "tags": [
+            "Canvas", "Interactive", "Background", "Procedural", "Inverse Kinematics", 
+            "Bioluminescence", "Organic", "Glow", "Neural", "Animation", "JavaScript", 
+            "Fluid", "Physics", "Mouse Trail", "Generative", "Web Design", 
+            "Creative Coding", "Visual Effects", "Fiber Optics", "2D"
+        ],
+        "keywords": [
+            "bioluminescent canvas animation", "interactive tendrils background", "inverse kinematics javascript", 
+            "procedural animation web", "neural bloom effect", "fluid physics canvas", 
+            "glowing cursor trail", "organic web animation", "html5 canvas background", 
+            "interactive glowing lines", "generative art javascript", "webgl alternative 2d", 
+            "deep sea bioluminescence", "fiber optic animation", "creative coding canvas", 
+            "interactive ui background", "mouse follow particles", "dynamic web visuals", 
+            "frontend canvas effect", "custom cursor animation"
+        ],
+        "code": {
+            "html": "<div class=\"tendril-container\">\n    <canvas id=\"tendrilCanvas\"></canvas>\n    \n    <div class=\"tendril-ui\">\n        <h1>NEURAL BLOOM</h1>\n        <p>Move your cursor to spark life</p>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --tendril-bg-color: #010208;         /* Deep abyss background color */\n    --overlay-text-color: #ffffff;       /* Overlay text color */\n    --overlay-font: 'Inter', sans-serif; /* Overlay font family */\n}\n\n.tendril-container {\n    position: relative;\n    width: 100%;\n    height: 100vh;\n    background: var(--tendril-bg-color);\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n#tendrilCanvas {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n}\n\n.tendril-ui {\n    position: relative;\n    z-index: 10;\n    text-align: center;\n    color: var(--overlay-text-color);\n    font-family: var(--overlay-font);\n    pointer-events: none;\n    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);\n}\n\nh1 {\n    font-size: 3rem;\n    font-weight: 200;\n    letter-spacing: 15px;\n    margin-bottom: 10px;\n    background: linear-gradient(to bottom, #ffffff, #444444);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n\np {\n    font-size: 0.9rem;\n    letter-spacing: 4px;\n    text-transform: uppercase;\n    opacity: 0.4;\n}",
+            "js": "// --- BEHAVIOR & STYLE CONTROLS ---\nconst CONFIG = {\n    spawnChance: 0.5,           // Probability (0-1) of spawning a tendril on mouse move\n    minSegments: 10,            // Minimum segments per tendril\n    maxSegments: 25,            // Maximum segments per tendril\n    minSegmentLength: 4,        // Minimum length of a segment\n    maxSegmentLength: 12,       // Maximum length of a segment\n    minDecay: 0.005,            // Minimum fade speed\n    maxDecay: 0.015,            // Maximum fade speed\n    hueBase: 180,               // Base hue (180 = cyan)\n    hueVariance: 40,            // How much the hue can vary (40 = ranges into deep blue)\n    trailOpacity: 0.2,          // Canvas clear opacity (lower = longer light trails)\n    trailColor: '1, 2, 8'       // Background color used for clearing (RGB)\n};\n\nconst canvas = document.getElementById('tendrilCanvas');\nconst ctx = canvas.getContext('2d');\n\nlet tendrils = [];\nconst mouse = { x: 0, y: 0 };\n\nfunction init() {\n    canvas.width = window.innerWidth;\n    canvas.height = window.innerHeight;\n}\n\nwindow.addEventListener('resize', init);\nwindow.addEventListener('mousemove', (e) => {\n    mouse.x = e.clientX;\n    mouse.y = e.clientY;\n    \n    if (Math.random() > (1 - CONFIG.spawnChance)) {\n        tendrils.push(new Tendril(mouse.x, mouse.y));\n    }\n});\n\nclass Tendril {\n    constructor(x, y) {\n        this.segments = [];\n        this.numSegments = Math.floor(Math.random() * (CONFIG.maxSegments - CONFIG.minSegments) + CONFIG.minSegments);\n        this.length = Math.random() * (CONFIG.maxSegmentLength - CONFIG.minSegmentLength) + CONFIG.minSegmentLength;\n        this.angle = Math.random() * Math.PI * 2;\n        this.v = { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 4 };\n        this.life = 1.0;\n        this.decay = Math.random() * (CONFIG.maxDecay - CONFIG.minDecay) + CONFIG.minDecay;\n        this.color = `hsl(${Math.random() * CONFIG.hueVariance + CONFIG.hueBase}, 100%, 60%)`;\n\n        for (let i = 0; i < this.numSegments; i++) {\n            this.segments.push({ x: x, y: y });\n        }\n    }\n\n    update() {\n        this.life -= this.decay;\n        \n        this.segments[0].x += this.v.x;\n        this.segments[0].y += this.v.y;\n        \n        this.v.x += Math.sin(this.life * 10) * 0.2;\n        this.v.y += Math.cos(this.life * 10) * 0.2;\n\n        for (let i = 1; i < this.numSegments; i++) {\n            const seg = this.segments[i];\n            const prev = this.segments[i - 1];\n            const dx = prev.x - seg.x;\n            const dy = prev.y - seg.y;\n            const distance = Math.sqrt(dx * dx + dy * dy);\n            const angle = Math.atan2(dy, dx);\n            \n            if (distance > this.length) {\n                seg.x = prev.x - Math.cos(angle) * this.length;\n                seg.y = prev.y - Math.sin(angle) * this.length;\n            }\n        }\n    }\n\n    draw() {\n        ctx.save();\n        ctx.lineCap = 'round';\n        ctx.lineJoin = 'round';\n        ctx.globalAlpha = this.life;\n        ctx.strokeStyle = this.color;\n        ctx.shadowColor = this.color;\n        ctx.shadowBlur = 15 * this.life;\n\n        ctx.beginPath();\n        ctx.moveTo(this.segments[0].x, this.segments[0].y);\n\n        for (let i = 1; i < this.numSegments; i++) {\n            ctx.lineWidth = (this.numSegments - i) * 0.8 * this.life;\n            ctx.lineTo(this.segments[i].x, this.segments[i].y);\n        }\n        ctx.stroke();\n        ctx.restore();\n    }\n}\n\nfunction animate() {\n    ctx.fillStyle = `rgba(${CONFIG.trailColor}, ${CONFIG.trailOpacity})`;\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    tendrils = tendrils.filter(t => t.life > 0);\n    tendrils.forEach(t => {\n        t.update();\n        t.draw();\n    });\n\n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();"
         }
     },
     {
-        id: "Solar-System-Navbar",
-        title: "Solar System Inspired Navbar",
-        description: "A high-fidelity spatial navbar. Planets feature procedural light-tracking, holographic telemetry, and a cinematic 'Warp' transition that stretches the starfield on click.",
-        tags: ["Solar System", "Navbar", "Space", "Warp", "Cinematic", "Planets", "Navigation", "UI Component", "Canvas", "Animation", "Futuristic", "Menu", "Interface", "Stars"],
-        keywords: ["cinematic navbar", "warp speed transition", "spatial ui", "nasa aesthetics", "canvas physics"],
-        code: {
-            html: `
-<div class="space-viewport" id="viewport">
-    <div class="warp-tunnel"></div>
-    <div class="starfield-v2"></div>
-    <canvas id="voidCanvas"></canvas>
-    <div id="ui-labels"></div>
-</div>
-`,
-            css: `
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-.space-viewport {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    overflow: hidden;
-    cursor: crosshair;
-}
-
-/* Starfield with depth */
-.starfield-v2 {
-    position: absolute;
-    inset: -10%;
-    background: 
-        radial-gradient(1px 1px at 10% 10%, #fff, transparent),
-        radial-gradient(2px 2px at 50% 50%, #fff 50%, transparent),
-        radial-gradient(1px 1px at 80% 30%, #fff, transparent);
-    background-size: 300px 300px;
-    opacity: 0.4;
-    transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-/* Warp Animation Class */
-.warping .starfield-v2 {
-    transform: scale(4) rotate(5deg) !important;
-    filter: blur(2px) contrast(2);
-    opacity: 0;
-    transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-#voidCanvas { position: absolute; inset: 0; z-index: 5; }
-
-/* Futuristic Labels */
-.nav-tag {
-    position: absolute;
-    padding: 10px;
-    border-left: 1px solid rgba(0, 255, 255, 0.5);
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 10;
-}
-
-.nav-tag .title {
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    display: block;
-}
-
-.nav-tag .coord {
-    font-size: 8px;
-    color: #0ff;
-    opacity: 0.7;
-}
-`,
-            js: `
-const canvas = document.getElementById("voidCanvas");
-const ctx = canvas.getContext("2d");
-const uiLayer = document.getElementById("ui-labels");
-const viewport = document.getElementById("viewport");
-
-let width, height;
-let planets = [];
-const mouse = { x: 0, y: 0 };
-
-// High-end planetary colors
-const system = [
-  { name: "Terminal", radius: 180, speed: 0.003, size: 25, color: "#1a2c42", detail: "#4facfe" },
-  { name: "Sector-7", radius: 280, speed: 0.002, size: 45, color: "#2d1b42", detail: "#f093fb" },
-  { name: "Nexus", radius: 400, speed: 0.0015, size: 35, color: "#1b4231", detail: "#43e97b" },
-  { name: "Void", radius: 550, speed: 0.001, size: 55, color: "#42281b", detail: "#fa709a" }
-];
-
-function init() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  uiLayer.innerHTML = '';
-  
-  planets = system.map(data => {
-    const el = document.createElement('div');
-    el.className = 'nav-tag';
-    el.innerHTML = \`<span class="title">\${data.name}</span><span class="coord">VECT_0\${Math.floor(Math.random()*9)}</span>\`;
-    uiLayer.appendChild(el);
-    
-    return { ...data, angle: (Math.random()-0.5) * Math.PI, el, hover: 0 };
-  });
-}
-
-// Click to Warp Transition
-canvas.addEventListener('mousedown', () => {
-  viewport.classList.add('warping');
-  setTimeout(() => viewport.classList.remove('warping'), 2000);
-});
-
-window.addEventListener("mousemove", e => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-
-function drawSun() {
-  const sunX = 0, sunY = height/2;
-  const g = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, 150);
-  g.addColorStop(0, "#fff");
-  g.addColorStop(0.1, "rgba(255, 255, 255, 0.8)");
-  g.addColorStop(0.4, "rgba(0, 255, 255, 0.1)");
-  g.addColorStop(1, "transparent");
-  ctx.fillStyle = g;
-  ctx.beginPath();
-  ctx.arc(sunX, sunY, 150, 0, Math.PI*2);
-  ctx.fill();
-}
-
-function drawPlanet(p) {
-  p.angle += p.speed * (1 - p.hover * 0.7);
-  if(p.angle > Math.PI/2) p.angle = -Math.PI/2;
-
-  const x = Math.cos(p.angle) * p.radius;
-  const y = height/2 + Math.sin(p.angle) * p.radius;
-
-  const dist = Math.hypot(mouse.x - x, mouse.y - y);
-  p.hover += (dist < p.size * 1.5 ? 1 - p.hover : 0 - p.hover) * 0.1;
-
-  // Orbit path
-  ctx.strokeStyle = \`rgba(255,255,255, \${0.05 + p.hover * 0.1})\`;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.arc(0, height/2, p.radius, -Math.PI/2, Math.PI/2);
-  ctx.stroke();
-
-  // Planet Shading
-  ctx.save();
-  ctx.translate(x, y);
-  
-  const grad = ctx.createRadialGradient(-p.size*0.3, -p.size*0.3, 0, 0, 0, p.size);
-  grad.addColorStop(0, "#fff");
-  grad.addColorStop(0.4, p.color);
-  grad.addColorStop(1, "#000");
-
-  ctx.shadowBlur = 20 * p.hover;
-  ctx.shadowColor = p.detail;
-  ctx.fillStyle = grad;
-  ctx.beginPath();
-  ctx.arc(0, 0, p.size * (1 + p.hover * 0.1), 0, Math.PI*2);
-  ctx.fill();
-
-  // Atmosphere Rim
-  ctx.strokeStyle = \`rgba(0, 255, 255, \${0.2 + p.hover * 0.3})\`;
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  ctx.restore();
-
-  // UI Placement
-  p.el.style.opacity = p.hover > 0.1 ? 1 : 0;
-  p.el.style.left = \`\${x + 40}px\`;
-  p.el.style.top = \`\${y}px\`;
-}
-
-function animate() {
-  ctx.clearRect(0,0,width,height);
-  
-  const sX = (mouse.x - width/2) * 0.02;
-  const sY = (mouse.y - height/2) * 0.02;
-  document.querySelector('.starfield-v2').style.transform = \`translate(\${sX}px, \${sY}px)\`;
-  
-  drawSun();
-  planets.forEach(drawPlanet);
-  requestAnimationFrame(animate);
-}
-
-init();
-animate();
-window.addEventListener("resize", init);
-`
+        "id": "3d-solar-system-space-navigation-menu",
+        "title": "3D Solar System Space Navigation Menu Animation",
+        "description": "An immersive 3D space-themed navigation menu built with HTML5 Canvas. Features orbiting planets that reveal UI labels on hover, a dynamic starfield, and a cinematic warp-speed transition effect on click. Ideal for sci-fi, gaming, or astronomy websites.",
+        "tags": [
+            "Navigation", "Menu", "Solar System", "Space", "3D", "Canvas", "Interactive", 
+            "Planets", "Orbit", "Warp Speed", "Starfield", "Futuristic", "UI Component", 
+            "JavaScript", "Animation", "Cinematic", "Sci-Fi", "Holographic", "Web Design", "Creative"
+        ],
+        "keywords": [
+            "3d solar system menu", "space navigation bar", "interactive canvas navbar", 
+            "warp speed transition", "orbiting planets ui", "starry background animation", 
+            "futuristic navigation menu", "space theme website", "holographic ui elements", 
+            "canvas starfield effect", "creative web menu", "javascript space simulation", 
+            "interactive planetary map", "custom canvas navigation", "cinematic web design", 
+            "immersive frontend ui", "frontend visual effects", "sci-fi navigation bar", 
+            "galaxy theme background", "dynamic space ui"
+        ],
+        "code": {
+            "html": "<div class=\"space-viewport\" id=\"viewport\">\n    <div class=\"starfield-v2\"></div>\n    <canvas id=\"voidCanvas\"></canvas>\n    <div id=\"ui-labels\"></div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --space-bg-color: #000000;         /* Deep space background */\n    --nav-font: 'Orbitron', sans-serif; /* Futuristic font family */\n    --nav-text-color: #ffffff;         /* Label main text color */\n    --nav-accent-color: #00ffff;       /* Label accent/sub-text color */\n}\n\n.space-viewport {\n    position: relative;\n    width: 100%;\n    height: 100vh;\n    background: var(--space-bg-color);\n    overflow: hidden;\n    cursor: crosshair;\n    margin: 0;\n}\n\n.starfield-v2 {\n    position: absolute;\n    inset: -10%;\n    background: \n        radial-gradient(1px 1px at 10% 10%, #ffffff, transparent),\n        radial-gradient(2px 2px at 50% 50%, #ffffff 50%, transparent),\n        radial-gradient(1px 1px at 80% 30%, #ffffff, transparent);\n    background-size: 300px 300px;\n    opacity: 0.4;\n    transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);\n}\n\n.warping .starfield-v2 {\n    transform: scale(4) rotate(5deg) !important;\n    filter: blur(2px) contrast(2);\n    opacity: 0;\n    transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);\n}\n\n#voidCanvas {\n    position: absolute;\n    inset: 0;\n    z-index: 5;\n}\n\n.nav-tag {\n    position: absolute;\n    padding: 10px;\n    border-left: 1px solid rgba(0, 255, 255, 0.5);\n    color: var(--nav-text-color);\n    font-family: var(--nav-font);\n    pointer-events: none;\n    opacity: 0;\n    transition: opacity 0.3s;\n    z-index: 10;\n}\n\n.nav-tag .title {\n    font-size: 14px;\n    letter-spacing: 4px;\n    text-transform: uppercase;\n    display: block;\n}\n\n.nav-tag .coord {\n    font-size: 8px;\n    color: var(--nav-accent-color);\n    opacity: 0.7;\n}",
+            "js": "// --- BEHAVIOR & STYLE CONTROLS ---\nconst CONFIG = {\n    warpDuration: 2000,         // Duration of the warp speed effect in milliseconds\n    mouseHoverRadius: 1.5,      // Multiplier for mouse interaction distance with planets\n    sunRadius: 150,             // Size of the central sun glow\n    parallaxSpeed: 0.02,        // Speed of the starfield moving with the mouse\n    planets: [                  // Navigation links / planetary data\n        { name: \"Terminal\", radius: 180, speed: 0.003, size: 25, color: \"#1a2c42\", detail: \"#4facfe\" },\n        { name: \"Sector-7\", radius: 280, speed: 0.002, size: 45, color: \"#2d1b42\", detail: \"#f093fb\" },\n        { name: \"Nexus\", radius: 400, speed: 0.0015, size: 35, color: \"#1b4231\", detail: \"#43e97b\" },\n        { name: \"Void\", radius: 550, speed: 0.001, size: 55, color: \"#42281b\", detail: \"#fa709a\" }\n    ]\n};\n\nconst canvas = document.getElementById(\"voidCanvas\");\nconst ctx = canvas.getContext(\"2d\");\nconst uiLayer = document.getElementById(\"ui-labels\");\nconst viewport = document.getElementById(\"viewport\");\n\nlet width, height;\nlet planetsData = [];\nconst mouse = { x: 0, y: 0 };\n\nfunction init() {\n    width = canvas.width = window.innerWidth;\n    height = canvas.height = window.innerHeight;\n    uiLayer.innerHTML = '';\n    \n    planetsData = CONFIG.planets.map(data => {\n        const el = document.createElement('div');\n        el.className = 'nav-tag';\n        el.innerHTML = `<span class=\"title\">${data.name}</span><span class=\"coord\">VECT_0${Math.floor(Math.random()*9)}</span>`;\n        uiLayer.appendChild(el);\n        \n        return { ...data, angle: (Math.random() - 0.5) * Math.PI, el, hover: 0 };\n    });\n}\n\ncanvas.addEventListener('mousedown', () => {\n    viewport.classList.add('warping');\n    setTimeout(() => viewport.classList.remove('warping'), CONFIG.warpDuration);\n});\n\nwindow.addEventListener(\"mousemove\", e => {\n    mouse.x = e.clientX;\n    mouse.y = e.clientY;\n});\n\nfunction drawSun() {\n    const sunX = 0, sunY = height / 2;\n    const g = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, CONFIG.sunRadius);\n    g.addColorStop(0, \"#ffffff\");\n    g.addColorStop(0.1, \"rgba(255, 255, 255, 0.8)\");\n    g.addColorStop(0.4, \"rgba(0, 255, 255, 0.1)\");\n    g.addColorStop(1, \"transparent\");\n    ctx.fillStyle = g;\n    ctx.beginPath();\n    ctx.arc(sunX, sunY, CONFIG.sunRadius, 0, Math.PI * 2);\n    ctx.fill();\n}\n\nfunction drawPlanet(p) {\n    p.angle += p.speed * (1 - p.hover * 0.7);\n    if (p.angle > Math.PI / 2) p.angle = -Math.PI / 2;\n\n    const x = Math.cos(p.angle) * p.radius;\n    const y = height / 2 + Math.sin(p.angle) * p.radius;\n\n    const dist = Math.hypot(mouse.x - x, mouse.y - y);\n    p.hover += (dist < p.size * CONFIG.mouseHoverRadius ? 1 - p.hover : 0 - p.hover) * 0.1;\n\n    ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 + p.hover * 0.1})`;\n    ctx.lineWidth = 1;\n    ctx.beginPath();\n    ctx.arc(0, height / 2, p.radius, -Math.PI / 2, Math.PI / 2);\n    ctx.stroke();\n\n    ctx.save();\n    ctx.translate(x, y);\n    \n    const grad = ctx.createRadialGradient(-p.size * 0.3, -p.size * 0.3, 0, 0, 0, p.size);\n    grad.addColorStop(0, \"#ffffff\");\n    grad.addColorStop(0.4, p.color);\n    grad.addColorStop(1, \"#000000\");\n\n    ctx.shadowBlur = 20 * p.hover;\n    ctx.shadowColor = p.detail;\n    ctx.fillStyle = grad;\n    ctx.beginPath();\n    ctx.arc(0, 0, p.size * (1 + p.hover * 0.1), 0, Math.PI * 2);\n    ctx.fill();\n\n    ctx.strokeStyle = `rgba(0, 255, 255, ${0.2 + p.hover * 0.3})`;\n    ctx.lineWidth = 1;\n    ctx.stroke();\n    ctx.restore();\n\n    p.el.style.opacity = p.hover > 0.1 ? 1 : 0;\n    p.el.style.left = `${x + 40}px`;\n    p.el.style.top = `${y}px`;\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, width, height);\n    \n    const sX = (mouse.x - width / 2) * CONFIG.parallaxSpeed;\n    const sY = (mouse.y - height / 2) * CONFIG.parallaxSpeed;\n    document.querySelector('.starfield-v2').style.transform = `translate(${sX}px, ${sY}px)`;\n    \n    drawSun();\n    planetsData.forEach(drawPlanet);\n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();\nwindow.addEventListener(\"resize\", init);"
         }
     },
     {
-        id: "neon-button",
-        title: "Cyberpunk Neon Glow Button Effect",
-        description: "Create a futuristic cyberpunk-style button with pulsating neon glow effects using pure CSS box-shadow and text-shadow. Perfect for gaming websites and modern dark-mode UIs. This effect utilizes CSS keyframes for smooth animation and hover states.",
-        tags: ["Neon", "Button", "Cyberpunk", "Glow", "CSS", "UI Component", "Animation", "Hover Effect", "Light", "Web Design", "Interactive", "Pulsating", "Electric"],
-        keywords: ["css neon button", "cyberpunk css", "glowing button", "css3 animation", "web design effects", "box-shadow glow"],
-        code: {
-            html: `<button class="neon-button">
-    HOVER ME
-</button>`,
-            css: `/* Define the custom font family in your project if needed */
-.neon-button {
-    font-size: 1.5rem;
-    padding: 1rem 3rem;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: 0.5s;
-    letter-spacing: 4px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px; /* Slightly rounded */
-    position: relative;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    box-shadow: 0 0 10px rgba(3, 233, 244, 0.2);
-    /* Neon accent */
-}
-
-/* Container for consistency */
-body {
-    background: #030014;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Tech Grid Background */
-body::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    pointer-events: none;
-    z-index: -1;
-}
-
-.neon-button:hover {
-    background: #03e9f4;
-    color: #050801;
-    box-shadow: 0 0 5px #03e9f4,
-                0 0 25px #03e9f4,
-                0 0 50px #03e9f4,
-                0 0 200px #03e9f4;
-     -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
-}`,
-            js: `// No JavaScript needed for this CSS-only effect!`
+        "id": "css-only-cyberpunk-neon-glow-button",
+        "title": "Pure CSS Cyberpunk Neon Glow Hover Button",
+        "description": "A pure CSS glowing button featuring a cyberpunk aesthetic. It includes a pulsating neon box-shadow, reflection effects, and glassmorphism styling on hover, perfect for futuristic web designs.",
+        "tags": [
+            "CSS Button", "Neon Effect", "Cyberpunk", "Glow Animation", "Hover Effect", 
+            "UI Component", "Futuristic", "Web Design", "Pure CSS", "Glassmorphism", 
+            "Reflection", "Glowing Text", "Interactive", "Web Element", "Button Design", 
+            "Frontend", "CSS3", "Modern UI", "Sci-Fi", "Dark Theme"
+        ],
+        "keywords": [
+            "pure css neon button", "cyberpunk glowing button", "css box shadow glow", 
+            "futuristic web button", "css reflection effect", "glowing hover animation", 
+            "neon light css", "cyberpunk ui elements", "glassmorphism button css", 
+            "animated glow button", "sci fi button design", "dark mode neon ui", 
+            "css only hover effects", "cyberpunk frontend design", "neon text button", 
+            "glowing border css", "modern css buttons", "interactive neon element", 
+            "neon sign css", "web ui glow effect"
+        ],
+        "code": {
+            "html": "<button class=\"neon-button\">\n    HOVER ME\n</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --neon-text-color: #ffffff;             /* Default text color */\n    --neon-glow-color: #03e9f4;             /* The neon glow color on hover */\n    --neon-hover-text: #050801;             /* Text color when hovered */\n    --neon-bg-color: rgba(255, 255, 255, 0.05); /* Idle background color (glassy) */\n    --neon-border-color: rgba(255, 255, 255, 0.1); /* Idle border color */\n    --neon-padding: 1rem 3rem;              /* Button padding */\n    --neon-font-size: 1.5rem;               /* Button text size */\n    --neon-border-radius: 8px;              /* Corner roundness */\n    --neon-transition-speed: 0.5s;          /* Speed of the hover transition */\n    --neon-letter-spacing: 4px;             /* Space between letters */\n}\n\n.neon-button {\n    font-size: var(--neon-font-size);\n    padding: var(--neon-padding);\n    color: var(--neon-text-color);\n    text-decoration: none;\n    text-transform: uppercase;\n    transition: var(--neon-transition-speed);\n    letter-spacing: var(--neon-letter-spacing);\n    overflow: hidden;\n    background: var(--neon-bg-color);\n    backdrop-filter: blur(10px);\n    border: 1px solid var(--neon-border-color);\n    border-radius: var(--neon-border-radius);\n    position: relative;\n    cursor: pointer;\n    font-family: 'Inter', sans-serif;\n    box-shadow: 0 0 10px rgba(3, 233, 244, 0.2);\n}\n\n.neon-button:hover {\n    background: var(--neon-glow-color);\n    color: var(--neon-hover-text);\n    box-shadow: \n        0 0 5px var(--neon-glow-color),\n        0 0 25px var(--neon-glow-color),\n        0 0 50px var(--neon-glow-color),\n        0 0 200px var(--neon-glow-color);\n    -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);\n}",
+            "js": ""
         }
     },
     {
-        id: "glass-morphism",
-        title: "Modern Glassmorphism Card UI",
-        description: "Implement the popular Glassmorphism design trend using CSS backdrop-filter: blur(). This card features a frosted glass look with semi-transparent background, subtle borders, and smooth noise texture, suitable for modern dashboard designs and overlay cards.",
-        tags: ["Glassmorphism", "Card", "UI", "CSS", "Frosted Glass", "Modern", "Transparency", "Blur", "Backdrop Filter", "Web Trend", "Overlay", "Visual Effect", "Clean"],
-        keywords: ["glassmorphism css", "backdrop-filter", "frosted glass effect", "ui design trend", "css card design", "transparency"],
-        code: {
-            html: `<div class="glass-container">
-    <div class="glass-card">
-        <h2>Glass Card</h2>
-        <p>This is a modern glassmorphism effect using backdrop-filter. It creates a frosted glass look.</p>
-        <button class="glass-btn">Read More</button>
-    </div>
-</div>`,
-            css: `.glass-container {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #030014; /* Deep space dark */
-    font-family: 'Inter', sans-serif;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Grid Background */
-.glass-container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    pointer-events: none;
-}
-
-/* Floating Orb for visual interest */
-.glass-container::after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(135deg, #ec4899, #8b5cf6);
-    filter: blur(80px);
-    border-radius: 50%;
-    z-index: 0;
-    opacity: 0.4;
-    animation: float 10s infinite ease-in-out;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, -50px); }
-}
-
-.glass-card {
-    background: rgba(255, 255, 255, 0.05); /* Lighter glass */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 40px;
-    border-radius: 20px;
-    color: white;
-    max-width: 350px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    z-index: 1;
-}
-
-.glass-card h2 {
-    margin-top: 0;
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, #fff, #aaa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.glass-card p {
-    font-weight: 400;
-    opacity: 0.7;
-    line-height: 1.6;
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-}
-
-.glass-btn {
-    padding: 12px 24px;
-    border: none;
-    background: linear-gradient(45deg, #ec4899, #8b5cf6);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-}
-
-.glass-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
-}`,
-            js: `// No JavaScript needed! pure CSS magic.`
+        "id": "frosted-glassmorphism-ui-card-component",
+        "title": "Frosted Glassmorphism UI Card Component",
+        "description": "A modern UI card component utilizing CSS backdrop-filter to create a realistic frosted glass effect. Features transparent backgrounds, subtle borders, and clean typography for contemporary web interfaces.",
+        "tags": [
+            "Glassmorphism", "UI Card", "Frosted Glass", "CSS", "Backdrop Filter", 
+            "Modern Design", "Transparency", "Web Component", "Clean UI", "Card Layout", 
+            "Frontend", "Overlay", "Blur Effect", "Minimalist", "User Interface", 
+            "Web Trend", "CSS3", "Glass Effect", "Card UI", "Styling"
+        ],
+        "keywords": [
+            "glassmorphism css card", "frosted glass effect css", "backdrop filter blur", 
+            "transparent ui card", "modern css card design", "glassmorphism UI component", 
+            "glass effect web design", "css backdrop filter overlay", "transparent card layout", 
+            "minimalist glass ui", "css frosted glass border", "web design trends glassmorphism", 
+            "clean ui card css", "floating glass card", "glassmorphism tutorial css", 
+            "transparent background card", "css glassmorphism generator", "ui ux card component", 
+            "frosted overlay css", "modern frontend card"
+        ],
+        "code": {
+            "html": "<div class=\"glass-card\">\n    <h2>Glass Card</h2>\n    <p>This is a modern glassmorphism effect using backdrop-filter. It creates a frosted glass look.</p>\n    <button class=\"glass-btn\">Read More</button>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --glass-bg: rgba(255, 255, 255, 0.05);         /* Card background color and opacity */\n    --glass-blur: 20px;                            /* Frost intensity (backdrop filter) */\n    --glass-border: rgba(255, 255, 255, 0.1);      /* Main border color */\n    --glass-border-highlight: rgba(255, 255, 255, 0.2); /* Top/Left border highlight */\n    --glass-padding: 40px;                         /* Inner spacing of the card */\n    --glass-radius: 20px;                          /* Card corner roundness */\n    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Card drop shadow */\n    --glass-text-color: #ffffff;                   /* Main text color */\n    \n    /* Button Controls */\n    --btn-grad-start: #ec4899;                     /* Button gradient start color */\n    --btn-grad-end: #8b5cf6;                       /* Button gradient end color */\n    --btn-shadow: rgba(236, 72, 153, 0.3);         /* Button drop shadow color */\n    --btn-shadow-hover: rgba(236, 72, 153, 0.5);   /* Button drop shadow on hover */\n}\n\n.glass-card {\n    background: var(--glass-bg);\n    backdrop-filter: blur(var(--glass-blur));\n    -webkit-backdrop-filter: blur(var(--glass-blur));\n    border: 1px solid var(--glass-border);\n    border-top: 1px solid var(--glass-border-highlight);\n    border-left: 1px solid var(--glass-border-highlight);\n    padding: var(--glass-padding);\n    border-radius: var(--glass-radius);\n    color: var(--glass-text-color);\n    max-width: 350px;\n    box-shadow: var(--glass-shadow);\n    font-family: 'Inter', sans-serif;\n}\n\n.glass-card h2 {\n    margin-top: 0;\n    font-weight: 700;\n    font-size: 1.5rem;\n    margin-bottom: 0.5rem;\n    background: linear-gradient(to right, #ffffff, #aaaaaa);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n\n.glass-card p {\n    font-weight: 400;\n    opacity: 0.7;\n    line-height: 1.6;\n    font-size: 0.95rem;\n    margin-bottom: 2rem;\n}\n\n.glass-btn {\n    padding: 12px 24px;\n    border: none;\n    background: linear-gradient(45deg, var(--btn-grad-start), var(--btn-grad-end));\n    color: #ffffff;\n    font-weight: 600;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.3s, box-shadow 0.3s;\n    box-shadow: 0 4px 15px var(--btn-shadow);\n}\n\n.glass-btn:hover {\n    transform: translateY(-2px);\n    box-shadow: 0 6px 20px var(--btn-shadow-hover);\n}",
+            "js": ""
         }
     },
     {
-        id: "magnetic-button",
-        title: "Magnetic Button Interaction",
-        description: "A highly interactive button that magnetically attracts to the user's cursor movement. This advanced JavaScript effect calculates mouse position relative to the element to create a fluid, organic feel. Ideal for call-to-action buttons that demand attention.",
-        tags: ["Magnetic", "Button", "Interaction", "Mouse Effect", "UI Component", "JavaScript", "Physics", "Attraction", "Cursor", "Web Interaction", "Fluid", "Organic"],
-        keywords: ["magnetic button", "javascript interaction", "mousemove effect", "interactive ui", "cursor effect", "gsap alternative"],
-        code: {
-            html: `<div class="container">
-    <button class="magnetic-btn">
-        <span class="text">Catch Me</span>
-    </button>
-</div>`,
-            css: `.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background: #030014; /* Deep space dark */
-    font-family: 'Inter', sans-serif;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Tech Grid Background */
-.container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    pointer-events: none;
-}
-
-.magnetic-btn {
-    padding: 25px 50px;
-    font-size: 18px;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.05); /* Glassy base */
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.1s ease; /* Smooth reset, JS handles active move */
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-/* Gradient text or glow */
-.magnetic-btn .text {
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* Magnetic Hover Gradient */
-.magnetic-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-    z-index: -1;
-    transition: opacity 0.3s;
-    opacity: 0;
-    border-radius: 50px;
-}
-
-.magnetic-btn:hover {
-    box-shadow: 
-        0 0 30px rgba(99, 102, 241, 0.4),
-        0 0 60px rgba(139, 92, 246, 0.2);
-    border-color: rgba(255,255,255,0.2);
-}
-
-.magnetic-btn:hover::before {
-    opacity: 1;
-}`,
-            js: `const btn = document.querySelector('.magnetic-btn');
-
-// Config
-const strength = 0.5; // How strong the magnet is
-
-btn.addEventListener('mousemove', (e) => {
-    const rect = btn.getBoundingClientRect();
-    
-    // Calculate distance from center
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    // Move button towards mouse
-    btn.style.transform = \`translate(\${x * strength}px, \${y * strength}px)\`;
-});
-
-btn.addEventListener('mouseleave', () => {
-    // Reset position
-    btn.style.transform = 'translate(0px, 0px)';
-});`
+        "id": "javascript-magnetic-cursor-hover-button",
+        "title": "Interactive Magnetic Cursor Hover Button",
+        "description": "A modern interactive button that magnetically attracts to the user's cursor. Uses vanilla JavaScript for fluid physics and CSS for a sleek gradient background transition on hover.",
+        "tags": [
+            "Magnetic Button", "Cursor Interaction", "JavaScript", "CSS Gradient", "Hover Effect", 
+            "Fluid Physics", "Interactive UI", "Mouse Tracking", "Animation", "Frontend", 
+            "Web Component", "UI Design", "Modern Button", "Vanilla JS", "Motion Design", 
+            "Attraction Effect", "Kinetic UI", "Smooth Transition", "Button Element", "UX Enhancement"
+        ],
+        "keywords": [
+            "javascript magnetic button", "cursor tracking button", "mouse hover attraction effect", 
+            "interactive ui button js", "fluid physics button", "magnetic cursor interaction", 
+            "smooth hover transition css", "gradient background button", "vanilla js mouse tracking", 
+            "kinetic ui components", "modern web button animation", "js mouse repulsion attraction", 
+            "magnetic link effect", "interactive frontend element", "css gradient hover", 
+            "javascript motion design button", "cursor follow button", "web ux interaction", 
+            "magnetic hover js", "custom animated button"
+        ],
+        "code": {
+            "html": "<button class=\"magnetic-btn\">\n    <span class=\"text\">Catch Me</span>\n</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --mag-btn-bg: rgba(255, 255, 255, 0.05);       /* Idle background color */\n    --mag-btn-text: #ffffff;                       /* Text color */\n    --mag-btn-border: rgba(255, 255, 255, 0.1);    /* Border color */\n    --mag-btn-border-hover: rgba(255, 255, 255, 0.2); /* Border color on hover */\n    --mag-btn-radius: 50px;                        /* Border radius */\n    --mag-btn-padding: 25px 50px;                  /* Button padding */\n    --mag-btn-font-size: 18px;                     /* Font size */\n    \n    /* Hover Gradient Colors */\n    --mag-grad-1: #6366f1;\n    --mag-grad-2: #8b5cf6;\n    --mag-grad-3: #ec4899;\n}\n\n.magnetic-btn {\n    padding: var(--mag-btn-padding);\n    font-size: var(--mag-btn-font-size);\n    font-weight: 600;\n    font-family: 'Inter', sans-serif;\n    background: var(--mag-btn-bg);\n    color: var(--mag-btn-text);\n    border: 1px solid var(--mag-btn-border);\n    border-radius: var(--mag-btn-radius);\n    cursor: pointer;\n    transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;\n    position: relative;\n    overflow: hidden;\n    z-index: 1;\n    backdrop-filter: blur(10px);\n    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);\n}\n\n.magnetic-btn .text {\n    position: relative;\n    z-index: 2;\n    pointer-events: none;\n}\n\n.magnetic-btn::before {\n    content: '';\n    position: absolute;\n    top: 0; left: 0; width: 100%; height: 100%;\n    background: linear-gradient(135deg, var(--mag-grad-1), var(--mag-grad-2), var(--mag-grad-3));\n    z-index: -1;\n    transition: opacity 0.3s ease;\n    opacity: 0;\n    border-radius: var(--mag-btn-radius);\n}\n\n.magnetic-btn:hover {\n    box-shadow: \n        0 0 30px rgba(99, 102, 241, 0.4),\n        0 0 60px rgba(139, 92, 246, 0.2);\n    border-color: var(--mag-btn-border-hover);\n}\n\n.magnetic-btn:hover::before {\n    opacity: 1;\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    strength: 0.5  // Adjust how strongly the button pulls towards the cursor (0.1 to 1.0 recommended)\n};\n\nconst btn = document.querySelector('.magnetic-btn');\n\nbtn.addEventListener('mousemove', (e) => {\n    const rect = btn.getBoundingClientRect();\n    \n    // Calculate the distance of the mouse from the center of the button\n    const x = e.clientX - rect.left - rect.width / 2;\n    const y = e.clientY - rect.top - rect.height / 2;\n    \n    // Apply CSS transform to pull the button\n    btn.style.transform = `translate(${x * CONFIG.strength}px, ${y * CONFIG.strength}px)`;\n});\n\nbtn.addEventListener('mouseleave', () => {\n    // Reset position smoothly when the cursor leaves\n    btn.style.transform = 'translate(0px, 0px)';\n});"
         }
     },
     {
-        id: "uncatchable-button",
-        title: "Uncatchable Button",
-        description: "A playful button that intelligently evades your cursor! It calculates the approach vector and moves in the opposite direction, ensuring it never leaves the screen area. Try to corner it if you can!",
-        tags: ["Uncatchable", "Button", "Game", "Interactive", "Prank", "Dodging", "JavaScript", "Fun", "Mouse Interaction", "Evasion", "Web Game", "Challenge", "Playful"],
-        keywords: ["uncatchable button", "dodging button", "javascript game", "interactive ui", "prank ui", "mouse interaction", "vector math"],
-        code: {
-            html: `<div class="game-container">
-    <button class="dodging-btn">Can't Touch This</button>
-</div>`,
-            css: `.game-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background: #030014; /* Deep space dark */
-    position: relative;
-    overflow: hidden;
-    font-family: 'Inter', sans-serif;
-}
-
-/* Optional grid background for tech feel */
-.game-container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    pointer-events: none;
-}
-
-.dodging-btn {
-    position: absolute;
-    padding: 16px 32px;
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 
-        0 0 20px rgba(168, 85, 247, 0.2),
-        inset 0 0 20px rgba(168, 85, 247, 0.1);
-    transition: all 0.05s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    z-index: 10;
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    overflow: hidden;
-}
-
-/* Gradient border effect */
-.dodging-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 1px; 
-    background: linear-gradient(45deg, #ec4899, #8b5cf6, #06b6d4);
-    -webkit-mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-}
-
-/* Hover glow */
-.dodging-btn:hover {
-    box-shadow: 
-        0 0 30px rgba(236, 72, 153, 0.4),
-        0 0 60px rgba(139, 92, 246, 0.2);
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.dodging-btn:active {
-    transform: scale(0.95);
-}`,
-            js: `const btn = document.querySelector('.dodging-btn');
-const container = document.querySelector('.game-container');
-
-// Configuration
-const padding = 250; // Detection radius
-const speed = 4.0; // Evasion speed
-
-let btnX = 0;
-let btnY = 0;
-
-// Initialize to center
-const init = () => {
-    const containerRect = container.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    btnX = (containerRect.width - btnRect.width) / 2;
-    btnY = (containerRect.height - btnRect.height) / 2;
-    updatePosition();
-};
-
-const updatePosition = () => {
-    btn.style.left = \`\${btnX}px\`;
-    btn.style.top = \`\${btnY}px\`;
-};
-
-container.addEventListener('mousemove', (e) => {
-    const containerRect = container.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    const maxX = containerRect.width - btnRect.width;
-    const maxY = containerRect.height - btnRect.height;
-
-    // Mouse position relative to container
-    const mouseX = e.clientX - containerRect.left;
-    const mouseY = e.clientY - containerRect.top;
-    
-    // Button center
-    const btnCenterX = btnX + btnRect.width / 2;
-    const btnCenterY = btnY + btnRect.height / 2;
-    
-    // Distance
-    const dx = mouseX - btnCenterX;
-    const dy = mouseY - btnCenterY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    if (distance < padding) {
-        // TELEPORT IF CORNERED
-        // If we are close to ANY wall (not just corners) and mouse is very close
-        const isNearWall = btnX <= 10 || btnX >= maxX - 10 || btnY <= 10 || btnY >= maxY - 10;
-        
-        if (isNearWall && distance < 100) {
-            // Teleport to a safer spot (opposite side of mouse)
-            // Or just random center area to be safe
-             btnX = Math.random() * (maxX * 0.6) + (maxX * 0.2);
-             btnY = Math.random() * (maxY * 0.6) + (maxY * 0.2);
-             updatePosition();
-             return; // Skip normal movement
-        }
-
-        // Standard Move
-        const moveX = -(dx / distance) * (padding - distance) * speed;
-        const moveY = -(dy / distance) * (padding - distance) * speed;
-        
-        let newX = btnX + moveX;
-        let newY = btnY + moveY;
-        
-        // Boundaries
-        newX = Math.min(Math.max(0, newX), maxX);
-        newY = Math.min(Math.max(0, newY), maxY);
-        
-        btnX = newX;
-        btnY = newY;
-        
-        updatePosition();
-    }
-});
-
-window.addEventListener('resize', init);
-setTimeout(init, 100);
-
-btn.addEventListener('click', () => {
-    alert("Impossible! You caught me! 🤯");
-});`
+        "id": "javascript-uncatchable-dodging-button-prank",
+        "title": "Interactive Uncatchable Dodging Button Prank",
+        "description": "A playful, interactive 'uncatchable' button built with JavaScript and CSS. It uses vector math and collision detection to intelligently evade the user's cursor, including teleportation when cornered. Perfect for 404 pages, Easter eggs, or interactive web pranks.",
+        "tags": [
+            "Uncatchable Button", "Dodging Button", "JavaScript Game", "Interactive UI", 
+            "Prank Element", "Mouse Tracking", "Evasion Physics", "Web Animation", 
+            "Easter Egg", "CSS Transition", "Collision Avoidance", "Playful Design", 
+            "Frontend Trick", "Vector Math JS", "Button Component", "User Interaction", 
+            "Creative Web", "UI Challenge", "Fun UI", "Dynamic Positioning"
+        ],
+        "keywords": [
+            "javascript uncatchable button", "dodging button css code", "interactive prank button", 
+            "mouse evasion javascript", "cursor avoiding button", "web prank code snippet", 
+            "smart dodging element js", "teleporting button javascript", "creative 404 page ideas", 
+            "easter egg ui components", "interactive frontend challenge", "vector math cursor tracking", 
+            "button that runs away", "impossible to click button", "fun ui interactions", 
+            "javascript collision avoidance", "dynamic button positioning", "playful web design elements", 
+            "css gradient border button", "mouse repel effect"
+        ],
+        "code": {
+            "html": "<button class=\"dodging-btn\" id=\"catchMeBtn\">Can't Touch This</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --dodge-btn-bg: rgba(255, 255, 255, 0.05);       /* Button background color */\n    --dodge-btn-text: #ffffff;                       /* Button text color */\n    --dodge-btn-shadow: rgba(168, 85, 247, 0.2);     /* Default glow color */\n    --dodge-btn-hover-shadow1: rgba(236, 72, 153, 0.4); /* Hover glow color 1 */\n    --dodge-btn-hover-shadow2: rgba(139, 92, 246, 0.2); /* Hover glow color 2 */\n    \n    /* Gradient Border Colors */\n    --dodge-border-color1: #ec4899;\n    --dodge-border-color2: #8b5cf6;\n    --dodge-border-color3: #06b6d4;\n    \n    --dodge-transition-speed: 0.05s;                 /* Speed of the movement transition */\n}\n\nbody {\n    /* Needed for the absolute positioning of the button to work correctly within the preview */\n    position: relative;\n    width: 100vw;\n    height: 100vh;\n    margin: 0;\n    overflow: hidden;\n}\n\n.dodging-btn {\n    position: absolute;\n    padding: 16px 32px;\n    font-size: 18px;\n    font-weight: 600;\n    font-family: 'Inter', sans-serif;\n    color: var(--dodge-btn-text);\n    background: var(--dodge-btn-bg);\n    backdrop-filter: blur(10px);\n    border: 1px solid rgba(255, 255, 255, 0.1);\n    border-radius: 12px;\n    cursor: pointer;\n    box-shadow: \n        0 0 20px var(--dodge-btn-shadow),\n        inset 0 0 20px rgba(168, 85, 247, 0.1);\n    transition: all var(--dodge-transition-speed) cubic-bezier(0.4, 0, 0.2, 1);\n    user-select: none;\n    z-index: 10;\n    white-space: nowrap;\n    text-transform: uppercase;\n    letter-spacing: 1px;\n    overflow: hidden;\n}\n\n.dodging-btn::before {\n    content: '';\n    position: absolute;\n    inset: 0;\n    border-radius: 12px;\n    padding: 1px; \n    background: linear-gradient(45deg, var(--dodge-border-color1), var(--dodge-border-color2), var(--dodge-border-color3));\n    -webkit-mask: \n       linear-gradient(#fff 0 0) content-box, \n       linear-gradient(#fff 0 0);\n    -webkit-mask-composite: xor;\n    mask-composite: exclude;\n    pointer-events: none;\n}\n\n.dodging-btn:hover {\n    box-shadow: \n        0 0 30px var(--dodge-btn-hover-shadow1),\n        0 0 60px var(--dodge-btn-hover-shadow2);\n    transform: scale(1.05);\n    background: rgba(255, 255, 255, 0.1);\n}\n\n.dodging-btn:active {\n    transform: scale(0.95);\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    detectionRadius: 250,  // How close the mouse needs to be before the button moves (in pixels)\n    evasionSpeed: 4.0,     // Multiplier for how fast it runs away\n    cornerThreshold: 10,   // Distance from the edge of the screen to trigger teleport (in pixels)\n    teleportDistance: 100  // If mouse is within this distance while cornered, it teleports\n};\n\nconst btn = document.getElementById('catchMeBtn');\nconst container = document.body; // Using body as the bounding container\n\nlet btnX = 0;\nlet btnY = 0;\n\nconst init = () => {\n    const containerRect = container.getBoundingClientRect();\n    const btnRect = btn.getBoundingClientRect();\n    // Start in the center\n    btnX = (containerRect.width - btnRect.width) / 2;\n    btnY = (containerRect.height - btnRect.height) / 2;\n    updatePosition();\n};\n\nconst updatePosition = () => {\n    btn.style.left = `${btnX}px`;\n    btn.style.top = `${btnY}px`;\n};\n\ncontainer.addEventListener('mousemove', (e) => {\n    const containerRect = container.getBoundingClientRect();\n    const btnRect = btn.getBoundingClientRect();\n    const maxX = containerRect.width - btnRect.width;\n    const maxY = containerRect.height - btnRect.height;\n\n    const mouseX = e.clientX - containerRect.left;\n    const mouseY = e.clientY - containerRect.top;\n    \n    const btnCenterX = btnX + btnRect.width / 2;\n    const btnCenterY = btnY + btnRect.height / 2;\n    \n    const dx = mouseX - btnCenterX;\n    const dy = mouseY - btnCenterY;\n    const distance = Math.sqrt(dx * dx + dy * dy);\n    \n    if (distance < CONFIG.detectionRadius) {\n        // Teleport logic if cornered\n        const isNearWall = btnX <= CONFIG.cornerThreshold || btnX >= maxX - CONFIG.cornerThreshold || btnY <= CONFIG.cornerThreshold || btnY >= maxY - CONFIG.cornerThreshold;\n        \n        if (isNearWall && distance < CONFIG.teleportDistance) {\n             // Teleport to a random area away from the edges\n             btnX = Math.random() * (maxX * 0.6) + (maxX * 0.2);\n             btnY = Math.random() * (maxY * 0.6) + (maxY * 0.2);\n             updatePosition();\n             return; \n        }\n\n        // Standard evasion movement\n        const moveX = -(dx / distance) * (CONFIG.detectionRadius - distance) * CONFIG.evasionSpeed;\n        const moveY = -(dy / distance) * (CONFIG.detectionRadius - distance) * CONFIG.evasionSpeed;\n        \n        let newX = btnX + moveX;\n        let newY = btnY + moveY;\n        \n        // Keep within bounds\n        newX = Math.min(Math.max(0, newX), maxX);\n        newY = Math.min(Math.max(0, newY), maxY);\n        \n        btnX = newX;\n        btnY = newY;\n        \n        updatePosition();\n    }\n});\n\nwindow.addEventListener('resize', init);\nsetTimeout(init, 100);\n\nbtn.addEventListener('click', () => {\n    alert(\"Impossible! You caught me! 🤯\");\n});"
         }
     },
     {
-        id: "neon-typewriter",
-        title: "Glow-Flow Typewriter",
-        description: "A high-end text rotation effect with a rhythmic blinking cursor. Features a multi-layered text-shadow for a neon 'bloom' effect that matches modern dark-mode aesthetics.",
-        tags: ["Typewriter", "Neon", "Text", "Glow", "Animation", "Modern", "UI", "Effect", "Typing", "Retro", "Cyber", "Input", "Dynamic"],
-        keywords: ["typewriter", "neon text", "blinking cursor", "modern ui"],
-        code: {
-            html: `<div class="tw-wrapper">
-    <h1 class="tw-title">
-        Always <span id="tw-target" class="tw-accent"></span><span class="tw-cursor">_</span>
-    </h1>
-</div>`,
-            css: `/* Update your Typewriter Effect CSS to this */
-.tw-wrapper {
-    /* Ensure the container is always full-width/height of the iframe */
-    width: 100%;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    
-    /* Centralize content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    /* This forces the background color to fill the entire preview area */
-    background-color: #030014; 
-    overflow: hidden;
-    position: relative;
-}
-
-.tw-title {
-    color: #fff;
-    font-size: 3.5rem;
-    font-weight: 800;
-    text-align: center;
-    white-space: nowrap;
-    /* Use flex here to keep "Always", the text, and cursor in one line */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.2em; /* This controls the gap between "Always" and your changing text */
-}
-
-.tw-accent {
-    /* Remove the large min-width that was pushing the cursor away */
-    display: inline-block;
-    min-width: 20px; 
-    text-align: left;
-    background: linear-gradient(to right, #f472b6, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.tw-cursor {
-    color: #f472b6;
-    /* Use margin-left to pull it slightly closer to the text if needed */
-    margin-left: -0.1em; 
-    font-weight: 200;
-    animation: blink 0.8s step-end infinite;
-}
-@keyframes blink {
-    from, to { opacity: 1; }
-    50% { opacity: 0; }
-}`,
-            js: `const target = document.getElementById('tw-target');
-const words = ["Evolving", "Coding", "Scaling", "Refining"];
-let wordIdx = 0, charIdx = 0, deleting = false;
-
-function play() {
-    const word = words[wordIdx];
-    target.innerText = word.substring(0, charIdx + (deleting ? -1 : 1));
-    charIdx += deleting ? -1 : 1;
-
-    let speed = deleting ? 100 : 200;
-    if (!deleting && charIdx === word.length) {
-        deleting = true;
-        speed = 2000;
-    } else if (deleting && charIdx === 0) {
-        deleting = false;
-        wordIdx = (wordIdx + 1) % words.length;
-        speed = 500;
-    }
-    setTimeout(play, speed);
-}
-play();`
+        "id": "animated-neon-typewriter-text-effect",
+        "title": "Animated Glowing Neon Typewriter Text Effect",
+        "description": "A dynamic typewriter text effect built with JavaScript and CSS. It cycles through an array of words with a typing and deleting animation, accompanied by a blinking neon cursor and gradient text highlighting. Perfect for modern hero sections.",
+        "tags": [
+            "Typewriter Effect", "Neon Text", "Text Animation", "JavaScript Typing", 
+            "Blinking Cursor", "Hero Section", "Gradient Text", "Dynamic UI", 
+            "Modern Typography", "Web Animation", "Frontend Design", "CSS Transitions", 
+            "Interactive Text", "Landing Page", "Creative Coding", "Text Rotation", 
+            "Glow Effect", "UI Component", "Cyberpunk Text", "Web Element"
+        ],
+        "keywords": [
+            "javascript typewriter effect", "animated typing text code", "neon glowing text css", 
+            "blinking cursor animation", "dynamic text rotation js", "gradient text effect", 
+            "landing page typography animation", "modern hero section text", "css text glow", 
+            "auto typing text javascript", "delete and type text effect", "cyberpunk typography", 
+            "interactive web text", "custom javascript text animation", "frontend typing effect", 
+            "css gradient text clip", "typewriter loop javascript", "animated subheading text", 
+            "neon cursor css", "creative web typography"
+        ],
+        "code": {
+            "html": "<h1 class=\"tw-title\">\n    Always <span id=\"tw-target\" class=\"tw-accent\"></span><span class=\"tw-cursor\">_</span>\n</h1>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --tw-base-color: #ffffff;        /* Color of the static text ('Always') */\n    --tw-font-size: 3.5rem;          /* Overall font size */\n    --tw-font-weight: 800;           /* Font weight */\n    \n    /* Gradient colors for the typing text */\n    --tw-grad-start: #f472b6; \n    --tw-grad-end: #a855f7;\n    \n    --tw-cursor-color: #f472b6;      /* Color of the blinking cursor */\n    --tw-cursor-blink-speed: 0.8s;   /* Speed of the cursor blink */\n}\n\n.tw-title {\n    color: var(--tw-base-color);\n    font-size: var(--tw-font-size);\n    font-weight: var(--tw-font-weight);\n    font-family: 'Inter', sans-serif;\n    text-align: center;\n    white-space: nowrap;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.2em; /* Gap between static text and changing text */\n    margin: 0;\n}\n\n.tw-accent {\n    display: inline-block;\n    min-width: 20px; \n    text-align: left;\n    background: linear-gradient(to right, var(--tw-grad-start), var(--tw-grad-end));\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n\n.tw-cursor {\n    color: var(--tw-cursor-color);\n    margin-left: -0.1em; \n    font-weight: 200;\n    animation: blink var(--tw-cursor-blink-speed) step-end infinite;\n}\n\n@keyframes blink {\n    from, to { opacity: 1; }\n    50% { opacity: 0; }\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    words: [\"Evolving\", \"Coding\", \"Scaling\", \"Refining\"], // Array of words to cycle through\n    typingSpeed: 200,      // Delay in ms between typing each character\n    deletingSpeed: 100,    // Delay in ms between deleting each character\n    pauseBeforeDelete: 2000, // How long to wait before deleting the completed word\n    pauseBeforeNext: 500   // How long to wait before typing the next word\n};\n\nconst target = document.getElementById('tw-target');\nlet wordIdx = 0, charIdx = 0, deleting = false;\n\nfunction play() {\n    const word = CONFIG.words[wordIdx];\n    target.innerText = word.substring(0, charIdx + (deleting ? -1 : 1));\n    charIdx += deleting ? -1 : 1;\n\n    let speed = deleting ? CONFIG.deletingSpeed : CONFIG.typingSpeed;\n    \n    if (!deleting && charIdx === word.length) {\n        deleting = true;\n        speed = CONFIG.pauseBeforeDelete;\n    } else if (deleting && charIdx === 0) {\n        deleting = false;\n        wordIdx = (wordIdx + 1) % CONFIG.words.length;\n        speed = CONFIG.pauseBeforeNext;\n    }\n    setTimeout(play, speed);\n}\n\nplay();"
         }
     },
     {
-        id: "magnetic-social-icons",
-        title: "Gravity-Flex Social Dock",
-        description: "A liquid-interaction social bar where icons exhibit gravitational pull. Icons are wrapped in anchor tags, making it a fully functional navigation component for your portfolio or landing page.",
-        tags: ["Social Icons", "Magnetic", "Dock", "Navigation", "Links", "Interactive", "JavaScript", "UI Component", "Floating", "Web Dock", "Menu", "Physics", "Icons"],
-        keywords: ["magnetic icons", "social media links", "navigation dock", "javascript interaction", "vector math"],
-        code: {
-            html: `<div class="social-dock">
-    <a href="/" target="_blank" class="magnetic-item" data-platform="github" title="GitHub">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-        </div>
-    </a>
-    <a href="/" target="_blank" class="magnetic-item" data-platform="youtube" title="YouTube">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-        </div>
-    </a>
-    <a href="/" target="_blank" class="magnetic-item" data-platform="instagram" title="Instagram">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-        </div>
-    </a>
-    <a href="/" target="_blank" class="magnetic-item" data-platform="twitter" title="X (Twitter)">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
-        </div>
-    </a>
-    <a href="/" target="_blank" class="magnetic-item" data-platform="linkedin" title="LinkedIn">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-        </div>
-    </a>
-</div>`,
-            css: `/* (Keeping the same CSS as before) */
-body {
-    background: #030014;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.social-dock {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 100px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-
-.magnetic-item {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none; /* Important for links */
-    cursor: pointer;
-    position: relative;
-}
-
-.icon-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #64748b;
-    transition: color 0.3s ease, transform 0.15s ease-out;
-}
-
-.icon-wrapper svg {
-    width: 22px;
-    height: 22px;
-}
-
-.magnetic-item[data-platform="github"]:hover .icon-wrapper { color: #fff; filter: drop-shadow(0 0 8px #fff); }
-.magnetic-item[data-platform="youtube"]:hover .icon-wrapper { color: #ff0000; filter: drop-shadow(0 0 8px #ff0000); }
-.magnetic-item[data-platform="instagram"]:hover .icon-wrapper { color: #f472b6; filter: drop-shadow(0 0 8px #f472b6); }
-.magnetic-item[data-platform="twitter"]:hover .icon-wrapper { color: #38bdf8; filter: drop-shadow(0 0 8px #38bdf8); }
-.magnetic-item[data-platform="linkedin"]:hover .icon-wrapper { color: #60a5fa; filter: drop-shadow(0 0 8px #60a5fa); }`,
-            js: `const items = document.querySelectorAll('.magnetic-item');
-
-items.forEach(item => {
-    const wrapper = item.querySelector('.icon-wrapper');
-    
-    item.addEventListener('mousemove', (e) => {
-        const rect = item.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const dx = e.clientX - centerX;
-        const dy = e.clientY - centerY;
-        
-        wrapper.style.transform = \`translate(\${dx * 0.4}px, \${dy * 0.4}px) scale(1.2)\`;
-    });
-    
-    item.addEventListener('mouseleave', () => {
-        wrapper.style.transform = 'translate(0px, 0px) scale(1)';
-    });
-});`
+        "id": "interactive-magnetic-social-media-dock-menu",
+        "title": "Interactive Magnetic Social Media Dock Menu",
+        "description": "A stylish, floating social media navigation dock inspired by macOS. Features glassmorphism styling and a fluid magnetic interaction where individual icons attract and scale towards the user's cursor.",
+        "tags": [
+            "Social Media Menu", "Magnetic Hover", "Navigation Dock", "Glassmorphism", 
+            "Interactive Icons", "JavaScript Animation", "UI Component", "Floating Menu", 
+            "macOS Style", "Mouse Tracking", "Frontend Design", "Web Dock", 
+            "SVG Icons", "Cursor Attraction", "Fluid UI", "Modern Navigation", 
+            "CSS Blur", "Creative Coding", "User Interface", "Web Elements"
+        ],
+        "keywords": [
+            "magnetic social icons", "macOS style dock menu", "javascript floating navigation", 
+            "glassmorphism social menu", "cursor tracking icons", "interactive social media links", 
+            "fluid hover effect icons", "custom svg social dock", "web design magnetic hover", 
+            "frontend navigation dock", "css backdrop filter menu", "interactive ui components", 
+            "animated social media bar", "javascript mouse attraction", "modern web footer icons", 
+            "floating action button dock", "creative social links", "svg icon hover animation", 
+            "magnetic menu javascript", "ui dock interaction"
+        ],
+        "code": {
+            "html": "<div class=\"social-dock\">\n    <a href=\"#\" class=\"magnetic-item\" data-platform=\"github\" aria-label=\"GitHub\">\n        <div class=\"icon-wrapper\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg>\n        </div>\n    </a>\n    <a href=\"#\" class=\"magnetic-item\" data-platform=\"youtube\" aria-label=\"YouTube\">\n        <div class=\"icon-wrapper\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z\"></path><polygon points=\"9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02\"></polygon></svg>\n        </div>\n    </a>\n    <a href=\"#\" class=\"magnetic-item\" data-platform=\"instagram\" aria-label=\"Instagram\">\n        <div class=\"icon-wrapper\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"20\" height=\"20\" x=\"2\" y=\"2\" rx=\"5\" ry=\"5\"></rect><path d=\"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z\"></path><line x1=\"17.5\" x2=\"17.51\" y1=\"6.5\" y2=\"6.5\"></line></svg>\n        </div>\n    </a>\n    <a href=\"#\" class=\"magnetic-item\" data-platform=\"twitter\" aria-label=\"Twitter\">\n        <div class=\"icon-wrapper\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z\"></path></svg>\n        </div>\n    </a>\n    <a href=\"#\" class=\"magnetic-item\" data-platform=\"linkedin\" aria-label=\"LinkedIn\">\n        <div class=\"icon-wrapper\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z\"></path><rect width=\"4\" height=\"12\" x=\"2\" y=\"9\"></rect><circle cx=\"4\" cy=\"4\" r=\"2\"></circle></svg>\n        </div>\n    </a>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --dock-bg: rgba(255, 255, 255, 0.02);        /* Dock background color */\n    --dock-blur: 12px;                           /* Dock frost intensity */\n    --dock-border: rgba(255, 255, 255, 0.08);    /* Dock border color */\n    --dock-shadow: 0 20px 50px rgba(0,0,0,0.3);  /* Dock drop shadow */\n    --dock-padding: 1rem 2rem;                   /* Dock inner padding */\n    --dock-gap: 1.5rem;                          /* Space between icons */\n    --icon-size: 60px;                           /* Hitbox size for each icon */\n    --icon-default-color: #64748b;               /* Default SVG color */\n    \n    /* Brand Colors for Hover states */\n    --brand-github: #ffffff;\n    --brand-youtube: #ff0000;\n    --brand-instagram: #f472b6;\n    --brand-twitter: #38bdf8;\n    --brand-linkedin: #60a5fa;\n}\n\n.social-dock {\n    display: inline-flex;\n    gap: var(--dock-gap);\n    padding: var(--dock-padding);\n    background: var(--dock-bg);\n    backdrop-filter: blur(var(--dock-blur));\n    border: 1px solid var(--dock-border);\n    border-radius: 100px;\n    box-shadow: var(--dock-shadow);\n}\n\n.magnetic-item {\n    width: var(--icon-size);\n    height: var(--icon-size);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    text-decoration: none;\n    cursor: pointer;\n    position: relative;\n}\n\n.icon-wrapper {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    color: var(--icon-default-color);\n    /* Transition handles the color change and the smooth return when mouse leaves */\n    transition: color 0.3s ease, transform 0.15s ease-out;\n}\n\n.icon-wrapper svg {\n    width: 22px;\n    height: 22px;\n}\n\n/* Brand specific hover effects */\n.magnetic-item[data-platform=\"github\"]:hover .icon-wrapper { color: var(--brand-github); filter: drop-shadow(0 0 8px var(--brand-github)); }\n.magnetic-item[data-platform=\"youtube\"]:hover .icon-wrapper { color: var(--brand-youtube); filter: drop-shadow(0 0 8px var(--brand-youtube)); }\n.magnetic-item[data-platform=\"instagram\"]:hover .icon-wrapper { color: var(--brand-instagram); filter: drop-shadow(0 0 8px var(--brand-instagram)); }\n.magnetic-item[data-platform=\"twitter\"]:hover .icon-wrapper { color: var(--brand-twitter); filter: drop-shadow(0 0 8px var(--brand-twitter)); }\n.magnetic-item[data-platform=\"linkedin\"]:hover .icon-wrapper { color: var(--brand-linkedin); filter: drop-shadow(0 0 8px var(--brand-linkedin)); }",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    magneticPull: 0.4, // Strength of the magnetic effect (0.1 to 1.0)\n    hoverScale: 1.2    // How much the icon scales up when hovered\n};\n\nconst items = document.querySelectorAll('.magnetic-item');\n\nitems.forEach(item => {\n    const wrapper = item.querySelector('.icon-wrapper');\n    \n    item.addEventListener('mousemove', (e) => {\n        const rect = item.getBoundingClientRect();\n        const centerX = rect.left + rect.width / 2;\n        const centerY = rect.top + rect.height / 2;\n        \n        const dx = e.clientX - centerX;\n        const dy = e.clientY - centerY;\n        \n        // Move the wrapper towards the mouse and scale it up\n        wrapper.style.transform = `translate(${dx * CONFIG.magneticPull}px, ${dy * CONFIG.magneticPull}px) scale(${CONFIG.hoverScale})`;\n    });\n    \n    item.addEventListener('mouseleave', () => {\n        // Reset position and scale when mouse leaves the bounding box\n        wrapper.style.transform = 'translate(0px, 0px) scale(1)';\n    });\n});"
         }
     },
     {
-        id: "3d-confetti-burst",
-        title: "Cosmic Burst 3D Confetti",
-        description: "A high-performance, canvas-based 3D confetti system. Particles feature realistic gravity, wind resistance, and 3D flip-rotation. Designed with a non-blocking pointer layer to work seamlessly over existing UI.",
-        tags: ["Confetti", "3D", "Celebration", "Burst", "Particles", "Canvas", "Animation", "Physics", "Button Trigger", "Party", "Effect", "Visuals", "Explosion"],
-        keywords: ["3d confetti", "canvas animation", "physics particles", "react compatible", "ui interaction"],
-        code: {
-            html: `<div class="confetti-wrapper">
-    <canvas id="confettiCanvas"></canvas>
-    <div class="ui-content">
-        <h1>Celebration Ready</h1>
-        <p>Click the button below to trigger the burst.</p>
-        <button id="triggerBtn">Blast Confetti</button>
-    </div>
-</div>`,
-            css: `.confetti-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #030014;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-#confettiCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    /* The Magic: This allows clicks to pass through to the buttons below */
-    pointer-events: none; 
-    z-index: 50;
-}
-
-.ui-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    color: white;
-    font-family: 'Inter', sans-serif;
-}
-
-#triggerBtn {
-    padding: 12px 28px;
-    background: linear-gradient(45deg, #ec4899, #8b5cf6);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3);
-    transition: transform 0.2s;
-}
-
-#triggerBtn:active { transform: scale(0.95); }`,
-            js: `const canvas = document.getElementById('confettiCanvas');
-const ctx = canvas.getContext('2d');
-const btn = document.getElementById('triggerBtn');
-
-let particles = [];
-const colors = ['#ec4899', '#8b5cf6', '#06b6d4', '#fbbf24', '#ffffff'];
-
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-window.addEventListener('resize', resize);
-resize();
-
-class Particle {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 8 + 4;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        
-        // 3D Velocity
-        this.vx = (Math.random() - 0.5) * 20;
-        this.vy = (Math.random() - 1) * 20;
-        
-        // 3D Rotation physics
-        this.rotation = Math.random() * 360;
-        this.rSpeed = (Math.random() - 0.5) * 0.2;
-        this.wobble = Math.random() * 10;
-        this.gravity = 0.5;
-    }
-
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vy += this.gravity;
-        this.vx *= 0.99; // Air resistance
-        this.rotation += this.rSpeed;
-    }
-
-    draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        
-        // Simulate 3D flip by scaling width based on wobble/rotation
-        const scaleX = Math.cos(this.rotation + this.wobble);
-        ctx.scale(scaleX, 1);
-        
-        ctx.fillStyle = this.color;
-        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
-        ctx.restore();
-    }
-}
-
-function burst() {
-    for(let i=0; i<100; i++) {
-        particles.push(new Particle(canvas.width/2, canvas.height/2));
-    }
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles = particles.filter(p => p.y < canvas.height + 100);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    requestAnimationFrame(animate);
-}
-
-btn.addEventListener('click', burst);
-animate();`
+        "id": "javascript-3d-confetti-burst-animation",
+        "title": "Interactive 3D Confetti Burst Animation",
+        "description": "A high-performance, physics-based 3D confetti explosion triggered by a user interaction. Built with HTML5 Canvas and JavaScript, it features realistic gravity, wind resistance, and 3D rotational wobble to create engaging celebratory UI events and success states.",
+        "tags": [
+            "Confetti", "3D Animation", "HTML5 Canvas", "JavaScript", "Celebration", 
+            "Particle System", "Physics Engine", "Interactive UI", "Button Trigger", "Web Animation", 
+            "Explosion Effect", "UI Feedback", "Frontend Design", "Creative Coding", "Microinteraction", 
+            "Visual Effects", "Web Design", "Success State", "Motion Graphics", "Dynamic UI"
+        ],
+        "keywords": [
+            "3d confetti animation", "javascript confetti burst", "canvas particle explosion", 
+            "celebration effect web", "success state animation", "interactive ui feedback", 
+            "physics based confetti", "html5 canvas particles", "button click confetti", 
+            "web animation confetti", "js particle system", "frontend celebration effect", 
+            "custom confetti code", "ui microinteractions", "3d rotation physics js", 
+            "canvas gravity simulation", "react compatible confetti", "confetti explosion css js", 
+            "web design success effect", "animated particle burst"
+        ],
+        "code": {
+            "html": "<div class=\"confetti-wrapper\">\n    <canvas id=\"confettiCanvas\"></canvas>\n    <div class=\"ui-content\">\n        <h1>Celebration Ready</h1>\n        <p>Click the button below to trigger the burst.</p>\n        <button id=\"triggerBtn\">Blast Confetti</button>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --confetti-btn-bg: linear-gradient(45deg, #ec4899, #8b5cf6); /* Button background */\n    --confetti-btn-shadow: rgba(236, 72, 153, 0.3);              /* Button drop shadow */\n    --confetti-btn-text: #ffffff;                                /* Button text color */\n    --confetti-overlay-text: #ffffff;                            /* Heading and paragraph text color */\n    --confetti-font-family: 'Inter', sans-serif;                 /* Main typography */\n}\n\n.confetti-wrapper {\n    position: relative;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n}\n\n#confettiCanvas {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    /* Allows clicks to pass through the canvas to the button below */\n    pointer-events: none; \n    z-index: 50;\n}\n\n.ui-content {\n    position: relative;\n    z-index: 10;\n    text-align: center;\n    color: var(--confetti-overlay-text);\n    font-family: var(--confetti-font-family);\n}\n\n#triggerBtn {\n    padding: 12px 28px;\n    background: var(--confetti-btn-bg);\n    border: none;\n    border-radius: 8px;\n    color: var(--confetti-btn-text);\n    font-weight: 600;\n    cursor: pointer;\n    box-shadow: 0 10px 20px var(--confetti-btn-shadow);\n    transition: transform 0.2s;\n}\n\n#triggerBtn:active {\n    transform: scale(0.95);\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    particleCount: 100,                                             // Number of confetti pieces per burst\n    colors: ['#ec4899', '#8b5cf6', '#06b6d4', '#fbbf24', '#ffffff'],// Array of confetti colors\n    gravity: 0.5,                                                   // Downward pull\n    airResistance: 0.99,                                            // Horizontal slow-down (1 = no resistance)\n    minSize: 4,                                                     // Minimum particle size\n    maxSize: 12,                                                    // Maximum particle size\n    explosionPower: 20                                              // Initial burst velocity multiplier\n};\n\nconst canvas = document.getElementById('confettiCanvas');\nconst ctx = canvas.getContext('2d');\nconst btn = document.getElementById('triggerBtn');\n\nlet particles = [];\n\nfunction resize() {\n    // Binds to the parent wrapper size for reusability\n    canvas.width = canvas.parentElement.clientWidth;\n    canvas.height = canvas.parentElement.clientHeight;\n}\n\nwindow.addEventListener('resize', resize);\nresize();\n\nclass Particle {\n    constructor(x, y) {\n        this.x = x;\n        this.y = y;\n        this.size = Math.random() * (CONFIG.maxSize - CONFIG.minSize) + CONFIG.minSize;\n        this.color = CONFIG.colors[Math.floor(Math.random() * CONFIG.colors.length)];\n        \n        this.vx = (Math.random() - 0.5) * CONFIG.explosionPower;\n        this.vy = (Math.random() - 1) * CONFIG.explosionPower;\n        \n        this.rotation = Math.random() * 360;\n        this.rSpeed = (Math.random() - 0.5) * 0.2;\n        this.wobble = Math.random() * 10;\n    }\n\n    update() {\n        this.x += this.vx;\n        this.y += this.vy;\n        this.vy += CONFIG.gravity;\n        this.vx *= CONFIG.airResistance;\n        this.rotation += this.rSpeed;\n    }\n\n    draw() {\n        ctx.save();\n        ctx.translate(this.x, this.y);\n        ctx.rotate(this.rotation);\n        \n        const scaleX = Math.cos(this.rotation + this.wobble);\n        ctx.scale(scaleX, 1);\n        \n        ctx.fillStyle = this.color;\n        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);\n        ctx.restore();\n    }\n}\n\nfunction burst() {\n    for(let i = 0; i < CONFIG.particleCount; i++) {\n        particles.push(new Particle(canvas.width / 2, canvas.height / 2));\n    }\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    // Filter out particles that have fallen off-screen to save memory\n    particles = particles.filter(p => p.y < canvas.height + 100);\n    particles.forEach(p => {\n        p.update();\n        p.draw();\n    });\n    requestAnimationFrame(animate);\n}\n\nbtn.addEventListener('click', burst);\nanimate();"
         }
     },
     {
-        id: "gravity-mesh-dots",
-        title: "Gravity Mesh 3D Dots",
-        description: "A procedurally generated 3D coordinate system that deforms based on cursor proximity. Features a hybrid line-and-dot architecture with spring-physics relaxation for a liquid-smooth spatial effect.",
-        tags: ["Gravity", "Mesh", "Dots", "3D", "Grid", "Procedural", "Canvas", "Physics", "Interactive", "Space", "Points", "Field", "Simulation", "Web Effect"],
-        keywords: ["3D grid", "gravity pull", "procedural background", "canvas physics", "futuristic UI"],
-        code: {
-            html: `<div class="canvas-container">
-    <canvas id="gravityGrid"></canvas>
-    <div class="overlay-content">
-        <h1>NEURAL SPACE</h1>
-        <p>Interactive Gravity Field Active</p>
-    </div>
-</div>`,
-            css: `.canvas-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #030014;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#gravityGrid {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Allows interaction with UI below */
-}
-
-.overlay-content {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    pointer-events: auto; /* Buttons here will still work */
-}
-
-h1 {
-    font-size: 4rem;
-    font-weight: 900;
-    letter-spacing: 10px;
-    background: linear-gradient(to right, #fff, #444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}`,
-            js: `const canvas = document.getElementById('gravityGrid');
-const ctx = canvas.getContext('2d');
-
-let width, height;
-let nodes = [];
-const spacing = 40; // Space between grid lines
-const mouse = { x: -1000, y: -1000, radius: 200 };
-
-function init() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    nodes = [];
-
-    for (let x = 0; x <= width; x += spacing) {
-        for (let y = 0; y <= height; y += spacing) {
-            nodes.push({
-                baseX: x,
-                baseY: y,
-                x: x,
-                y: y,
-                vx: 0,
-                vy: 0
-            });
-        }
-    }
-}
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-window.addEventListener('resize', init);
-
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    
-    // Line style
-    ctx.strokeStyle = 'rgba(128, 128, 255, 0.15)';
-    ctx.lineWidth = 1;
-
-    nodes.forEach(node => {
-        // Calculate distance to mouse
-        const dx = mouse.x - node.x;
-        const dy = mouse.y - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < mouse.radius) {
-            // Gravity Pull Logic
-            const force = (mouse.radius - dist) / mouse.radius;
-            const angle = Math.atan2(dy, dx);
-            
-            // Move toward mouse
-            node.vx += Math.cos(angle) * force * 5;
-            node.vy += Math.sin(angle) * force * 5;
-        }
-
-        // Return to base position (Spring Physics)
-        node.vx += (node.baseX - node.x) * 0.05;
-        node.vy += (node.baseY - node.y) * 0.05;
-        
-        // Friction
-        node.vx *= 0.85;
-        node.vy *= 0.85;
-
-        node.x += node.vx;
-        node.y += node.vy;
-
-        // Draw Dots
-        ctx.fillStyle = 'rgba(0, 255, 200, 0.4)';
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, 1.5, 0, Math.PI * 2);
-        ctx.fill();
-    });
-
-    // Draw Grid Lines
-    // For performance, we draw dots above. For lines, a simple logic:
-    // We can draw connections to neighboring nodes here.
-    
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();`
+        "id": "procedural-3d-gravity-dots-grid-background",
+        "title": "Procedural 3D Gravity Dots Grid Background",
+        "description": "An interactive, procedural 3D dot grid built with HTML5 Canvas. The dots dynamically react to cursor movement, simulating a magnetic gravity pull and spring physics. Ideal for modern, futuristic, or AI-themed web backgrounds.",
+        "tags": [
+            "Grid", "Dots", "Gravity", "HTML5 Canvas", "Interactive Background", 
+            "Physics Simulation", "Spring Physics", "Cursor Tracking", "Procedural", "Web Design", 
+            "Futuristic UI", "AI Theme", "JavaScript Animation", "Frontend", "Creative Coding", 
+            "Data Visualization", "Particle Grid", "Cyberpunk", "Tech Aesthetic", "Motion Design"
+        ],
+        "keywords": [
+            "interactive grid background", "javascript gravity dots", "canvas dot grid physics", 
+            "mouse tracking animation", "procedural web background", "futuristic ui design", 
+            "ai website background", "spring physics grid", "magnetic cursor effect", 
+            "html5 canvas dots", "tech theme background", "dynamic particle grid", 
+            "frontend visual effects", "custom canvas animation", "3d dot mesh", 
+            "creative coding javascript", "webgl alternative grid", "cyberpunk web design", 
+            "cursor gravity pull", "animated tech background"
+        ],
+        "code": {
+            "html": "<div class=\"canvas-container\">\n    <canvas id=\"gravityGrid\"></canvas>\n    <div class=\"overlay-content\">\n        <h1>NEURAL SPACE</h1>\n        <p>Interactive Gravity Field Active</p>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --grid-overlay-text: #ffffff;                                    /* Subtext color */\n    --grid-heading-gradient: linear-gradient(to right, #fff, #444);  /* Heading gradient */\n    --grid-font-family: 'Inter', sans-serif;                         /* Font family */\n}\n\n.canvas-container {\n    position: relative;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n}\n\n#gravityGrid {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    pointer-events: none; /* Allows interaction with UI below */\n}\n\n.overlay-content {\n    position: relative;\n    z-index: 10;\n    text-align: center;\n    color: var(--grid-overlay-text);\n    font-family: var(--grid-font-family);\n    pointer-events: auto;\n}\n\n.overlay-content h1 {\n    font-size: 4rem;\n    font-weight: 900;\n    letter-spacing: 10px;\n    background: var(--grid-heading-gradient);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    margin-bottom: 0.5rem;\n}\n\n.overlay-content p {\n    font-size: 1.1rem;\n    letter-spacing: 2px;\n    opacity: 0.7;\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    spacing: 40,                   // Distance between grid dots\n    mouseRadius: 200,              // Area of effect for cursor gravity\n    pullForce: 5,                  // Strength of attraction towards cursor\n    springForce: 0.05,             // Snap-back speed to original position\n    friction: 0.85,                // Velocity dampening (lower = stops faster)\n    dotColor: 'rgba(0, 255, 200, 0.4)', // Color of the dots\n    dotRadius: 1.5                 // Size of the dots\n};\n\nconst canvas = document.getElementById('gravityGrid');\nconst ctx = canvas.getContext('2d');\n\nlet width, height;\nlet nodes = [];\nconst mouse = { x: -1000, y: -1000 };\n\nfunction init() {\n    // Uses parent container dimensions for seamless layout integration\n    width = canvas.width = canvas.parentElement.clientWidth;\n    height = canvas.height = canvas.parentElement.clientHeight;\n    nodes = [];\n\n    for (let x = 0; x <= width; x += CONFIG.spacing) {\n        for (let y = 0; y <= height; y += CONFIG.spacing) {\n            nodes.push({\n                baseX: x,\n                baseY: y,\n                x: x,\n                y: y,\n                vx: 0,\n                vy: 0\n            });\n        }\n    }\n}\n\nwindow.addEventListener('mousemove', (e) => {\n    const rect = canvas.getBoundingClientRect();\n    mouse.x = e.clientX - rect.left;\n    mouse.y = e.clientY - rect.top;\n});\n\nwindow.addEventListener('mouseleave', () => {\n    mouse.x = -1000;\n    mouse.y = -1000;\n});\n\nwindow.addEventListener('resize', init);\n\nfunction animate() {\n    ctx.clearRect(0, 0, width, height);\n\n    nodes.forEach(node => {\n        const dx = mouse.x - node.x;\n        const dy = mouse.y - node.y;\n        const dist = Math.sqrt(dx * dx + dy * dy);\n        \n        if (dist < CONFIG.mouseRadius) {\n            const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;\n            const angle = Math.atan2(dy, dx);\n            \n            node.vx += Math.cos(angle) * force * CONFIG.pullForce;\n            node.vy += Math.sin(angle) * force * CONFIG.pullForce;\n        }\n\n        node.vx += (node.baseX - node.x) * CONFIG.springForce;\n        node.vy += (node.baseY - node.y) * CONFIG.springForce;\n        \n        node.vx *= CONFIG.friction;\n        node.vy *= CONFIG.friction;\n\n        node.x += node.vx;\n        node.y += node.vy;\n\n        ctx.fillStyle = CONFIG.dotColor;\n        ctx.beginPath();\n        ctx.arc(node.x, node.y, CONFIG.dotRadius, 0, Math.PI * 2);\n        ctx.fill();\n    });\n    \n    requestAnimationFrame(animate);\n}\n\ninit();\nanimate();"
         }
     },
-{
-    id: "parallax-depth-card",
-    title: "Dimensional Depth 3D Card",
-    description: "A compact 3D parallax card with reactive lighting and premium skeleton-style placeholder content for futuristic UI loading states.",
-    tags: ["3D", "Parallax", "Skeleton", "Glass", "Depth", "Interactive", "Premium UI"],
-    keywords: ["3d loading card", "parallax skeleton ui", "glass depth card", "reactive glare card"],
-    code: {
-        html: `
-<div class="parallax-scene">
-    <div class="parallax-card" id="parallaxCard">
-        
-        <div class="layer layer-bg"></div>
-        <div class="layer layer-orb"></div>
-        
-        <div class="layer layer-content">
-            <div class="skeleton-icon"></div>
-            <div class="skeleton-line large"></div>
-            <div class="skeleton-line medium"></div>
-            <div class="skeleton-line small"></div>
-            <div class="skeleton-button"></div>
-        </div>
-
-        <div class="layer layer-glare"></div>
-        <div class="layer layer-glass"></div>
-    </div>
-</div>
-`,
-
-        css: `
-.parallax-scene {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #030014;
-    perspective: 1000px;
-}
-
-/* Smaller Card */
-.parallax-card {
-    position: relative;
-    width: 220px;
-    height: 320px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    transform-style: preserve-3d;
-    cursor: pointer;
-    overflow: visible;
-    will-change: transform;
-}
-
-/* Ambient glow */
-.parallax-card::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 22px;
-    background: linear-gradient(45deg, #8b5cf6, #ec4899);
-    opacity: 0.07;
-    filter: blur(25px);
-    animation: breathe 5s ease-in-out infinite alternate;
-    z-index: -1;
-}
-
-@keyframes breathe {
-    from { opacity: 0.04; }
-    to { opacity: 0.1; }
-}
-
-.layer {
-    position: absolute;
-    inset: 0;
-    padding: 25px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    pointer-events: none;
-}
-
-/* Depth layers */
-.layer-bg {
-    transform: translateZ(-25px);
-    background: radial-gradient(circle at 50% 50%, rgba(99,102,241,0.08), transparent 70%);
-}
-
-.layer-orb {
-    transform: translateZ(35px);
-}
-.layer-orb::before {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: 20%;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #ec4899, #8b5cf6);
-    filter: blur(30px);
-    opacity: 0.4;
-}
-
-/* Skeleton Content */
-.layer-content {
-    transform: translateZ(60px);
-    justify-content: center;
-    align-items: flex-start;
-    pointer-events: auto;
-}
-
-/* Skeleton animation */
-@keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-}
-
-.skeleton-icon,
-.skeleton-line,
-.skeleton-button {
-    background: linear-gradient(
-        90deg,
-        rgba(255,255,255,0.05) 25%,
-        rgba(255,255,255,0.12) 50%,
-        rgba(255,255,255,0.05) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2.5s infinite linear;
-    border-radius: 8px;
-}
-
-.skeleton-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
-}
-
-.skeleton-line.large {
-    width: 100%;
-    height: 14px;
-}
-
-.skeleton-line.medium {
-    width: 80%;
-    height: 12px;
-}
-
-.skeleton-line.small {
-    width: 60%;
-    height: 12px;
-}
-
-.skeleton-button {
-    width: 100%;
-    height: 36px;
-    border-radius: 12px;
-}
-
-/* Reactive glare */
-.layer-glare {
-    transform: translateZ(80px);
-    background: radial-gradient(circle at var(--x) var(--y),
-        rgba(255,255,255,0.25),
-        transparent 60%);
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-.layer-glass {
-    transform: translateZ(90px);
-    background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.08),
-        rgba(255,255,255,0)
-    );
-    border: 1px solid rgba(255,255,255,0.08);
-}
-`,
-
-        js: `
-const card = document.getElementById("parallaxCard");
-
-let currentX = 0;
-let currentY = 0;
-let targetX = 0;
-let targetY = 0;
-
-function animate() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-
-    card.style.transform = \`rotateX(\${currentY}deg) rotateY(\${currentX}deg)\`;
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-card.addEventListener("mousemove", (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    targetX = (centerX - x) / 18;
-    targetY = (y - centerY) / 18;
-
-    card.style.setProperty("--x", \`\${x}px\`);
-    card.style.setProperty("--y", \`\${y}px\`);
-});
-
-card.addEventListener("mouseleave", () => {
-    targetX = 0;
-    targetY = 0;
-});
-`
-    }
-},
-{
-    id: "Holographic-obsidian-card",
-    title: "Holographic Obsidian Card",
-    description: "A refined, smaller holographic obsidian card with realistic silver diffraction, brushed metal depth, and restrained premium spectral physics.",
-    tags: ["Luxury", "Minimal", "Stealth", "Premium UI", "Holographic"],
-    keywords: ["premium holographic card", "stealth foil ui", "luxury metallic shimmer", "obsidian interface"],
-    code: {
-        html: `
-<div class="lux-container">
-    <div class="lux-card" id="luxCard">
-        <div class="metal-texture"></div>
-        <div class="spectral-layer" id="spectral"></div>
-        <div class="glare-layer"></div>
-
-        <div class="lux-content">
-            <div class="micro-logo"></div>
-            <div class="hud-block">
-                <div class="line l1"></div>
-                <div class="line l2"></div>
-                <div class="line l3"></div>
-            </div>
-            <div class="footer-tag"></div>
-        </div>
-
-        <div class="edge-fresnel"></div>
-    </div>
-</div>
-`,
-
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
-
-.lux-container {
-    width: 100%;
-    height: 100vh;
-    background: #010101;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1800px;
-}
-
-/* Smaller refined proportions */
-.lux-card {
-    position: relative;
-    width: 240px;
-    height: 360px;
-    border-radius: 10px;
-    background: linear-gradient(145deg, #0b0b0b, #121212);
-    border: 1px solid rgba(255,255,255,0.04);
-    transform-style: preserve-3d;
-    overflow: hidden;
-    box-shadow:
-        0 30px 60px rgba(0,0,0,0.85),
-        0 10px 20px rgba(0,0,0,0.6);
-}
-
-/* Realistic brushed metal */
-.metal-texture {
-    position: absolute;
-    inset: 0;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255,255,255,0.015) 0px,
-            rgba(255,255,255,0.015) 1px,
-            transparent 1px,
-            transparent 3px
-        );
-    opacity: 0.4;
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* Controlled silver diffraction */
-.spectral-layer {
-    position: absolute;
-    inset: -120%;
-    z-index: 1;
-    opacity: 0;
-    background:
-        conic-gradient(
-            from 180deg,
-            rgba(200,220,255,0) 0%,
-            rgba(200,220,255,0.15) 25%,
-            rgba(255,255,255,0.25) 50%,
-            rgba(180,210,255,0.15) 75%,
-            rgba(200,220,255,0) 100%
-        );
-    mix-blend-mode: screen;
-    filter: blur(40px);
-    transition: opacity 0.6s ease;
-}
-
-/* Soft volumetric glare */
-.glare-layer {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    background: radial-gradient(
-        circle at var(--x) var(--y),
-        rgba(255,255,255,0.06),
-        transparent 65%
-    );
-    transition: opacity 0.4s ease;
-    z-index: 3;
-}
-
-.lux-card:hover .spectral-layer,
-.lux-card:hover .glare-layer {
-    opacity: 1;
-}
-
-/* Minimal skeleton HUD */
-.lux-content {
-    position: relative;
-    z-index: 4;
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    font-family: 'Space Mono', monospace;
-}
-
-.micro-logo {
-    width: 18px;
-    height: 18px;
-    border: 1px solid rgba(255,255,255,0.15);
-    transform: rotate(45deg);
-}
-
-.hud-block { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
-
-.line {
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-}
-
-.line.l1 { width: 100%; }
-.line.l2 { width: 70%; }
-.line.l3 { width: 40%; }
-
-.footer-tag {
-    margin-top: auto;
-    width: 80px;
-    height: 6px;
-    background: rgba(255,255,255,0.08);
-}
-
-/* Edge Fresnel Light */
-.edge-fresnel {
-    position: absolute;
-    inset: 0;
-    border-radius: 10px;
-    box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.05),
-        inset 0 0 20px rgba(255,255,255,0.02);
-    pointer-events: none;
-    z-index: 10;
-}
-`,
-
-        js: `
-const card = document.getElementById("luxCard");
-const spectral = document.getElementById("spectral");
-
-let tx = 0, ty = 0;
-let cx = 0, cy = 0;
-
-card.addEventListener("mousemove", (e) => {
-    const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-
-    tx = (r.width/2 - x) / 25;
-    ty = (y - r.height/2) / 25;
-
-    const px = (x / r.width) * 100;
-    const py = (y / r.height) * 100;
-
-    card.style.setProperty("--x", px + "%");
-    card.style.setProperty("--y", py + "%");
-
-    spectral.style.transform =
-        \`translate(\${px/15}%, \${py/15}%) rotate(\${px/10}deg)\`;
-});
-
-function animate(){
-    cx += (tx - cx) * 0.06;
-    cy += (ty - cy) * 0.06;
-    card.style.transform =
-        \`rotateX(\${cy}deg) rotateY(\${cx}deg)\`;
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-card.addEventListener("mouseleave", ()=>{
-    tx = 0;
-    ty = 0;
-});
-`
-    }
-},
-{
-    id: "neural-circuit-quantum-card",
-    title: "Quantum edition Card",
-    description: "A refined high-tech interface card featuring a traveling data pulse, precision circuitry, and stealth-grade reactive activation.",
-    tags: ["SVG", "Circuit", "Minimal", "Dark UI", "Tech Luxury"],
-    keywords: ["premium circuit ui", "dark tech card", "svg pulse animation", "futuristic interface"],
-    code: {
-        html: `
-<div class="quantum-container">
-    <div class="quantum-card">
-
-        <svg class="circuit-svg" viewBox="0 0 260 340" preserveAspectRatio="none">
-            <path class="trace-base" d="M15 15 L245 15 L245 80 L210 120 L210 320 L15 320 Z" />
-            <path class="trace-active" d="M15 15 L245 15 L245 80 L210 120 L210 320 L15 320 Z" />
-            <circle class="node n1" cx="245" cy="15" r="2"/>
-            <circle class="node n2" cx="210" cy="120" r="2"/>
-            <circle class="node n3" cx="15" cy="320" r="2"/>
-        </svg>
-
-        <div class="inner-content">
-            <div class="chip-icon"></div>
-
-            <div class="title-block">
-                <div class="status">OFFLINE</div>
-                <h3>NEURAL_CORE</h3>
-            </div>
-
-            <div class="spec-lines">
-                <div class="line l1"></div>
-                <div class="line l2"></div>
-                <div class="line l3"></div>
-            </div>
-        </div>
-
-        <div class="edge-glow"></div>
-
-    </div>
-</div>
-`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&display=swap');
-
-.quantum-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #040404;
-}
-
-/* Smaller, tighter card */
-.quantum-card {
-    position: relative;
-    width: 260px;
-    height: 340px;
-    background: #0b0b0b;
-    clip-path: polygon(0 0, 100% 0, 100% 23%, 85% 35%, 85% 100%, 0 100%);
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow:
-        0 25px 60px rgba(0,0,0,0.8),
-        inset 0 0 0 1px rgba(255,255,255,0.02);
-    overflow: hidden;
-    cursor: pointer;
-}
-
-/* Subtle micro grid */
-.quantum-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 25px 25px;
-    opacity: 0.4;
-}
-
-/* SVG Circuit */
-.circuit-svg {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-}
-
-.trace-base {
-    fill: none;
-    stroke: rgba(255,255,255,0.05);
-    stroke-width: 1;
-}
-
-.trace-active {
-    fill: none;
-    stroke: rgba(180,220,255,0.9);
-    stroke-width: 1.5;
-    stroke-dasharray: 50 800;
-    stroke-dashoffset: 800;
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 6px rgba(180,220,255,0.6));
-    transition: stroke-dashoffset 1s cubic-bezier(.7,0,.2,1);
-}
-
-.node {
-    fill: rgba(180,220,255,0.9);
-    opacity: 0;
-    transition: opacity .4s ease;
-}
-
-/* Hover Activation */
-.quantum-card:hover .trace-active {
-    stroke-dashoffset: 0;
-}
-
-.quantum-card:hover .node {
-    opacity: 1;
-}
-
-/* Content */
-.inner-content {
-    position: relative;
-    z-index: 3;
-    padding: 24px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-family: 'JetBrains Mono', monospace;
-    color: #fff;
-}
-
-.chip-icon {
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(255,255,255,0.15);
-    position: relative;
-}
-
-.chip-icon::before {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    background: rgba(255,255,255,0.04);
-}
-
-.title-block {
-    margin-top: 30px;
-}
-
-.status {
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.3);
-    transition: color .3s ease;
-}
-
-.quantum-card:hover .status {
-    color: rgba(180,220,255,0.9);
-}
-
-h3 {
-    margin-top: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: .5px;
-}
-
-/* Minimal skeleton specs */
-.spec-lines {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.line {
-    height: 1px;
-    background: rgba(255,255,255,0.1);
-}
-
-.line.l1 { width: 100%; }
-.line.l2 { width: 70%; }
-.line.l3 { width: 40%; }
-
-/* Subtle rim light */
-.edge-glow {
-    position: absolute;
-    inset: 0;
-    border-radius: 0;
-    box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.05),
-        inset 0 0 25px rgba(180,220,255,0.03);
-    pointer-events: none;
-}
-`,
-        js: `
-// No JS needed — pure precision CSS + SVG
-`
-    }
-},
-{
-    id: "glass-stack-card",
-    title: "Architectural Glass Stack Card",
-    description: "A premium editorial glass card with magnetic tilt, ambient float, soft projected shadow, micro parallax typography and restrained glass refraction.",
-    tags: ["Luxury", "Glass", "Magnetic", "Editorial", "Premium UI" ,"Card"],
-    keywords: ["magnetic glass card", "luxury hover effect", "premium 3d card", "architectural ui"],
-    code: {
-        html: `
-<div class="magnetic-container">
-    <div class="shadow-projection"></div>
-
-    <div class="magnetic-card" id="magneticCard">
-
-        <div class="layer layer-image">
-            <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?q=80&w=600&auto=format&fit=crop" alt="Architecture">
-            <div class="img-overlay"></div>
-        </div>
-
-        <div class="layer layer-glass">
-            <div class="refraction"></div>
-            <div class="grain"></div>
-        </div>
-
-        <div class="layer layer-content">
-            <div class="meta">
-                <span class="meta-left">KRONOS_ARCH</span>
-                <span class="meta-right">2026</span>
-            </div>
-
-            <div class="body">
-                <h2 class="title">The Brutalist Edit</h2>
-                <div class="divider"></div>
-                <p class="desc">
-                    Exploration of concrete forms and negative space in modern residential structures.
-                </p>
-            </div>
-
-            <button class="cta">View Project</button>
-        </div>
-
-    </div>
-</div>
-`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;500&display=swap');
-
-.magnetic-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #0b0b0b;
-    perspective: 1600px;
-    position: relative;
-}
-
-/* Soft projected shadow */
-.shadow-projection {
-    position: absolute;
-    width: 200px;
-    height: 50px;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 70%);
-    filter: blur(20px);
-    transform: translateY(160px);
-    transition: transform 0.2s ease;
-}
-
-.magnetic-card {
-    position: relative;
-    width: 260px;
-    height: 380px;
-    transform-style: preserve-3d;
-    border-radius: 3px;
-    transition: transform 0.2s ease;
-    animation: float 6s ease-in-out infinite alternate;
-    cursor: pointer;
-}
-
-/* Ambient floating */
-@keyframes float {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-8px); }
-}
-
-.layer {
-    position: absolute;
-    inset: 0;
-    border-radius: 3px;
-    transition: transform 0.4s cubic-bezier(.2,0,.2,1);
-}
-
-/* Image */
-.layer-image {
-    z-index: 1;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-}
-
-.layer-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(100%) contrast(110%);
-    transition: transform 0.6s ease;
-}
-
-.img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%);
-}
-
-/* Glass */
-.layer-glass {
-    z-index: 2;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
-.grain {
-    position: absolute;
-    inset: 0;
-    opacity: 0.05;
-    background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-}
-
-/* Subtle refraction shift */
-.refraction {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(255,255,255,0.1), transparent 50%);
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* Content */
-.layer-content {
-    z-index: 3;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #e5e5e5;
-}
-
-.meta {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Inter', sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.5);
-}
-
-.title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 400;
-    margin-bottom: 12px;
-}
-
-.divider {
-    width: 30px;
-    height: 1px;
-    background: rgba(255,255,255,0.8);
-    margin-bottom: 16px;
-}
-
-.desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.65);
-}
-
-.cta {
-    align-self: flex-start;
-    background: #fff;
-    color: #000;
-    border: none;
-    padding: 8px 18px;
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.cta:hover { background: #d6d6d6; }
-
-/* Hover separation */
-.magnetic-card:hover .layer-image {
-    transform: translateZ(-15px) translateY(-15px);
-}
-
-.magnetic-card:hover .layer-glass {
-    transform: translateZ(10px);
-}
-
-.magnetic-card:hover .layer-content {
-    transform: translateZ(25px) translateY(8px);
-}
-
-.magnetic-card:hover .refraction {
-    opacity: 0.6;
-}
-`,
-        js: `
-const card = document.getElementById("magneticCard");
-const shadow = document.querySelector(".shadow-projection");
-
-let targetX = 0, targetY = 0;
-let currentX = 0, currentY = 0;
-
-card.addEventListener("mousemove", (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    targetX = (centerX - x) / 25;
-    targetY = (y - centerY) / 25;
-
-    // Micro parallax text shift
-    card.querySelector(".title").style.transform =
-        \`translateX(\${targetX * 2}px) translateY(\${targetY * 2}px)\`;
-
-    card.querySelector(".desc").style.transform =
-        \`translateX(\${targetX}px) translateY(\${targetY}px)\`;
-
-    shadow.style.transform =
-        \`translateY(160px) scale(\${1 + Math.abs(targetX)/20})\`;
-});
-
-function animate() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-
-    card.style.transform =
-        \`rotateX(\${currentY}deg) rotateY(\${currentX}deg)\`;
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-card.addEventListener("mouseleave", () => {
-    targetX = 0;
-    targetY = 0;
-});
-`
-    }
-},
-{
-    id: "cloud-node-visualizer",
-    title: "Cloud Node Health Visualizer Style Card",
-    description: "A production-ready server instance card. The ferrofluid acts as a live CPU thread visualizer that runs in the background. Hovering 'scrubs' through active threads to inspect specific load metrics.",
-    tags: ["Dashboard", "Cloud", "SaaS", "Server", "Monitoring", "Interactive", "Data Viz"],
-    keywords: ["server status card", "cloud dashboard ui", "cpu thread visualizer", "interactive saas widget"],
-    code: {
-        html: `
-<div class="cloud-container">
-    <div class="node-card" id="nodeCard">
-        
-        <div class="card-header">
-            <div class="instance-info">
-                <div class="status-indicator online"></div>
-                <div class="meta">
-                    <span class="region">US-EAST-1</span>
-                    <span class="instance-id">i-0x829f</span>
-                </div>
-            </div>
-            <div class="uptime-badge">99.9% uptime</div>
-        </div>
-
-        <div class="viz-container">
-            <div class="viz-label">REAL-TIME THREAD ACTIVITY</div>
-            
-            <div class="fluid-engine" id="fluidEngine"></div>
-            
-            <svg style="display:none;">
-                <defs>
-                    <filter id="node-goo">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
-                        <feColorMatrix in="blur" mode="matrix" 
-                            values="1 0 0 0 0  
-                                    0 1 0 0 0  
-                                    0 0 1 0 0  
-                                    0 0 0 19 -9" 
-                            result="goo"/>
-                    </filter>
-                </defs>
-            </svg>
-
-            <div class="scrub-data">
-                <span class="label">THREAD LOAD:</span>
-                <span class="value" id="threadVal">--</span>
-            </div>
-        </div>
-
-        <div class="metric-grid">
-            <div class="metric-item">
-                <span class="m-label">MEMORY</span>
-                <span class="m-val">12.4 / 16 GB</span>
-                <div class="progress-bg"><div class="progress-fill" style="width: 75%"></div></div>
-            </div>
-            <div class="metric-item">
-                <span class="m-label">LATENCY</span>
-                <span class="m-val">24ms</span>
-                <div class="progress-bg"><div class="progress-fill" style="width: 15%"></div></div>
-            </div>
-        </div>
-
-        <div class="card-actions">
-            <button class="action-btn">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
-                SSH
-            </button>
-            <button class="action-btn secondary">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/></svg>
-                REBOOT
-            </button>
-        </div>
-
-    </div>
-</div>`,
-
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap');
-
-.cloud-container {
-    width: 100%;
-    height: 100vh;
-    background: #09090b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-}
-
-.node-card {
-    width: 320px;
-    background: #121214;
-    border: 1px solid #27272a;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- Header --- */
-.card-header {
-    padding: 16px;
-    border-bottom: 1px solid #27272a;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #18181b;
-}
-
-.instance-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.status-indicator {
-    width: 8px;
-    height: 8px;
-    background: #10b981;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #10b981;
-}
-
-.meta {
-    display: flex;
-    flex-direction: column;
-}
-
-.region { font-size: 10px; color: #71717a; font-weight: 600; }
-.instance-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e4e4e7; }
-
-.uptime-badge {
-    font-size: 10px;
-    color: #10b981;
-    background: rgba(16, 185, 129, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 500;
-}
-
-/* --- Visualizer --- */
-.viz-container {
-    position: relative;
-    height: 140px;
-    background: #000;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    overflow: hidden;
-}
-
-.viz-label {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 9px;
-    color: #52525b;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-}
-
-.fluid-engine {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    filter: url(#node-goo);
-    /* Prevent blur clipping */
-    margin: 0 -10px; 
-    padding: 0 10px;
-    width: calc(100% + 20px);
-}
-
-.thread-bar {
-    width: 12px;
-    height: 20px;
-    background: #3b82f6;
-    border-radius: 50% 50% 0 0;
-    transition: height 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* --- Scrub Data --- */
-.scrub-data {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #3b82f6;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.node-card:hover .scrub-data { opacity: 1; }
-
-/* --- Metrics --- */
-.metric-grid {
-    padding: 16px;
-    display: grid;
-    gap: 12px;
-}
-
-.metric-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.m-label { font-size: 10px; color: #71717a; font-weight: 600; }
-.m-val { font-size: 12px; color: #e4e4e7; font-weight: 500; font-family: 'JetBrains Mono'; }
-
-.progress-bg {
-    width: 100%;
-    height: 4px;
-    background: #27272a;
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #52525b;
-    border-radius: 2px;
-}
-
-/* --- Actions --- */
-.card-actions {
-    padding: 12px 16px;
-    background: #18181b;
-    border-top: 1px solid #27272a;
-    display: flex;
-    gap: 8px;
-}
-
-.action-btn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #e4e4e7;
-    color: #000;
-    border: none;
-}
-
-.action-btn:hover { background: #fff; }
-
-.action-btn.secondary {
-    background: transparent;
-    color: #a1a1aa;
-    border: 1px solid #3f3f46;
-}
-
-.action-btn.secondary:hover {
-    background: #27272a;
-    color: #fff;
-}
-`,
-        js: `
-const container = document.getElementById('fluidEngine');
-const threadVal = document.getElementById('threadVal');
-const card = document.getElementById('nodeCard');
-
-const threadCount = 16;
-let threads = [];
-let animationId;
-
-// Initialize "Threads" (Spikes)
-for(let i=0; i<threadCount; i++) {
-    const bar = document.createElement('div');
-    bar.className = 'thread-bar';
-    container.appendChild(bar);
-    threads.push({
-        el: bar,
-        baseHeight: 20 + Math.random() * 15, // Idle noise
-        targetHeight: 20,
-        x: 0 // Will store screen position
-    });
-}
-
-// 1. Idle Animation Loop (Simulate Background Traffic)
-function idleLoop() {
-    threads.forEach(t => {
-        // Randomly fluctuate height
-        if(Math.random() > 0.9) {
-            t.targetHeight = 20 + Math.random() * 40;
-        } else {
-            // Slowly return to base
-            t.targetHeight += (t.baseHeight - t.targetHeight) * 0.05;
+    {
+        "id": "glassmorphism-3d-parallax-skeleton-card",
+        "title": "Glassmorphism 3D Parallax Skeleton Loader Card",
+        "description": "A premium 3D skeleton loader card featuring advanced parallax depth, glassmorphism layers, and dynamic cursor-tracking glare. Perfect for elevating loading states in modern web applications.",
+        "tags": [
+            "3D Parallax", "Glassmorphism", "Skeleton Loader", "Card UI", "Interactive", 
+            "Depth Effect", "CSS Animation", "Hover Effect", "Mouse Tracking", "Loading State", 
+            "Premium UI", "Frontend", "Web Design", "Dynamic Glare", "UI Component", 
+            "Shimmer Effect", "Modern UI", "Perspective", "Visual Effects", "Creative"
+        ],
+        "keywords": [
+            "3d parallax card css", "glassmorphism skeleton loader", "interactive hover card", 
+            "cursor tracking glare effect", "css 3d depth card", "premium ui loading state", 
+            "shimmer animation css", "dynamic lighting card", "modern frontend card design", 
+            "parallax mouse hover", "skeleton ui component", "glass card javascript", 
+            "transparent loading card", "web design depth effect", "custom css skeleton", 
+            "ui ux loading animation", "interactive 3d component", "creative loading states", 
+            "perspective card hover", "advanced css glassmorphism"
+        ],
+        "code": {
+            "html": "<div class=\"parallax-scene\">\n    <div class=\"parallax-card\" id=\"parallaxCard\">\n        <div class=\"layer layer-bg\"></div>\n        <div class=\"layer layer-orb\"></div>\n        \n        <div class=\"layer layer-content\">\n            <div class=\"skeleton-icon\"></div>\n            <div class=\"skeleton-line large\"></div>\n            <div class=\"skeleton-line medium\"></div>\n            <div class=\"skeleton-line small\"></div>\n            <div class=\"skeleton-button\"></div>\n        </div>\n\n        <div class=\"layer layer-glare\"></div>\n        <div class=\"layer layer-glass\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --card-width: 220px;\n    --card-height: 320px;\n    --card-radius: 20px;\n    \n    /* Glass Properties */\n    --card-bg-base: rgba(255, 255, 255, 0.03);\n    --card-border-color: rgba(255, 255, 255, 0.08);\n    --card-glass-grad: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));\n    \n    /* Colors */\n    --glow-grad-start: #8b5cf6;\n    --glow-grad-end: #ec4899;\n    --shimmer-bg: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);\n    --glare-color: rgba(255, 255, 255, 0.25);\n}\n\n.parallax-scene {\n    width: 100%;\n    height: 100%;\n    min-height: 400px; /* Safe minimum for previews */\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    perspective: 1000px; /* Required for 3D depth to function */\n}\n\n.parallax-card {\n    position: relative;\n    width: var(--card-width);\n    height: var(--card-height);\n    border-radius: var(--card-radius);\n    background: var(--card-bg-base);\n    border: 1px solid var(--card-border-color);\n    transform-style: preserve-3d;\n    cursor: pointer;\n    overflow: visible;\n    will-change: transform;\n}\n\n.parallax-card::before {\n    content: \"\";\n    position: absolute;\n    inset: -2px;\n    border-radius: calc(var(--card-radius) + 2px);\n    background: linear-gradient(45deg, var(--glow-grad-start), var(--glow-grad-end));\n    opacity: 0.07;\n    filter: blur(25px);\n    animation: breathe 5s ease-in-out infinite alternate;\n    z-index: -1;\n}\n\n@keyframes breathe {\n    from { opacity: 0.04; }\n    to { opacity: 0.1; }\n}\n\n.layer {\n    position: absolute;\n    inset: 0;\n    padding: 25px;\n    border-radius: var(--card-radius);\n    display: flex;\n    flex-direction: column;\n    gap: 14px;\n    pointer-events: none;\n}\n\n/* Depth translations */\n.layer-bg {\n    transform: translateZ(-25px);\n    background: radial-gradient(circle at 50% 50%, rgba(99,102,241,0.08), transparent 70%);\n}\n\n.layer-orb {\n    transform: translateZ(35px);\n}\n\n.layer-orb::before {\n    content: '';\n    position: absolute;\n    top: 15%;\n    left: 20%;\n    width: 60px;\n    height: 60px;\n    border-radius: 50%;\n    background: linear-gradient(45deg, var(--glow-grad-end), var(--glow-grad-start));\n    filter: blur(30px);\n    opacity: 0.4;\n}\n\n.layer-content {\n    transform: translateZ(60px);\n    justify-content: center;\n    align-items: flex-start;\n    pointer-events: auto;\n}\n\n@keyframes shimmer {\n    0% { background-position: -200% 0; }\n    100% { background-position: 200% 0; }\n}\n\n.skeleton-icon,\n.skeleton-line,\n.skeleton-button {\n    background: var(--shimmer-bg);\n    background-size: 200% 100%;\n    animation: shimmer 2.5s infinite linear;\n    border-radius: 8px;\n}\n\n.skeleton-icon {\n    width: 60px;\n    height: 60px;\n    border-radius: 16px;\n}\n\n.skeleton-line.large { width: 100%; height: 14px; }\n.skeleton-line.medium { width: 80%; height: 12px; }\n.skeleton-line.small { width: 60%; height: 12px; }\n\n.skeleton-button {\n    width: 100%;\n    height: 36px;\n    border-radius: 12px;\n}\n\n.layer-glare {\n    transform: translateZ(80px);\n    background: radial-gradient(circle at var(--x) var(--y), var(--glare-color), transparent 60%);\n    opacity: 0.5;\n    pointer-events: none;\n}\n\n.layer-glass {\n    transform: translateZ(90px);\n    background: var(--card-glass-grad);\n    border: 1px solid var(--card-border-color);\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    easing: 0.08,        // Determines how smoothly the card tracks the cursor (lower = smoother/slower)\n    tiltDivider: 18      // Controls maximum tilt. Higher number = less extreme tilt angle\n};\n\nconst card = document.getElementById(\"parallaxCard\");\n\nlet currentX = 0;\nlet currentY = 0;\nlet targetX = 0;\nlet targetY = 0;\n\nfunction animate() {\n    // Linear interpolation for smooth tracking\n    currentX += (targetX - currentX) * CONFIG.easing;\n    currentY += (targetY - currentY) * CONFIG.easing;\n\n    card.style.transform = `rotateX(${currentY}deg) rotateY(${currentX}deg)`;\n    requestAnimationFrame(animate);\n}\n\nanimate();\n\ncard.addEventListener(\"mousemove\", (e) => {\n    const rect = card.getBoundingClientRect();\n    const x = e.clientX - rect.left;\n    const y = e.clientY - rect.top;\n\n    const centerX = rect.width / 2;\n    const centerY = rect.height / 2;\n\n    // Calculate rotation targets based on cursor distance from center\n    targetX = (centerX - x) / CONFIG.tiltDivider;\n    targetY = (y - centerY) / CONFIG.tiltDivider;\n\n    // Update CSS variables for the dynamic glare effect\n    card.style.setProperty(\"--x\", `${x}px`);\n    card.style.setProperty(\"--y\", `${y}px`);\n});\n\ncard.addEventListener(\"mouseleave\", () => {\n    // Reset to flat state when mouse leaves\n    targetX = 0;\n    targetY = 0;\n});"
         }
-        
-        t.el.style.height = \`\${t.targetHeight}px\`;
-    });
-    
-    animationId = requestAnimationFrame(idleLoop);
-}
-idleLoop(); // Start idle
-
-// 2. Interactive "Scrubbing"
-card.addEventListener('mousemove', (e) => {
-    // Pause idle noise so user can "inspect"
-    cancelAnimationFrame(animationId);
-    
-    const rect = container.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    
-    threads.forEach((t, i) => {
-        const barX = (i / threadCount) * rect.width + (rect.width/threadCount)/2;
-        const dist = Math.abs(mx - barX);
-        
-        // If mouse is close, spike the height (Interaction)
-        if (dist < 60) {
-            const power = 1 - (dist / 60);
-            t.el.style.height = \`\${40 + (power * 80)}px\`;
-            
-            // Highlight the specific thread being hovered
-            if (power > 0.9) {
-                t.el.style.backgroundColor = '#60a5fa'; // Brighter Blue
-                threadVal.innerText = Math.round(power * 100) + '%';
-            } else {
-                t.el.style.backgroundColor = '#3b82f6';
-            }
-        } else {
-            t.el.style.height = '25px'; // Dim others
-            t.el.style.backgroundColor = '#1e3a8a'; // Darker Blue
+    },
+    {
+        "id": "interactive-3d-holographic-metal-card",
+        "title": "Interactive 3D Holographic Metal Card UI",
+        "description": "A premium, luxury-style 3D interactive card featuring a brushed metal texture, dynamic spectral diffraction (holographic foil effect), and volumetric glare. Perfect for fintech, web3, and luxury brand interfaces.",
+        "tags": [
+            "3D Card", "Holographic", "Interactive UI", "Luxury Design", "Metal Texture", 
+            "Glassmorphism", "CSS Animation", "JavaScript 3D", "Tilt Effect", "Premium Component", 
+            "Fintech UI", "Web3 Design", "Glare Effect", "Foil Effect", "Hover Interaction", 
+            "Frontend", "Creative Coding", "Dark Theme", "Skeuomorphic", "Minimalist"
+        ],
+        "keywords": [
+            "3d holographic card css", "premium luxury card ui", "interactive metallic card", 
+            "spectral diffraction css", "volumetric glare effect", "fintech card design", 
+            "web3 interactive ui", "dark mode premium card", "custom css foil effect", 
+            "3d tilt hover card", "javascript mouse tracking card", "brushed metal css texture", 
+            "holographic foil interface", "elegant dark ui card", "modern frontend card", 
+            "interactive web components", "luxury brand web design", "creative css animations", 
+            "high-end UI design", "advanced css texturing"
+        ],
+        "code": {
+            "html": "<div class=\"lux-container\">\n    <div class=\"lux-card\" id=\"luxCard\">\n        <div class=\"metal-texture\"></div>\n        <div class=\"spectral-layer\" id=\"spectral\"></div>\n        <div class=\"glare-layer\"></div>\n\n        <div class=\"lux-content\">\n            <div class=\"micro-logo\"></div>\n            <div class=\"hud-block\">\n                <div class=\"line l1\"></div>\n                <div class=\"line l2\"></div>\n                <div class=\"line l3\"></div>\n            </div>\n            <div class=\"footer-tag\"></div>\n        </div>\n\n        <div class=\"edge-fresnel\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --lux-card-width: 240px;                 /* Width of the card */\n    --lux-card-height: 360px;                /* Height of the card */\n    --lux-bg-gradient-start: #0b0b0b;        /* Top left background color */\n    --lux-bg-gradient-end: #121212;          /* Bottom right background color */\n    \n    /* Texture & Holographic specific variables */\n    --lux-metal-opacity: 0.4;                /* Visibility of the brushed metal lines */\n    --lux-spectral-blur: 40px;               /* Softness of the holographic foil */\n    --lux-glare-intensity: 0.06;             /* Opacity of the white glare tracking the mouse */\n    \n    /* HUD / UI Colors */\n    --lux-ui-color: rgba(255, 255, 255, 0.08); /* Color of the skeleton UI lines */\n    --lux-font-family: 'Space Mono', monospace;\n    \n    /* Container perspective - crucial for 3D effect */\n    --lux-perspective: 1800px;\n}\n\n.lux-container {\n    width: 100%;\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    perspective: var(--lux-perspective);\n    /* Background is kept transparent so it seamlessly fits your preview area */\n    background: transparent;\n}\n\n.lux-card {\n    position: relative;\n    width: var(--lux-card-width);\n    height: var(--lux-card-height);\n    border-radius: 10px;\n    background: linear-gradient(145deg, var(--lux-bg-gradient-start), var(--lux-bg-gradient-end));\n    border: 1px solid rgba(255, 255, 255, 0.04);\n    transform-style: preserve-3d;\n    overflow: hidden;\n    box-shadow:\n        0 30px 60px rgba(0, 0, 0, 0.85),\n        0 10px 20px rgba(0, 0, 0, 0.6);\n}\n\n.metal-texture {\n    position: absolute;\n    inset: 0;\n    background:\n        repeating-linear-gradient(\n            90deg,\n            rgba(255, 255, 255, 0.015) 0px,\n            rgba(255, 255, 255, 0.015) 1px,\n            transparent 1px,\n            transparent 3px\n        );\n    opacity: var(--lux-metal-opacity);\n    z-index: 2;\n    pointer-events: none;\n}\n\n.spectral-layer {\n    position: absolute;\n    inset: -120%;\n    z-index: 1;\n    opacity: 0;\n    background:\n        conic-gradient(\n            from 180deg,\n            rgba(200, 220, 255, 0) 0%,\n            rgba(200, 220, 255, 0.15) 25%,\n            rgba(255, 255, 255, 0.25) 50%,\n            rgba(180, 210, 255, 0.15) 75%,\n            rgba(200, 220, 255, 0) 100%\n        );\n    mix-blend-mode: screen;\n    filter: blur(var(--lux-spectral-blur));\n    transition: opacity 0.6s ease;\n}\n\n.glare-layer {\n    position: absolute;\n    inset: 0;\n    opacity: 0;\n    background: radial-gradient(\n        circle at var(--x) var(--y),\n        rgba(255, 255, 255, var(--lux-glare-intensity)),\n        transparent 65%\n    );\n    transition: opacity 0.4s ease;\n    z-index: 3;\n}\n\n.lux-card:hover .spectral-layer,\n.lux-card:hover .glare-layer {\n    opacity: 1;\n}\n\n.lux-content {\n    position: relative;\n    z-index: 4;\n    padding: 20px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    gap: 18px;\n    font-family: var(--lux-font-family);\n}\n\n.micro-logo {\n    width: 18px;\n    height: 18px;\n    border: 1px solid rgba(255, 255, 255, 0.15);\n    transform: rotate(45deg);\n}\n\n.hud-block {\n    margin-top: 20px;\n    display: flex;\n    flex-direction: column;\n    gap: 6px;\n}\n\n.line {\n    height: 1px;\n    background: var(--lux-ui-color);\n}\n\n.line.l1 { width: 100%; }\n.line.l2 { width: 70%; }\n.line.l3 { width: 40%; }\n\n.footer-tag {\n    margin-top: auto;\n    width: 80px;\n    height: 6px;\n    background: var(--lux-ui-color);\n}\n\n.edge-fresnel {\n    position: absolute;\n    inset: 0;\n    border-radius: 10px;\n    box-shadow:\n        inset 0 0 0 1px rgba(255, 255, 255, 0.05),\n        inset 0 0 20px rgba(255, 255, 255, 0.02);\n    pointer-events: none;\n    z-index: 10;\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    tiltIntensity: 25,       // Lower number = more extreme tilt\n    spectralRotation: 10,    // Controls how fast the hologram rotates\n    spectralShift: 15,       // Controls how much the hologram drifts\n    smoothing: 0.06          // How smoothly the card returns to center (0.01 - 0.2)\n};\n\nconst card = document.getElementById(\"luxCard\");\nconst spectral = document.getElementById(\"spectral\");\n\nlet targetX = 0, targetY = 0;\nlet currentX = 0, currentY = 0;\n\ncard.addEventListener(\"mousemove\", (e) => {\n    const rect = card.getBoundingClientRect();\n    const x = e.clientX - rect.left;\n    const y = e.clientY - rect.top;\n\n    targetX = (rect.width / 2 - x) / CONFIG.tiltIntensity;\n    targetY = (y - rect.height / 2) / CONFIG.tiltIntensity;\n\n    const px = (x / rect.width) * 100;\n    const py = (y / rect.height) * 100;\n\n    card.style.setProperty(\"--x\", px + \"%\");\n    card.style.setProperty(\"--y\", py + \"%\");\n\n    spectral.style.transform = `translate(${px / CONFIG.spectralShift}%, ${py / CONFIG.spectralShift}%) rotate(${px / CONFIG.spectralRotation}deg)`;\n});\n\ncard.addEventListener(\"mouseleave\", () => {\n    targetX = 0;\n    targetY = 0;\n});\n\nfunction animate() {\n    currentX += (targetX - currentX) * CONFIG.smoothing;\n    currentY += (targetY - currentY) * CONFIG.smoothing;\n    card.style.transform = `rotateX(${currentY}deg) rotateY(${currentX}deg)`;\n    requestAnimationFrame(animate);\n}\n\nanimate();"
         }
-    });
-});
-
-// 3. Resume Idle
-card.addEventListener('mouseleave', () => {
-    idleLoop();
-    threadVal.innerText = '--';
-    threads.forEach(t => {
-        t.el.style.backgroundColor = '#3b82f6';
-    });
-});
-`
-    }
-},
-{
-    id: "quantum-fusion-spinner",
-    title: "Quantum Fusion Loading Spinner",
-    description: "A compact, synchronized loading spinner. Particles rhythmically fuse into a central core and eject outward, visualizing a busy 'processing' state in a small footprint.",
-    tags: ["Loader", "Spinner", "Small", "Synchronization", "Gooey", "Plasma", "Neon"],
-    keywords: ["fusion spinner css", "small loading animation", "synchronized loader", "gooey effect small"],
-    code: {
-        html: `
-<div class="loader-scene">
-    <svg style="position:absolute;width:0;height:0;">
-        <defs>
-            <filter id="fusion-goo-small">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" 
-                    values="1 0 0 0 0  
-                            0 1 0 0 0  
-                            0 0 1 0 0  
-                            0 0 0 18 -7" 
-                    result="goo" />
-                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="loader-container">
-        <div class="fusion-engine">
-            <div class="core"></div>
-            <div class="particle p1"></div>
-            <div class="particle p2"></div>
-            <div class="particle p3"></div>
-            <div class="particle p4"></div>
-        </div>
-        
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-    </div>
-
-    <div class="loading-label">INITIALIZING</div>
-</div>`,
-        css: `
-.loader-scene {
-    width: 100%;
-    height: 100vh;
-    background: #050505;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-/* Compact Container (100px) */
-.loader-container {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* --- The Liquid Engine --- */
-.fusion-engine {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    filter: url('#fusion-goo-small');
-    animation: engine-spin 6s linear infinite; 
-}
-
-.core {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 24px; height: 24px;
-    background: #00ffff;
-    border-radius: 50%;
-    animation: core-beat 2s ease-in-out infinite; 
-}
-
-.particle {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: #00ffff;
-    transform: translate(-50%, -50%);
-}
-
-.p1 { animation: particle-cycle 2s ease-in-out infinite; --angle: 0deg;   background: #00ffff; }
-.p2 { animation: particle-cycle 2s ease-in-out infinite; --angle: 90deg;  background: #0088ff; }
-.p3 { animation: particle-cycle 2s ease-in-out infinite; --angle: 180deg; background: #00ffff; }
-.p4 { animation: particle-cycle 2s ease-in-out infinite; --angle: 270deg; background: #0088ff; }
-
-/* The Cycle: Scaled down distance (30px) */
-@keyframes particle-cycle {
-    0% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px); }
-    45% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(35px); }
-    55% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(35px); }
-    100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px); }
-}
-
-@keyframes core-beat {
-    0% { width: 24px; height: 24px; background: #fff; }
-    40% { width: 18px; height: 18px; background: #00ffff; }
-    60% { width: 18px; height: 18px; background: #00ffff; }
-    100% { width: 24px; height: 24px; background: #fff; }
-}
-
-@keyframes engine-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* --- Rings --- */
-.ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 255, 255, 0.1);
-    pointer-events: none;
-}
-
-.r1 { width: 80px; height: 80px; border-color: rgba(0, 255, 255, 0.3); animation: spin 4s linear infinite; }
-.r2 { width: 110px; height: 110px; border-style: dashed; border-color: rgba(0, 136, 255, 0.2); animation: spin-rev 10s linear infinite; }
-
-/* Text */
-.loading-label {
-    font-family: 'Courier New', monospace;
-    color: #00ffff;
-    font-size: 10px;
-    letter-spacing: 2px;
-    animation: blink 1.5s infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes spin-rev { to { transform: rotate(-360deg); } }
-@keyframes blink { 50% { opacity: 0.5; } }
-`,
-        js: `// Pure CSS Synchronization`
-    }
-},
-{
-    id: "kawaii-mochi-loader-ultra",
-    title: "Kawaii Mochi Bounce — Loading spinner ",
-    description: "An ultra-cute jelly mochi character loader featuring soft squash physics, ear wiggle, blush glow, sparkle particles, floating pastel blobs, and heart pop animation.",
-    tags: ["Cute", "Kawaii", "Character Loader", "Pastel", "Squash Stretch", "Playful", "Animated Mascot"],
-    keywords: [
-        "super cute css loader",
-        "kawaii character animation",
-        "jelly bounce loader",
-        "pastel animated spinner",
-        "adorable loading screen",
-        "cute mascot loader",
-        "mochi css animation"
-    ],
-    code: {
-        html: `
-<div class="mochi-world">
-
-    <div class="floating-blob blob1"></div>
-    <div class="floating-blob blob2"></div>
-    <div class="floating-blob blob3"></div>
-
-    <div class="mochi-scene">
-        <div class="sparkles">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="mochi">
-            <div class="ear left-ear"></div>
-            <div class="ear right-ear"></div>
-
-            <div class="face">
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-                <div class="cheek left"></div>
-                <div class="cheek right"></div>
-                <div class="mouth"></div>
-            </div>
-        </div>
-
-        <div class="shadow"></div>
-        <div class="heart-pop"></div>
-
-        <div class="loading-text">LOADING CUTENESS...</div>
-    </div>
-</div>
-`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap');
-
-.mochi-world {
-    width:100%;
-    height:100vh;
-    overflow:hidden;
-    background: linear-gradient(180deg,#ffe8f3,#ffd6ec);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-}
-
-/* Floating background blobs */
-.floating-blob{
-    position:absolute;
-    border-radius:50%;
-    background:rgba(255,255,255,0.3);
-    animation: float 10s infinite ease-in-out;
-    filter: blur(40px);
-}
-.blob1{ width:200px;height:200px; top:10%; left:15%; }
-.blob2{ width:160px;height:160px; bottom:20%; right:10%; animation-delay:2s;}
-.blob3{ width:120px;height:120px; top:50%; right:30%; animation-delay:4s;}
-
-@keyframes float{
-    0%,100%{ transform:translateY(0);}
-    50%{ transform:translateY(-30px);}
-}
-
-.mochi-scene{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-}
-
-/* Mochi body */
-.mochi{
-    width:85px;
-    height:75px;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #fff6fb);
-    border-radius:50% 50% 45% 45%;
-    position:relative;
-    z-index:2;
-    animation: bounce 1.4s infinite cubic-bezier(.4,.0,.2,1);
-    box-shadow:
-        inset -8px -8px 20px rgba(0,0,0,0.04),
-        0 10px 20px rgba(255,105,180,0.2);
-}
-
-/* Jelly ears */
-.ear{
-    position:absolute;
-    width:18px;
-    height:30px;
-    background:#fff;
-    border-radius:50%;
-    top:-15px;
-    animation: ear-wiggle 1.4s infinite ease-in-out;
-}
-.left-ear{ left:8px; }
-.right-ear{ right:8px; }
-
-@keyframes ear-wiggle{
-    0%,100%{ transform:rotate(0deg);}
-    50%{ transform:rotate(8deg);}
-}
-
-/* Face */
-.face{
-    position:absolute;
-    top:55%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:60%;
-    height:45%;
-}
-
-.eye{
-    position:absolute;
-    width:9px;
-    height:9px;
-    background:#4a4a4a;
-    border-radius:50%;
-    animation: blink 4s infinite;
-}
-.eye.left{ left:5px;}
-.eye.right{ right:5px;}
-
-.cheek{
-    position:absolute;
-    width:12px;
-    height:8px;
-    background:#ff9ecb;
-    border-radius:50%;
-    opacity:0.7;
-}
-.cheek.left{ left:-4px; top:10px;}
-.cheek.right{ right:-4px; top:10px;}
-
-.mouth{
-    position:absolute;
-    bottom:4px;
-    left:50%;
-    transform:translateX(-50%);
-    width:10px;
-    height:6px;
-    border-radius:50%;
-    background:#ff6fa5;
-}
-
-/* Shadow */
-.shadow{
-    width:65px;
-    height:12px;
-    background:rgba(0,0,0,0.08);
-    border-radius:50%;
-    animation: shadow-scale 1.4s infinite ease-in-out;
-}
-
-/* Bounce physics */
-@keyframes bounce{
-    0%,100%{ transform:translateY(0) scale(1.15,.85);}
-    30%{ transform:translateY(-70px) scale(.9,1.1);}
-    60%{ transform:translateY(-35px) scale(.95,1.05);}
-    85%{ transform:translateY(0) scale(1.15,.85);}
-}
-
-@keyframes shadow-scale{
-    0%,100%{ transform:scale(1); opacity:0.2;}
-    30%{ transform:scale(.5); opacity:0.05;}
-}
-
-/* Sparkles */
-.sparkles span{
-    position:absolute;
-    width:6px;
-    height:6px;
-    background:#fff;
-    border-radius:50%;
-    animation: sparkle 2s infinite ease-in-out;
-}
-.sparkles span:nth-child(1){ left:-30px; top:-40px;}
-.sparkles span:nth-child(2){ right:-25px; top:-20px; animation-delay:0.5s;}
-.sparkles span:nth-child(3){ left:10px; top:-60px; animation-delay:1s;}
-
-@keyframes sparkle{
-    0%,100%{ transform:scale(0); opacity:0;}
-    50%{ transform:scale(1.4); opacity:1;}
-}
-
-/* Heart pop */
-.heart-pop{
-    position:absolute;
-    width:14px;
-    height:14px;
-    background:#ff6fa5;
-    clip-path:polygon(50% 0%, 61% 15%, 75% 15%, 85% 28%, 75% 42%, 50% 70%, 25% 42%, 15% 28%, 25% 15%, 39% 15%);
-    animation: heart 3s infinite ease-in-out;
-}
-@keyframes heart{
-    0%,100%{ transform:translateY(0) scale(0); opacity:0;}
-    50%{ transform:translateY(-40px) scale(1); opacity:1;}
-}
-
-/* Blink */
-@keyframes blink{
-    0%,95%,100%{ transform:scaleY(1);}
-    97%{ transform:scaleY(0.1);}
-}
-
-.loading-text{
-    font-family:'Fredoka',sans-serif;
-    font-size:14px;
-    color:#ff6fa5;
-    letter-spacing:2px;
-}
-`,
-        js: `// Pure CSS ultra kawaii physics`
-    }
-},
-{
-    id: "bauhaus-morph-loader",
-    title: "Geometric Loading spinner",
-    description: "An artistic loader inspired by the Bauhaus movement. Geometric primitives morph and rotate in a synchronized loop, utilizing primary colors and sharp transitions.",
-    tags: ["Art", "Design", "Minimal", "Bauhaus", "Geometric", "Abstract", "Modern"],
-    keywords: ["bauhaus animation", "geometric loader", "shape morphing css", "minimalist spinner"],
-    code: {
-        html: `
-<div class="art-scene">
-    <div class="canvas">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
-    <div class="gallery-text">DESIGNING</div>
-</div>`,
-        css: `
-.art-scene {
-    width: 100%;
-    height: 100vh;
-    background: #f4f4f0; /* Off-white canvas */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-}
-
-.canvas {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.shape {
-    width: 30px;
-    height: 30px;
-    /* Mix-blend-mode creates new colors when they overlap */
-    mix-blend-mode: multiply; 
-}
-
-.shape-1 {
-    background: #e63946; /* Red */
-    animation: morph-1 4s ease-in-out infinite;
-}
-
-.shape-2 {
-    background: #f1faee; /* White-ish placeholder, will change */
-    background: #457b9d; /* Blue */
-    animation: morph-2 4s ease-in-out infinite;
-}
-
-.shape-3 {
-    background: #e9c46a; /* Yellow */
-    animation: morph-3 4s ease-in-out infinite;
-}
-
-/* Cycle: 
-   1. Shapes rotate positions
-   2. Shapes change geometry (Circle <-> Square)
-*/
-
-@keyframes morph-1 {
-    0% { border-radius: 50%; transform: translateX(0); }
-    33% { border-radius: 0%; transform: translateX(45px) rotate(90deg); }
-    66% { border-radius: 50%; transform: translateX(90px) rotate(180deg); }
-    100% { border-radius: 50%; transform: translateX(0) rotate(360deg); }
-}
-
-@keyframes morph-2 {
-    0% { border-radius: 0%; transform: translateX(0); }
-    33% { border-radius: 50%; transform: translateX(45px) rotate(90deg); }
-    66% { border-radius: 0%; transform: translateX(-45px) rotate(180deg); }
-    100% { border-radius: 0%; transform: translateX(0) rotate(360deg); }
-}
-
-@keyframes morph-3 {
-    0% { border-radius: 50%; transform: translateX(0); }
-    33% { border-radius: 0%; transform: translateX(-90px) rotate(90deg); }
-    66% { border-radius: 50%; transform: translateX(-45px) rotate(180deg); }
-    100% { border-radius: 50%; transform: translateX(0) rotate(360deg); }
-}
-
-.gallery-text {
-    font-family: 'Helvetica Neue', sans-serif;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: #1d3557;
-    font-size: 12px;
-}
-`,
-        js: `// Pure CSS Art`
-    }
-},
-{
-    id: "cozy-coffee-loader",
-    title: "Morning Brew Aesthetic Loading spinner",
-    description: "A cozy, minimalist loader featuring a steaming cup of coffee. Steam wisps rise with organic turbulence and opacity fades, creating a relaxing waiting experience.",
-    tags: ["Cozy", "Aesthetic", "Food", "Calm", "Minimal", "Line Art"],
-    keywords: ["coffee cup animation", "steam css effect", "cozy loader", "aesthetic spinner"],
-    code: {
-        html: `
-<div class="cozy-scene">
-    <div class="cup-container">
-        <div class="steam s1"></div>
-        <div class="steam s2"></div>
-        <div class="steam s3"></div>
-        
-        <div class="cup">
-            <div class="coffee"></div>
-        </div>
-        <div class="handle"></div>
-        <div class="plate"></div>
-    </div>
-    <div class="cozy-text">BREWING CONTENT</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap');
-
-.cozy-scene {
-    width: 100%;
-    height: 100vh;
-    background: #f7f3e8; /* Cream/Beige */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-}
-
-.cup-container {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Cup Body */
-.cup {
-    position: relative;
-    width: 70px;
-    height: 50px;
-    background: #fff;
-    border: 3px solid #d4a373; /* Latte Brown */
-    border-radius: 0 0 40px 40px;
-    z-index: 10;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-}
-
-/* Coffee Liquid (Wobble Effect) */
-.coffee {
-    position: absolute;
-    top: 10px; left: 0; right: 0; bottom: 0;
-    background: #d4a373;
-    opacity: 0.2;
-    transform-origin: 50% 0;
-    animation: liquid-wobble 4s ease-in-out infinite;
-}
-
-/* Handle */
-.handle {
-    position: absolute;
-    right: 5px; top: 10px;
-    width: 25px; height: 30px;
-    border: 3px solid #d4a373;
-    border-radius: 0 50% 50% 0;
-    z-index: 1;
-}
-
-/* Saucer */
-.plate {
-    position: absolute;
-    bottom: 12px;
-    width: 90px;
-    height: 4px;
-    background: #d4a373;
-    border-radius: 10px;
-}
-
-/* Steam Wisps */
-.steam {
-    position: absolute;
-    top: -20px;
-    width: 6px;
-    height: 15px;
-    background: #d4a373;
-    border-radius: 50%;
-    opacity: 0;
-    filter: blur(3px);
-}
-
-.s1 { left: 35px; animation: steam-rise 2.5s ease-out infinite 0s; }
-.s2 { left: 50px; animation: steam-rise 2.5s ease-out infinite 0.8s; }
-.s3 { left: 65px; animation: steam-rise 2.5s ease-out infinite 1.6s; }
-
-/* Animations */
-@keyframes steam-rise {
-    0% { transform: translateY(0) scale(1); opacity: 0; }
-    20% { opacity: 0.6; }
-    100% { transform: translateY(-40px) scale(2); opacity: 0; }
-}
-
-@keyframes liquid-wobble {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(3deg); }
-    75% { transform: rotate(-3deg); }
-}
-
-.cozy-text {
-    font-family: 'Lora', serif;
-    font-style: italic;
-    color: #a98467;
-    font-size: 14px;
-    letter-spacing: 1px;
-    animation: fade 3s infinite;
-}
-
-@keyframes fade {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-`,
-        js: `// Pure CSS Cozy Vibes`
-    }
-},
-{
-    id: "spooky-ghost-loader-ultra",
-    title: "Lil' Boo — Haunted Lantern Night (Ultra Cute Edition) Loading Spinner",
-    description: "An ultra-cute yet spooky ghost loader featuring glowing aura, floating mist, wiggly tail physics, lantern bloom lighting, tiny bats, sparkles, and soft night atmosphere.",
-    tags: ["Cute", "Spooky", "Ghost", "Halloween", "Character Loader", "Floating", "Lantern Glow", "Atmospheric"],
-    keywords: [
-        "cute spooky css loader",
-        "ghost floating animation",
-        "halloween animated spinner",
-        "lantern glow css effect",
-        "kawaii ghost character",
-        "night themed loading screen",
-        "spooky pastel animation"
-    ],
-    code: {
-        html: `
-<div class="spooky-world">
-
-    <div class="mist mist-1"></div>
-    <div class="mist mist-2"></div>
-
-    <div class="bat bat-1"></div>
-    <div class="bat bat-2"></div>
-
-    <div class="spooky-scene">
-        <div class="ghost">
-            <div class="aura"></div>
-
-            <div class="face">
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-                <div class="blush left"></div>
-                <div class="blush right"></div>
-                <div class="mouth"></div>
-            </div>
-
-            <div class="hands">
-                <div class="hand left"></div>
-                <div class="hand right">
-                    <div class="lantern">
-                        <div class="light"></div>
-                        <div class="spark"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tail"></div>
-        </div>
-
-        <div class="shadow"></div>
-        <div class="spooky-text">SUMMONING SPIRITS...</div>
-    </div>
-</div>
-`,
-        css: `
-.spooky-world {
-    width:100%;
-    height:100vh;
-    overflow:hidden;
-    background: radial-gradient(circle at 50% 30%, #3b2f5a, #1a1230 70%);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-}
-
-/* Floating mist */
-.mist{
-    position:absolute;
-    width:300px;
-    height:100px;
-    background:rgba(255,255,255,0.05);
-    filter:blur(30px);
-    border-radius:50%;
-    animation: drift 12s infinite linear;
-}
-.mist-1{ top:20%; left:-10%; }
-.mist-2{ bottom:15%; right:-10%; animation-delay:4s;}
-
-@keyframes drift{
-    0%{ transform:translateX(0);}
-    50%{ transform:translateX(100px);}
-    100%{ transform:translateX(0);}
-}
-
-/* Tiny bats */
-.bat{
-    position:absolute;
-    width:20px;
-    height:10px;
-    background:#000;
-    clip-path: polygon(0 50%, 20% 0, 40% 50%, 60% 0, 80% 50%, 100% 50%, 80% 100%, 60% 50%, 40% 100%, 20% 50%);
-    animation: fly 6s infinite linear;
-    opacity:0.3;
-}
-.bat-1{ top:25%; left:10%; }
-.bat-2{ top:35%; right:15%; animation-delay:2s;}
-
-@keyframes fly{
-    0%{ transform:translateX(0);}
-    50%{ transform:translateX(80px);}
-    100%{ transform:translateX(0);}
-}
-
-.spooky-scene{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:25px;
-    position:relative;
-}
-
-/* Ghost */
-.ghost{
-    position:relative;
-    width:85px;
-    height:105px;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #f1f1ff);
-    border-radius:45px 45px 0 0;
-    animation: float 3.5s ease-in-out infinite;
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.4);
-    z-index:2;
-}
-
-/* Glow aura */
-.aura{
-    position:absolute;
-    inset:-15px;
-    border-radius:50%;
-    background: radial-gradient(circle, rgba(200,180,255,0.2), transparent 70%);
-    z-index:-1;
-}
-
-/* Wiggly tail */
-.tail{
-    position:absolute;
-    bottom:-12px;
-    left:0;
-    width:100%;
-    height:25px;
-    background:#fff;
-    border-radius:0 0 30px 30px;
-    animation: ripple 2s infinite ease-in-out;
-}
-
-@keyframes ripple{
-    0%,100%{ transform:skewX(0deg);}
-    50%{ transform:skewX(5deg);}
-}
-
-/* Face */
-.face{
-    position:absolute;
-    top:35px;
-    left:50%;
-    transform:translateX(-50%);
-    width:60px;
-    height:40px;
-}
-
-.eye{
-    position:absolute;
-    width:12px;
-    height:16px;
-    background:#2b1e4a;
-    border-radius:50%;
-    animation: blink 5s infinite;
-}
-.eye.left{ left:8px;}
-.eye.right{ right:8px;}
-
-.blush{
-    position:absolute;
-    width:12px;
-    height:6px;
-    background:#ff9ecb;
-    border-radius:50%;
-    opacity:0.6;
-    top:20px;
-}
-.blush.left{ left:5px;}
-.blush.right{ right:5px;}
-
-.mouth{
-    position:absolute;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:10px;
-    height:8px;
-    background:#ff6fa5;
-    border-radius:50%;
-}
-
-/* Hands */
-.hand{
-    position:absolute;
-    top:65px;
-    width:16px;
-    height:16px;
-    background:#fff;
-    border-radius:50%;
-}
-.hand.left{ left:-6px;}
-.hand.right{ right:-6px; display:flex; justify-content:center;}
-
-/* Lantern */
-.lantern{
-    position:absolute;
-    bottom:-28px;
-    width:16px;
-    height:26px;
-    background:#3a2a1f;
-    border-radius:5px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    transform-origin:top;
-    animation:swing 3.5s ease-in-out infinite;
-}
-
-.light{
-    width:8px;
-    height:14px;
-    background:#ffaa33;
-    border-radius:3px;
-    box-shadow:0 0 20px #ffaa33;
-    animation:flicker 0.6s infinite alternate;
-}
-
-.spark{
-    position:absolute;
-    width:4px;
-    height:4px;
-    background:#ffd966;
-    border-radius:50%;
-    top:-5px;
-    animation:sparkle 1.5s infinite ease-in-out;
-}
-
-/* Shadow */
-.shadow{
-    width:70px;
-    height:12px;
-    background:rgba(0,0,0,0.3);
-    border-radius:50%;
-    animation:shadow-pulse 3.5s ease-in-out infinite;
-}
-
-/* Text */
-.spooky-text{
-    font-family:monospace;
-    color:#d5c6ff;
-    letter-spacing:2px;
-    font-size:13px;
-}
-
-/* Animations */
-@keyframes float{
-    0%,100%{ transform:translateY(0);}
-    50%{ transform:translateY(-18px);}
-}
-
-@keyframes shadow-pulse{
-    0%,100%{ transform:scale(1); opacity:0.25;}
-    50%{ transform:scale(0.75); opacity:0.15;}
-}
-
-@keyframes swing{
-    0%,100%{ transform:rotate(-12deg);}
-    50%{ transform:rotate(12deg);}
-}
-
-@keyframes flicker{
-    0%{ opacity:0.8;}
-    100%{ opacity:1;}
-}
-
-@keyframes sparkle{
-    0%,100%{ transform:translateY(0) scale(0); opacity:0;}
-    50%{ transform:translateY(-8px) scale(1); opacity:1;}
-}
-
-@keyframes blink{
-    0%,96%,100%{ transform:scaleY(1);}
-    98%{ transform:scaleY(0.1);}
-}
-`,
-        js: `// Boo 👻`
-    }
-},
-{
-    id: "lofi-vinyl-loader",
-    title: "Lo-Fi Vinyl Player Loading Animation",
-    description: "A retro-styled loader mimicking a vinyl record player. The record spins and the tone arm mechanically moves onto the groove to symbolize the start of a process.",
-    tags: ["Retro", "Music", "Vinyl", "Lo-Fi", "Chill", "Vibe"],
-    keywords: ["vinyl record css animation", "retro music loader", "record player spinner", "lo-fi aesthetic ui"],
-    code: {
-        html: `
-<div class="vinyl-scene">
-    <div class="turntable">
-        <div class="platter"></div>
-        <div class="record">
-            <div class="label-sticker">
-                <div class="hole"></div>
-            </div>
-        </div>
-        <div class="tone-arm">
-            <div class="counterweight"></div>
-            <div class="arm-body"></div>
-            <div class="headshell"></div>
-        </div>
-    </div>
-    <div class="vibe-text">DROPPING THE NEEDLE...</div>
-</div>`,
-        css: `
-.vinyl-scene {
-    width: 100%;
-    height: 100vh;
-    background: #d4c4a8; /* Warm retro beige */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-}
-
-.turntable {
-    position: relative;
-    width: 220px;
-    height: 180px;
-    background: #8c6e52; /* Wood grain color */
-    border-radius: 10px;
-    box-shadow: 
-        inset 0 0 20px rgba(0,0,0,0.2),
-        5px 5px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.platter {
-    position: absolute;
-    top: 10px; left: 10px;
-    width: 160px; height: 160px;
-    background: #444;
-    border-radius: 50%;
-    box-shadow: inset 0 0 10px #000;
-}
-
-.record {
-    position: absolute;
-    top: 15px; left: 15px;
-    width: 150px; height: 150px;
-    background: 
-        repeating-radial-gradient(
-            #111 0px, 
-            #111 2px, 
-            #222 3px, 
-            #222 4px
-        ); /* Vinyl grooves texture */
-    border-radius: 50%;
-    animation: spin-record 2s linear infinite;
-}
-
-.label-sticker {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px; height: 50px;
-    background: #ff6b6b; /* Retro Red */
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
-
-.hole {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px; height: 8px;
-    background: #e0e0e0;
-    border-radius: 50%;
-}
-
-/* Tone Arm Mechanism */
-.tone-arm {
-    position: absolute;
-    top: 20px; right: 20px;
-    width: 40px; height: 140px;
-    transform-origin: top center;
-    animation: move-arm 4s ease-in-out infinite;
-}
-
-.counterweight {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 20px; height: 20px; background: #666; border-radius: 50%; border: 2px solid #444;
-}
-.arm-body {
-    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-    width: 6px; height: 100px; background: #999; border-radius: 3px;
-}
-.headshell {
-    position: absolute; bottom: 20px; left: 50%;
-    width: 12px; height: 20px; background: #333;
-    transform: translateX(-50%) rotate(20deg);
-}
-
-.vibe-text {
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    color: #5e4b3c;
-    font-size: 12px;
-    letter-spacing: 1px;
-    animation: pulse 2s infinite;
-}
-
-/* Animations */
-@keyframes spin-record {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes move-arm {
-    0%, 100% { transform: rotate(0deg); } /* Rest position */
-    30%, 70% { transform: rotate(-35deg); } /* On the record */
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-`,
-        js: `// Analog warmth`
-    }
-},
-{
-    id: "zero-point-tesseract",
-    title: "Zero-Point Tesseract Loading Animation",
-    description: "A visually stunning 3D hyper-cube loader. A translucent containment field rotates around a volatile, pulsating energy core. Features true volumetric 3D rendering using CSS transforms.",
-    tags: ["3D", "Sci-Fi", "Cube", "Hologram", "Futuristic", "High-Tech", "Neon"],
-    keywords: ["3d cube loader css", "tesseract animation", "holographic box spinner", "sci-fi energy core"],
-    code: {
-        html: `
-<div class="tesseract-scene">
-    <div class="cube-wrapper">
-        <div class="cube">
-            <div class="face front"></div>
-            <div class="face back"></div>
-            <div class="face right"></div>
-            <div class="face left"></div>
-            <div class="face top"></div>
-            <div class="face bottom"></div>
-            
-            <div class="core-cube">
-                <div class="core-face front"></div>
-                <div class="core-face back"></div>
-                <div class="core-face right"></div>
-                <div class="core-face left"></div>
-                <div class="core-face top"></div>
-                <div class="core-face bottom"></div>
-            </div>
-        </div>
-    </div>
-    <div class="tech-readout">
-        <span class="label">CONTAINMENT STABLE</span>
-        <div class="data-line"></div>
-    </div>
-</div>`,
-        css: `
-.tesseract-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000510; /* Deep Space Blue */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px; /* Essential for 3D */
-    overflow: hidden;
-}
-
-.cube-wrapper {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: rotate-scene 10s linear infinite;
-}
-
-/* --- OUTER CUBE --- */
-.cube {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    transform-style: preserve-3d;
-}
-
-.face {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 1px solid rgba(0, 255, 255, 0.5); /* Neon Cyan Borders */
-    background: rgba(0, 255, 255, 0.05); /* Glassy tint */
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Face Markings (Tech Details) */
-.face::after {
-    content: '';
-    width: 80%; height: 80%;
-    border: 1px dashed rgba(0, 255, 255, 0.2);
-}
-
-/* Positioning the 6 faces */
-.front  { transform: rotateY(0deg) translateZ(50px); }
-.back   { transform: rotateY(180deg) translateZ(50px); }
-.right  { transform: rotateY(90deg) translateZ(50px); }
-.left   { transform: rotateY(-90deg) translateZ(50px); }
-.top    { transform: rotateX(90deg) translateZ(50px); }
-.bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-/* --- INNER CORE CUBE --- */
-.core-cube {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 30px; left: 30px; /* Center it */
-    transform-style: preserve-3d;
-    animation: counter-spin 4s linear infinite;
-}
-
-.core-face {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 0, 100, 0.6); /* Magenta Core */
-    border: 1px solid #ff0066;
-    box-shadow: 0 0 20px #ff0066;
-}
-
-.core-face.front  { transform: rotateY(0deg) translateZ(20px); }
-.core-face.back   { transform: rotateY(180deg) translateZ(20px); }
-.core-face.right  { transform: rotateY(90deg) translateZ(20px); }
-.core-face.left   { transform: rotateY(-90deg) translateZ(20px); }
-.core-face.top    { transform: rotateX(90deg) translateZ(20px); }
-.core-face.bottom { transform: rotateX(-90deg) translateZ(20px); }
-
-/* --- ANIMATIONS --- */
-@keyframes rotate-scene {
-    0% { transform: rotateX(0deg) rotateY(0deg); }
-    100% { transform: rotateX(360deg) rotateY(360deg); }
-}
-
-@keyframes counter-spin {
-    0% { transform: rotateX(0deg) rotateY(0deg); }
-    100% { transform: rotateX(-360deg) rotateY(-360deg); }
-}
-
-/* --- UI TEXT --- */
-.tech-readout {
-    margin-top: 80px;
-    font-family: 'Courier New', monospace;
-    color: #00ffff;
-    text-align: center;
-    letter-spacing: 2px;
-    font-size: 10px;
-}
-
-.data-line {
-    width: 150px;
-    height: 2px;
-    background: #003333;
-    margin-top: 5px;
-    position: relative;
-    overflow: hidden;
-}
-
-.data-line::after {
-    content:'';
-    position: absolute; top:0; left:0;
-    width: 50%; height: 100%;
-    background: #00ffff;
-    animation: scan 2s ease-in-out infinite;
-}
-
-@keyframes scan {
-    0% { left: -50%; }
-    100% { left: 100%; }
-}
-`,
-        js: `// 3D Matrix Logic`
-    }
-},
-{
-    id: "orbital-defense-loader",
-    title: "Orbital Defense HUD Loading animation",
-    description: "A tactical military-grade loader. Features multiple rotating radar rings, scanning sweep effects, and target tracking blips on a holographic grid.",
-    tags: ["HUD", "Military", "Sci-Fi", "Radar", "Tech", "Detailed", "Interface"],
-    keywords: ["radar scanner css", "hud loader animation", "iron man ui spinner", "tactical interface"],
-    code: {
-        html: `
-<div class="hud-scene">
-    <div class="radar-system">
-        <div class="grid-overlay"></div>
-        
-        <div class="ring outer-ring"></div>
-        <div class="blip target-1"></div>
-        
-        <div class="ring mid-ring">
-            <div class="scanner-sweep"></div>
-        </div>
-        
-        <div class="core-circle">
-            <div class="dot-matrix"></div>
-        </div>
-        
-        <div class="crosshair-h"></div>
-        <div class="crosshair-v"></div>
-    </div>
-    <div class="hud-text">
-        <span>SYSTEM SCAN</span>
-        <span class="count">42.8%</span>
-    </div>
-</div>`,
-        css: `
-.hud-scene {
-    width: 100%;
-    height: 100vh;
-    background: #050505;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    /* CRT Scanline overlay */
-    background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-    background-size: 100% 4px;
-}
-
-.radar-system {
-    position: relative;
-    width: 200px;
-    height: 200px;
-}
-
-/* Grid Background */
-.grid-overlay {
-    position: absolute;
-    inset: -20%;
-    background-image: 
-        radial-gradient(rgba(0, 255, 0, 0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
-    border-radius: 50%;
-    opacity: 0.3;
-}
-
-/* Outer Ring */
-.outer-ring {
-    position: absolute;
-    inset: 0;
-    border: 1px dashed rgba(0, 255, 0, 0.3);
-    border-radius: 50%;
-    border-top: 1px solid #00ff00;
-    border-bottom: 1px solid #00ff00;
-    animation: spin-slow 10s linear infinite;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
-}
-
-/* Target Blip */
-.target-1 {
-    position: absolute;
-    top: 10px; left: 50%;
-    width: 6px; height: 6px;
-    background: #ff0000;
-    border-radius: 50%;
-    box-shadow: 0 0 5px #ff0000;
-    animation: orbit-blip 4s linear infinite;
-    transform-origin: 0 90px; /* Offset rotation origin to center of radar */
-}
-
-@keyframes orbit-blip {
-    0% { transform: rotate(0deg) translateY(0); opacity: 1; }
-    50% { opacity: 0.2; }
-    100% { transform: rotate(360deg) translateY(0); opacity: 1; }
-}
-
-/* Middle Ring & Scanner */
-.mid-ring {
-    position: absolute;
-    inset: 30px;
-    border: 1px solid rgba(0, 255, 0, 0.1);
-    border-radius: 50%;
-}
-
-.scanner-sweep {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 50%; height: 2px;
-    background: linear-gradient(90deg, transparent, #00ff00);
-    transform-origin: left center;
-    animation: radar-sweep 2s linear infinite;
-    opacity: 0.6;
-}
-
-@keyframes radar-sweep {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Inner Core */
-.core-circle {
-    position: absolute;
-    inset: 70px;
-    border: 2px solid #00ff00;
-    border-radius: 50%;
-    background: rgba(0, 255, 0, 0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-    animation: pulse-core 2s ease-in-out infinite;
-}
-
-/* Crosshairs */
-.crosshair-h {
-    position: absolute;
-    top: 50%; left: 0; width: 100%; height: 1px;
-    background: rgba(0, 255, 0, 0.3);
-}
-.crosshair-v {
-    position: absolute;
-    left: 50%; top: 0; width: 1px; height: 100%;
-    background: rgba(0, 255, 0, 0.3);
-}
-
-.hud-text {
-    font-family: 'Share Tech Mono', monospace;
-    color: #00ff00;
-    display: flex;
-    gap: 10px;
-    font-size: 12px;
-    text-shadow: 0 0 5px #00ff00;
-}
-
-.count {
-    animation: blink-text 0.5s infinite alternate;
-}
-
-@keyframes spin-slow { 100% { transform: rotate(360deg); } }
-@keyframes pulse-core {
-    0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); border-color: #00ff00; }
-    50% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.5); border-color: #afffa; }
-}
-@keyframes blink-text { from { opacity: 1; } to { opacity: 0.5; } }
-`,
-        js: `// Tactical Display`
-    }
-},
-{
-    id: "vhs-tracking-loader",
-    title: "VHS Tracking Glitch Loading Page",
-    description: "A gritty, analog-style loader mimicking a damaged VCR tape. Text suffers from chromatic aberration (RGB split), scanline distortion, and signal noise.",
-    tags: ["Retro", "Glitch", "VHS", "90s", "Analog", "Horror", "Text"],
-    keywords: ["vhs css animation", "glitch text effect", "retro loader", "analog horror style"],
-    code: {
-        html: `
-<div class="vhs-scene">
-    <div class="screen-overlay"></div>
-    <div class="glitch-wrapper">
-        <div class="glitch" data-text="TRACKING...">TRACKING...</div>
-    </div>
-    <div class="scanlines"></div>
-    <div class="vcr-ui">PLAY > 00:00:04</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Vt323&display=swap');
-
-.vhs-scene {
-    width: 100%;
-    height: 100vh;
-    background: #0000bb; /* Classic Blue Screen */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.glitch-wrapper {
-    position: relative;
-}
-
-.glitch {
-    font-family: 'Vt323', monospace;
-    font-size: 80px;
-    color: #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    letter-spacing: 5px;
-}
-
-/* Creating the RGB Split Layers */
-.glitch::before,
-.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0000bb; /* Match BG to hide main text */
-}
-
-.glitch::before {
-    color: #ff00c1; /* Magenta Shift */
-    animation: glitch-anim-1 2s infinite linear alternate-reverse;
-    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-    left: -2px;
-}
-
-.glitch::after {
-    color: #00fff9; /* Cyan Shift */
-    animation: glitch-anim-2 2s infinite linear alternate-reverse;
-    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
-    left: 2px;
-}
-
-/* Scanlines Texture */
-.scanlines {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0),
-        rgba(255,255,255,0) 50%,
-        rgba(0,0,0,0.2) 50%,
-        rgba(0,0,0,0.2)
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* Rolling Bar Effect */
-.screen-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 10px;
-    background: rgba(255,255,255,0.2);
-    opacity: 0.5;
-    animation: roll-bar 5s linear infinite;
-    filter: blur(5px);
-}
-
-.vcr-ui {
-    position: absolute;
-    top: 40px; left: 40px;
-    font-family: 'Vt323', monospace;
-    color: #fff;
-    font-size: 24px;
-    text-shadow: 2px 2px #000;
-    animation: blink 1s steps(2) infinite;
-}
-
-/* Glitch Keyframes */
-@keyframes glitch-anim-1 {
-    0% { clip-path: inset(20% 0 80% 0); }
-    20% { clip-path: inset(60% 0 10% 0); }
-    40% { clip-path: inset(40% 0 50% 0); }
-    60% { clip-path: inset(80% 0 5% 0); }
-    80% { clip-path: inset(10% 0 70% 0); }
-    100% { clip-path: inset(30% 0 20% 0); }
-}
-
-@keyframes glitch-anim-2 {
-    0% { clip-path: inset(10% 0 60% 0); }
-    20% { clip-path: inset(80% 0 5% 0); }
-    40% { clip-path: inset(30% 0 20% 0); }
-    60% { clip-path: inset(10% 0 80% 0); }
-    80% { clip-path: inset(50% 0 30% 0); }
-    100% { clip-path: inset(70% 0 10% 0); }
-}
-
-@keyframes roll-bar {
-    0% { top: -10%; opacity: 0; }
-    10% { opacity: 0.2; }
-    90% { opacity: 0.2; }
-    100% { top: 110%; opacity: 0; }
-}
-
-@keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }
-`,
-        js: `// Be Kind Rewind`
-    }
-},
-{
-    id: "iso-server-loader",
-    title: "Isometric Data Stack Loading Animation",
-    description: "A professional 3D loader representing cloud infrastructure. Isometric layers of a server stack float and compress rhythmically. Perfect for SaaS, database, or cloud computing platforms.",
-    tags: ["3D", "Tech", "Isometric", "Server", "Database", "SaaS", "Enterprise"],
-    keywords: ["isometric css animation", "server stack loader", "database spinner", "3d layers animation"],
-    code: {
-        html: `
-<div class="iso-scene">
-    <div class="stack-container">
-        <div class="layer l3">
-            <div class="side top"></div>
-            <div class="side left"></div>
-            <div class="side right"></div>
-        </div>
-        <div class="layer l2">
-            <div class="side top"></div>
-            <div class="side left"></div>
-            <div class="side right"></div>
-        </div>
-        <div class="layer l1">
-            <div class="side top"></div>
-            <div class="side left"></div>
-            <div class="side right"></div>
-        </div>
-    </div>
-    <div class="server-shadow"></div>
-    <div class="iso-text">SYNCING DATABASE</div>
-</div>`,
-        css: `
-.iso-scene {
-    width: 100%;
-    height: 100vh;
-    background: #f1f5f9; /* Slate 100 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-}
-
-.stack-container {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    /* Isometric Rotation */
-    transform: rotateX(60deg) rotateZ(45deg);
-    transform-style: preserve-3d;
-}
-
-.layer {
-    position: absolute;
-    width: 60px; height: 60px;
-    transform-style: preserve-3d;
-    transition: transform 0.3s;
-}
-
-/* The bounce animation affects the Z-translate (vertical in 3D space) */
-.l1 { animation: stack-bounce 2s ease-in-out infinite 0s; z-index: 1; }
-.l2 { animation: stack-bounce 2s ease-in-out infinite 0.15s; z-index: 2; }
-.l3 { animation: stack-bounce 2s ease-in-out infinite 0.3s; z-index: 3; }
-
-/* Cube Faces */
-.side {
-    position: absolute;
-    width: 100%; height: 100%;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.top {
-    background: #3b82f6; /* Blue 500 */
-    transform: translateZ(10px);
-}
-.left {
-    background: #2563eb; /* Blue 600 */
-    transform: rotateX(-90deg) translateZ(30px); /* Height of block */
-    height: 10px; top: 50px;
-}
-.right {
-    background: #1d4ed8; /* Blue 700 */
-    transform: rotateY(90deg) translateZ(30px);
-    width: 10px; left: 50px;
-}
-
-/* Data Lights on the edges */
-.right::after, .left::after {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 4px; height: 4px;
-    background: #60a5fa; /* Light Blue blinker */
-    border-radius: 50%;
-    animation: blink-data 1s infinite;
-    box-shadow: 0 0 5px #60a5fa;
-}
-
-.server-shadow {
-    width: 80px; height: 20px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 50%;
-    filter: blur(8px);
-    animation: shadow-size 2s ease-in-out infinite;
-    margin-top: -30px;
-}
-
-.iso-text {
-    font-family: 'Verdana', sans-serif;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #64748b;
-    font-size: 11px;
-    text-transform: uppercase;
-}
-
-/* Animations */
-@keyframes stack-bounce {
-    0% { transform: translateZ(0px); }
-    50% { transform: translateZ(40px); } /* Levitate up */
-    100% { transform: translateZ(0px); }
-}
-
-@keyframes shadow-size {
-    0% { transform: scale(1); opacity: 0.1; }
-    50% { transform: scale(0.8); opacity: 0.05; }
-    100% { transform: scale(1); opacity: 0.1; }
-}
-
-@keyframes blink-data {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-`,
-        js: `// Cloud Infrastructure`
-    }
-},
-{
-    id: "gyroscope-loader",
-    title: "Precision Gyroscope Loading Animation",
-    description: "A professional 3D loader representing stability and precision. Nested rings rotate on independent axes around a glowing core, mimicking a navigational gyroscope.",
-    tags: ["3D", "Tech", "Enterprise", "Global", "Finance", "Precision"],
-    keywords: ["gyroscope css animation", "3d ring spinner", "enterprise loader", "tech orbit animation"],
-    code: {
-        html: `
-<div class="gyro-scene">
-    <div class="gyroscope">
-        <div class="ring outer"></div>
-        <div class="ring middle"></div>
-        <div class="ring inner"></div>
-        <div class="core"></div>
-    </div>
-    <div class="gyro-text">CALIBRATING</div>
-</div>`,
-        css: `
-.gyro-scene {
-    width: 100%;
-    height: 100vh;
-    background: #0f172a; /* Slate 900 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    perspective: 800px;
-}
-
-.gyroscope {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    transform-style: preserve-3d;
-    animation: floating 4s ease-in-out infinite;
-}
-
-.ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    transform-style: preserve-3d;
-}
-
-/* Outer Ring (Horizontal Spin) */
-.outer {
-    border-top: 2px solid #3b82f6; /* Blue 500 */
-    border-bottom: 2px solid #3b82f6;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
-    animation: spin-x 4s linear infinite;
-}
-
-/* Middle Ring (Vertical Spin) */
-.middle {
-    inset: 10px;
-    border-left: 2px solid #60a5fa; /* Blue 400 */
-    border-right: 2px solid #60a5fa;
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
-    animation: spin-y 5s linear infinite;
-}
-
-/* Inner Ring (Diagonal Spin) */
-.inner {
-    inset: 25px;
-    border-top: 2px solid #93c5fd; /* Blue 300 */
-    border-left: 2px solid #93c5fd;
-    box-shadow: 0 0 10px rgba(147, 197, 253, 0.2);
-    animation: spin-z 3s linear infinite;
-}
-
-/* The Stable Core */
-.core {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px; height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 20px #fff;
-    animation: pulse-core 2s ease-in-out infinite;
-}
-
-.gyro-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #94a3b8;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-/* Animations */
-@keyframes spin-x {
-    0% { transform: rotateX(0deg) rotateY(0deg); }
-    100% { transform: rotateX(360deg) rotateY(45deg); }
-}
-
-@keyframes spin-y {
-    0% { transform: rotateY(0deg) rotateX(45deg); }
-    100% { transform: rotateY(360deg) rotateX(45deg); }
-}
-
-@keyframes spin-z {
-    0% { transform: rotateZ(0deg) rotateX(15deg); }
-    100% { transform: rotateZ(360deg) rotateX(15deg); }
-}
-
-@keyframes pulse-core {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-}
-
-@keyframes floating {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-`,
-        js: `// Gyroscopic Physics`
-    }
-},
-{
-    id: "network-packet-loader",
-    title: "Network Data Stream Loading Animation",
-    description: "A visualization of digital data transfer. 'Packets' (dots) travel along invisible circuit lines, converging at a central hub before dispersing. Ideal for file transfers, server connections, or crypto apps.",
-    tags: ["Data", "Network", "Upload", "Tech", "Connectivity", "Speed"],
-    keywords: ["network stream animation", "data packet loader", "uploading css animation", "connectivity spinner"],
-    code: {
-        html: `
-<div class="net-scene">
-    <div class="hub-container">
-        <div class="hub"></div>
-        <div class="packet p1"></div>
-        <div class="packet p2"></div>
-        <div class="packet p3"></div>
-        <div class="packet p4"></div>
-        
-        <div class="line l1"></div>
-        <div class="line l2"></div>
-        <div class="line l3"></div>
-        <div class="line l4"></div>
-    </div>
-    <div class="net-text">ESTABLISHING UPLINK</div>
-</div>`,
-        css: `
-.net-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-}
-
-.hub-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-}
-
-/* The Central Hub */
-.hub {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px; height: 20px;
-    background: #00ff88;
-    border-radius: 50%;
-    box-shadow: 0 0 20px #00ff88;
-    z-index: 10;
-    animation: hub-pulse 1s ease-in-out infinite;
-}
-
-/* Connection Lines (Faint) */
-.line {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100px; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3));
-    transform-origin: left center;
-}
-.l1 { transform: rotate(0deg); }
-.l2 { transform: rotate(90deg); }
-.l3 { transform: rotate(180deg); }
-.l4 { transform: rotate(270deg); }
-
-/* Data Packets */
-.packet {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 8px; height: 4px;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 0 10px #fff;
-    z-index: 5;
-    opacity: 0;
-}
-
-/* The Travel Animation:
-   Packets start far away (100px) and zoom into the center (0px)
-*/
-.p1 { transform: rotate(0deg); animation: data-in 1.5s linear infinite; animation-delay: 0s; }
-.p2 { transform: rotate(90deg); animation: data-in 1.5s linear infinite; animation-delay: 0.5s; }
-.p3 { transform: rotate(180deg); animation: data-in 1.5s linear infinite; animation-delay: 0.25s; }
-.p4 { transform: rotate(270deg); animation: data-in 1.5s linear infinite; animation-delay: 0.75s; }
-
-@keyframes data-in {
-    0% { transform: rotate(var(--r)) translateX(100px); opacity: 0; }
-    20% { opacity: 1; }
-    90% { transform: rotate(var(--r)) translateX(10px); opacity: 1; }
-    100% { transform: rotate(var(--r)) translateX(0px); opacity: 0; }
-}
-
-/* Fix rotation vars for animation reuse */
-.p1 { --r: 0deg; }
-.p2 { --r: 90deg; }
-.p3 { --r: 180deg; }
-.p4 { --r: 270deg; }
-
-@keyframes hub-pulse {
-    0% { box-shadow: 0 0 20px #00ff88; transform: translate(-50%, -50%) scale(1); }
-    10% { box-shadow: 0 0 40px #00ff88; transform: translate(-50%, -50%) scale(1.2); background: #fff; }
-    100% { box-shadow: 0 0 20px #00ff88; transform: translate(-50%, -50%) scale(1); }
-}
-
-.net-text {
-    font-family: 'Courier New', monospace;
-    color: #00ff88;
-    letter-spacing: 2px;
-    font-size: 12px;
-    text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
-}
-`,
-        js: `// High Speed Transfer`
-    }
-},
-{
-    id: "ferrofluid-magnet-pro",
-    title: "Ferrofluid Core — Magnetic Field Simulation Loading Animation ",
-    description: "A refined ferrofluid magnetic simulation featuring graphite liquid gradients, volumetric glow core, organic spike pulses, rotating magnetic field, and laboratory-grade depth rendering.",
-    tags: ["Physics", "Ferrofluid", "Magnetic Field", "Premium", "Dark UI", "Gooey Filter", "Science"],
-    keywords: [
-        "premium ferrofluid animation",
-        "magnetic field css simulation",
-        "gooey liquid spinner",
-        "graphite liquid ui",
-        "organic blob animation",
-        "science interface animation",
-        "dark physics loader"
-    ],
-    code: {
-        html: `
-<div class="ferro-scene">
-    <svg style="position:absolute;width:0;height:0;">
-        <defs>
-            <filter id="ferro-goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
-                <feColorMatrix in="blur" mode="matrix"
-                    values="1 0 0 0 0
-                            0 1 0 0 0
-                            0 0 1 0 0
-                            0 0 0 18 -7"
-                    result="goo"/>
-                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="magnet-container">
-        <div class="magnetic-ring"></div>
-
-        <div class="fluid-box">
-            <div class="core-ball"></div>
-
-            <div class="spike s1"></div>
-            <div class="spike s2"></div>
-            <div class="spike s3"></div>
-            <div class="spike s4"></div>
-            <div class="spike s5"></div>
-            <div class="spike s6"></div>
-            <div class="spike s7"></div>
-            <div class="spike s8"></div>
-        </div>
-    </div>
-
-    <div class="ferro-text">MAGNETIC FIELD ACTIVE</div>
-</div>
-`,
-        css: `
-.ferro-scene {
-    width:100%;
-    height:100vh;
-    background: radial-gradient(circle at 50% 40%, #1a1f29, #0b0e13 70%);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:40px;
-}
-
-/* Container smaller + elegant */
-.magnet-container{
-    width:170px;
-    height:170px;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    filter:url(#ferro-goo);
-    animation: rotate-system 14s linear infinite;
-}
-
-/* Magnetic Field Ring */
-.magnetic-ring{
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,0.06);
-    box-shadow:0 0 25px rgba(0,200,255,0.05);
-    animation: pulse-ring 4s ease-in-out infinite;
-}
-
-@keyframes pulse-ring{
-    0%,100%{ transform:scale(1); opacity:0.5;}
-    50%{ transform:scale(1.08); opacity:0.2;}
-}
-
-.fluid-box{
-    position:relative;
-    width:100%;
-    height:100%;
-}
-
-/* Core Ball with metallic gradient */
-.core-ball{
-    position:absolute;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    background:
-        radial-gradient(circle at 35% 30%, #2a313d, #0a0c11 70%);
-    box-shadow:
-        inset -8px -10px 18px rgba(255,255,255,0.06),
-        inset 10px 12px 20px rgba(0,0,0,0.8);
-}
-
-/* Spikes */
-.spike{
-    position:absolute;
-    top:50%; left:50%;
-    width:24px;
-    height:24px;
-    border-radius:50%;
-    background:
-        radial-gradient(circle at 30% 30%, #2b313c, #050608 80%);
-    transform:translate(-50%,-50%);
-}
-
-/* Organic timing offsets */
-.s1{ animation:pulse 2.4s ease-in-out infinite 0s; --angle:0deg;}
-.s2{ animation:pulse 2.4s ease-in-out infinite .3s; --angle:45deg;}
-.s3{ animation:pulse 2.4s ease-in-out infinite .6s; --angle:90deg;}
-.s4{ animation:pulse 2.4s ease-in-out infinite .9s; --angle:135deg;}
-.s5{ animation:pulse 2.4s ease-in-out infinite 1.2s; --angle:180deg;}
-.s6{ animation:pulse 2.4s ease-in-out infinite 1.5s; --angle:225deg;}
-.s7{ animation:pulse 2.4s ease-in-out infinite 1.8s; --angle:270deg;}
-.s8{ animation:pulse 2.4s ease-in-out infinite 2.1s; --angle:315deg;}
-
-@keyframes pulse{
-    0%{
-        transform:translate(-50%,-50%) rotate(var(--angle)) translateY(0);
-    }
-    45%{
-        transform:translate(-50%,-50%) rotate(var(--angle)) translateY(-50px) scale(0.55);
-    }
-    60%{
-        transform:translate(-50%,-50%) rotate(var(--angle)) translateY(-45px) scale(0.6);
-    }
-    100%{
-        transform:translate(-50%,-50%) rotate(var(--angle)) translateY(0);
-    }
-}
-
-/* Slow system rotation */
-@keyframes rotate-system{
-    from{ transform:rotate(0deg);}
-    to{ transform:rotate(360deg);}
-}
-
-/* Subtle depth shadow */
-.magnet-container::after{
-    content:"";
-    position:absolute;
-    bottom:-25px;
-    width:120px;
-    height:20px;
-    background:radial-gradient(circle, rgba(0,0,0,0.5), transparent 70%);
-    border-radius:50%;
-    filter:blur(8px);
-    z-index:-1;
-}
-
-.ferro-text{
-    font-family: 'Inter', sans-serif;
-    font-weight:600;
-    letter-spacing:3px;
-    font-size:11px;
-    color:#8f9bb3;
-    text-transform:uppercase;
-}
-`,
-        js: `// Magnetic system stabilized`
-    }
-},
-{
-    id: "time-warp-loader",
-    title: "Singularity Time Warp - Loading Animation",
-    description: "A cosmic event loader. Streams of light spiral into a central singularity, simulating the accretion disk of a black hole. High-speed motion blur creates a 'warp speed' effect.",
-    tags: ["Space", "Cosmic", "Black Hole", "Warp", "Speed", "Sci-Fi", "Dark"],
-    keywords: ["black hole animation", "warp speed css", "spiral galaxy loader", "cosmic spinner"],
-    code: {
-        html: `
-<div class="warp-scene">
-    <div class="singularity-container">
-        <div class="black-hole"></div>
-        <div class="accretion-disk"></div>
-        <div class="accretion-disk blur"></div>
-    </div>
-    <div class="warp-text">ENGAGING HYPERDRIVE</div>
-</div>`,
-        css: `
-.warp-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-}
-
-.singularity-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.black-hole {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: #000;
-    border-radius: 50%;
-    z-index: 10;
-    box-shadow: 0 0 20px #000; /* Eat light */
-}
-
-.accretion-disk {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    /* The Spiral Gradient */
-    background: conic-gradient(
-        from 0deg,
-        transparent 0%,
-        #4400ff 40%, 
-        #aa00ff 60%, 
-        #ffffff 80%, 
-        transparent 100%
-    );
-    /* Mask to make it a ring */
-    -webkit-mask-image: radial-gradient(transparent 35%, black 40%);
-    animation: warp-spin 1s linear infinite;
-}
-
-/* Second layer for Motion Blur trail */
-.accretion-disk.blur {
-    filter: blur(10px);
-    opacity: 0.8;
-    animation: warp-spin 1s linear infinite;
-}
-
-.warp-text {
-    font-family: 'Verdana', sans-serif;
-    color: #aa00ff;
-    font-size: 10px;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    animation: pulse-text 0.5s infinite alternate;
-}
-
-@keyframes warp-spin {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.1); } /* Breathing effect */
-    100% { transform: rotate(360deg) scale(1); }
-}
-
-@keyframes pulse-text {
-    from { opacity: 0.5; letter-spacing: 6px; }
-    to { opacity: 1; letter-spacing: 8px; }
-}
-`,
-        js: `// Relative Time`
-    }
-},
-{
-    id: "synthwave-pyramid-pro",
-    title: "Synthwave Flux Pyramid — Neon Loading Animation",
-    description: "A premium 3D synthwave loader. A semi-transparent gradient pyramid floats over an infinite scrolling grid. Inside, a volatile energy core pulses, illuminating the glass faces from within.",
-    tags: ["3D", "Synthwave", "Neon", "Cyberpunk", "Gradient", "Prism", "Premium"],
-    keywords: ["3d neon pyramid", "cyberpunk loader", "synthwave prism css", "futuristic spinner"],
-    code: {
-        html: `
-<div class="pyramid-scene">
-    <div class="grid-floor"></div>
-
-    <div class="scene-camera">
-        <div class="pyramid-assembly">
-            
-            <div class="core-light"></div>
-            
-            <div class="face front"></div>
-            <div class="face back"></div>
-            <div class="face right"></div>
-            <div class="face left"></div>
-            
-            <div class="base-shadow"></div>
-        </div>
-    </div>
-
-    <div class="status-text">
-        <span class="glitch-text">SYSTEM ONLINE</span>
-    </div>
-</div>
-`,
-        css: `
-.pyramid-scene {
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at 50% 30%, #2b1055, #000); /* Deep Space Purple */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px; /* Essential for 3D depth */
-    overflow: hidden;
-    position: relative;
-}
-
-/* --- 1. THE INFINITE FLOOR --- */
-.grid-floor {
-    position: absolute;
-    bottom: -20%;
-    width: 200%;
-    height: 100%;
-    background: 
-        linear-gradient(transparent 0%, rgba(255, 0, 255, 0.4) 2%, transparent 3%),
-        linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.4) 2%, transparent 3%);
-    background-size: 60px 60px;
-    transform: rotateX(70deg); /* Flatten it out */
-    animation: grid-scroll 3s linear infinite;
-    mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%); /* Fade out horizon */
-    pointer-events: none;
-}
-
-/* --- 2. THE 3D OBJECT --- */
-.scene-camera {
-    width: 140px;
-    height: 140px;
-    transform-style: preserve-3d; /* Allows children to be 3D */
-    animation: float-object 4s ease-in-out infinite;
-}
-
-.pyramid-assembly {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: spin-geometry 8s linear infinite;
-}
-
-/* --- 3. THE FACES --- */
-.face {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    /* Construct Triangle */
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    /* Glassy Gradient */
-    background: linear-gradient(180deg, rgba(0, 255, 255, 0.6) 0%, rgba(255, 0, 255, 0.2) 100%);
-    transform-origin: bottom center;
-    /* Frosty Glass Effect */
-    backdrop-filter: blur(4px); 
-    border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2);
-}
-
-/* 3D MATH:
-   Base size = 140px. 
-   Distance from center to edge = 70px.
-   Tilt angle = 30deg.
-*/
-.front { transform: translateZ(70px) rotateX(30deg); }
-.back  { transform: rotateY(180deg) translateZ(70px) rotateX(30deg); }
-.right { transform: rotateY(90deg) translateZ(70px) rotateX(30deg); }
-.left  { transform: rotateY(-90deg) translateZ(70px) rotateX(30deg); }
-
-/* --- 4. THE CORE (Light Source) --- */
-.core-light {
-    position: absolute;
-    top: 60%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px; height: 40px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 
-        0 0 20px #ff00ff,
-        0 0 60px #00ffff;
-    animation: pulse-energy 2s infinite alternate;
-}
-
-/* --- 5. THE SHADOW --- */
-.base-shadow {
-    position: absolute;
-    width: 140px; height: 140px;
-    background: radial-gradient(circle, rgba(255, 0, 255, 0.8), transparent 60%);
-    transform: rotateX(90deg) translateZ(-100px); /* Push down to floor */
-    filter: blur(20px);
-    animation: shadow-scale 4s ease-in-out infinite;
-}
-
-/* --- 6. TEXT UI --- */
-.status-text {
-    margin-top: 120px;
-    font-family: 'Montserrat', sans-serif; /* Use a geometric font */
-    font-weight: 800;
-    font-size: 12px;
-    letter-spacing: 6px;
-    color: #00ffff;
-    text-shadow: 0 0 10px #ff00ff;
-    position: relative;
-    z-index: 10;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes spin-geometry {
-    0% { transform: rotateY(0deg); }
-    100% { transform: rotateY(360deg); }
-}
-
-@keyframes float-object {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes grid-scroll {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 60px; }
-}
-
-@keyframes pulse-energy {
-    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-}
-
-@keyframes shadow-scale {
-    0%, 100% { transform: rotateX(90deg) translateZ(-100px) scale(0.8); opacity: 0.5; }
-    50% { transform: rotateX(90deg) translateZ(-100px) scale(1.2); opacity: 0.2; } /* Fades as object rises */
-}
-`,
-        js: `// Welcome to the Neon Grid`
-    }
-},
-{
-    id: "aether-crystal-loader",
-    title: "Aether Crystal Loading Animation",
-    description: "A mesmerizing 3D octahedron (double pyramid) resembling a floating magical gem. Features semi-transparent glassy faces and glowing edges, rotating on multiple axes.",
-    tags: ["Crystal", "Gem", "Magic", "3D", "Elegant", "Glass", "Fantasy"],
-    keywords: ["3d crystal animation", "gemstone loader", "octahedron css", "magical ui spinner"],
-    code: {
-        html: `
-<div class="crystal-scene">
-    <div class="crystal">
-        <div class="pyramid top">
-            <div class="side s1"></div>
-            <div class="side s2"></div>
-            <div class="side s3"></div>
-            <div class="side s4"></div>
-        </div>
-        <div class="pyramid bottom">
-            <div class="side s1"></div>
-            <div class="side s2"></div>
-            <div class="side s3"></div>
-            <div class="side s4"></div>
-        </div>
-    </div>
-    <div class="crystal-text">CRYSTALLIZING</div>
-</div>`,
-        css: `
-.crystal-scene {
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1a2a6c, #b21f1f, #fdbb2d); /* Mystic Gradient */
-    background: #0f172a;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 80px;
-    perspective: 1000px;
-}
-
-.crystal {
-    position: relative;
-    width: 80px;
-    height: 120px;
-    transform-style: preserve-3d;
-    animation: crystal-spin 8s linear infinite;
-}
-
-.pyramid {
-    position: absolute;
-    width: 100%; height: 50%;
-    transform-style: preserve-3d;
-}
-
-/* Top half sits up, Bottom half sits down */
-.pyramid.top { top: 0; }
-.pyramid.bottom { bottom: 0; transform: rotateX(180deg); }
-
-.side {
-    position: absolute;
-    width: 80px; height: 60px; /* Adjust height for sharpness */
-    background: rgba(100, 200, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 10px rgba(100, 200, 255, 0.2);
-    /* Triangle Clip */
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    transform-origin: bottom center;
-}
-
-/* Assemble the 4 sides */
-.s1 { transform: translateZ(40px) rotateX(35deg); }
-.s2 { transform: rotateY(90deg) translateZ(40px) rotateX(35deg); }
-.s3 { transform: rotateY(180deg) translateZ(40px) rotateX(35deg); }
-.s4 { transform: rotateY(-90deg) translateZ(40px) rotateX(35deg); }
-
-/* Glow Effects */
-.crystal::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px; height: 10px;
-    box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
-    background: white;
-    border-radius: 50%;
-    animation: pulse-core 2s infinite;
-}
-
-@keyframes crystal-spin {
-    0% { transform: rotateY(0deg) rotateX(10deg); }
-    100% { transform: rotateY(360deg) rotateX(10deg); }
-}
-
-@keyframes pulse-core {
-    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
-}
-
-.crystal-text {
-    font-family: 'Cinzel', serif;
-    color: #a5f3fc;
-    letter-spacing: 4px;
-    font-size: 12px;
-}
-`,
-        js: `// Double Pyramid Geometry`
-    }
-},
-{
-    id: "hyper-prism-loader",
-    title: "Hyper-Prism Crystal Loading Animation",
-    description: "A mesmerizing 3D octahedron (double pyramid) with semi-transparent glass faces. A volatile energy core pulses inside, illuminating the edges with neon gradients.",
-    tags: ["3D", "Crystal", "Neon", "Glass", "Sci-Fi", "Geometry", "Premium"],
-    keywords: ["3d crystal css", "neon octahedron loader", "glassmorphism spinner", "futuristic gem animation"],
-    code: {
-        html: `
-<div class="prism-scene">
-    <div class="prism-wrapper">
-        <div class="octahedron">
-            <div class="face top t1"></div>
-            <div class="face top t2"></div>
-            <div class="face top t3"></div>
-            <div class="face top t4"></div>
-            
-            <div class="face bottom b1"></div>
-            <div class="face bottom b2"></div>
-            <div class="face bottom b3"></div>
-            <div class="face bottom b4"></div>
-            
-            <div class="prism-core"></div>
-        </div>
-        <div class="prism-shadow"></div>
-    </div>
-    <div class="prism-text">CHARGING CRYSTAL</div>
-</div>`,
-        css: `
-.prism-scene {
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1a1a2e, #000);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
-    gap: 60px;
-    overflow: hidden;
-}
-
-.prism-wrapper {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    transform-style: preserve-3d;
-    animation: prism-float 4s ease-in-out infinite;
-}
-
-.octahedron {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: prism-spin 12s linear infinite;
-}
-
-/* Common Face Style */
-.face {
-    position: absolute;
-    width: 100px; height: 87px; /* Triangle Height */
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    background: linear-gradient(180deg, rgba(0,255,255,0.1), rgba(255,0,255,0.3));
-    border-bottom: 1px solid rgba(255,255,255,0.5);
-    backdrop-filter: blur(2px);
-    transform-origin: bottom center;
-}
-
-/* Face Positioning Logic */
-/* We create a top pyramid and a bottom pyramid */
-
-/* Top Faces */
-.top { top: -87px; left: 0; transform-origin: bottom center; }
-.t1 { transform: translateZ(50px) rotateX(30deg); }
-.t2 { transform: rotateY(90deg) translateZ(50px) rotateX(30deg); }
-.t3 { transform: rotateY(180deg) translateZ(50px) rotateX(30deg); }
-.t4 { transform: rotateY(270deg) translateZ(50px) rotateX(30deg); }
-
-/* Bottom Faces */
-.bottom { top: 0; left: 0; transform-origin: top center; }
-.b1 { transform: translateZ(50px) rotateX(-30deg); }
-.b2 { transform: rotateY(90deg) translateZ(50px) rotateX(-30deg); }
-.b3 { transform: rotateY(180deg) translateZ(50px) rotateX(-30deg); }
-.b4 { transform: rotateY(270deg) translateZ(50px) rotateX(-30deg); }
-
-/* The Core */
-.prism-core {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px; height: 40px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 40px #00ffff, 0 0 20px #ff00ff;
-    animation: pulse-light 2s infinite alternate;
-}
-
-.prism-shadow {
-    position: absolute;
-    top: 150px; left: 50%;
-    transform: translateX(-50%) rotateX(90deg);
-    width: 80px; height: 80px;
-    background: radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%);
-    filter: blur(10px);
-    animation: shadow-scale 4s ease-in-out infinite;
-}
-
-.prism-text {
-    font-family: 'Verdana', sans-serif;
-    color: #00ffff;
-    font-size: 10px;
-    letter-spacing: 6px;
-    text-shadow: 0 0 10px rgba(0,255,255,0.5);
-}
-
-/* Animations */
-@keyframes prism-spin {
-    0% { transform: rotateY(0deg) rotateX(10deg); }
-    100% { transform: rotateY(360deg) rotateX(10deg); }
-}
-
-@keyframes prism-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse-light {
-    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }
-    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-}
-
-@keyframes shadow-scale {
-    0%, 100% { transform: translateX(-50%) rotateX(90deg) scale(1); opacity: 0.4; }
-    50% { transform: translateX(-50%) rotateX(90deg) scale(0.6); opacity: 0.2; }
-}
-`,
-        js: `// Pure CSS Geometry`
-    }
-},
-{
-    id: "ufo-realistic-cinematic",
-    title: "Area 51 — Classified Footage - Loading Animation",
-    description: "A photorealistic sci-fi loader mimicking 'found footage'. Features a metallic saucer with rotating rim lights, a volumetric tractor beam with particle turbulence, and atmospheric fog/grain effects.",
-    tags: ["UFO", "Realistic", "Cinematic", "Sci-Fi", "Metal", "Atmosphere", "Horror"],
-    keywords: ["realistic ufo css", "cinematic sci-fi loader", "found footage animation", "metal texture css", "volumetric light beam"],
-    code: {
-        html: `
-<div class="classified-scene">
-    <div class="film-grain"></div>
-    <div class="fog-layer"></div>
-
-    <div class="ufo-assembly">
-        <div class="saucer-body">
-            <div class="cockpit-dome"></div>
-            <div class="metallic-rim">
-                <div class="rim-light l1"></div>
-                <div class="rim-light l2"></div>
-                <div class="rim-light l3"></div>
-                <div class="rim-light l4"></div>
-                <div class="rim-light l5"></div>
-            </div>
-            <div class="engine-core"></div>
-        </div>
-
-        <div class="beam-cone">
-            <div class="beam-core"></div>
-            <div class="dust-particles"></div>
-        </div>
-        
-        <div class="ground-spot"></div>
-
-        <div class="specimen-wrapper">
-            <div class="specimen"></div>
-            <div class="debris d1"></div>
-            <div class="debris d2"></div>
-            <div class="debris d3"></div>
-        </div>
-    </div>
-
-    <div class="cam-ui">
-        <div class="rec-dot"></div> REC
-        <span class="time-code">02:14:59:12</span>
-    </div>
-    <div class="loader-status">UPLINK ESTABLISHED...</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
-.classified-scene {
-    width: 100%;
-    height: 100vh;
-    background: #050508;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    perspective: 1000px;
-}
-
-/* --- ATMOSPHERE --- */
-.film-grain {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 20;
-}
-
-.fog-layer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 40%;
-    background: linear-gradient(to top, rgba(10,20,30,0.8), transparent);
-    filter: blur(20px);
-    z-index: 1;
-}
-
-/* --- UFO ASSEMBLY --- */
-.ufo-assembly {
-    position: relative;
-    width: 300px;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform-style: preserve-3d;
-}
-
-/* --- THE SHIP (Metallic Texture) --- */
-.saucer-body {
-    position: relative;
-    width: 200px;
-    height: 60px;
-    z-index: 10;
-    transform-style: preserve-3d;
-    animation: hover-tilt 4s ease-in-out infinite;
-}
-
-/* Brushed Metal Main Disc */
-.metallic-rim {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    height: 40px;
-    border-radius: 50%;
-    /* Realistic Metal Gradient */
-    background: conic-gradient(
-        from 90deg,
-        #2a2a2a 0%,
-        #555 10%,
-        #888 25%,
-        #111 45%,
-        #444 50%,
-        #222 70%,
-        #666 85%,
-        #2a2a2a 100%
-    );
-    box-shadow: 
-        inset 0 1px 2px rgba(255,255,255,0.3),
-        0 10px 20px rgba(0,0,0,0.5);
-    overflow: hidden;
-    transform: rotateX(10deg); /* Tilt to show depth */
-}
-
-/* The Spinning Lights Ring */
-.rim-light {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 180px; height: 180px;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 2px dashed rgba(0, 255, 255, 0.3);
-    animation: spin-rim 2s linear infinite;
-}
-.rim-light::after {
-    content:''; position: absolute; top: 0; left: 50%; width: 4px; height: 4px;
-    background: #fff; box-shadow: 0 0 10px #0ff; border-radius: 50%;
-}
-
-/* Cockpit Dome */
-.cockpit-dome {
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 80px; height: 40px;
-    background: radial-gradient(circle at 30% 20%, rgba(200, 255, 255, 0.9), rgba(0, 50, 60, 0.8));
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-    z-index: 5;
-}
-
-/* Bottom Engine Glow */
-.engine-core {
-    position: absolute;
-    bottom: -5px; left: 50%;
-    transform: translateX(-50%) rotateX(10deg);
-    width: 60px; height: 20px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 30px 10px rgba(0, 255, 255, 0.6);
-    z-index: 1;
-}
-
-/* --- THE BEAM (Volumetric) --- */
-.beam-cone {
-    position: absolute;
-    top: 60px;
-    width: 140px;
-    height: 250px;
-    /* Cone shape */
-    clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
-    background: linear-gradient(to bottom, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.05));
-    /* Soft edges */
-    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 70%);
-    z-index: 5;
-    animation: beam-flicker 0.1s infinite alternate;
-}
-
-.beam-core {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent 45%, rgba(255,255,255,0.3) 50%, transparent 55%);
-    filter: blur(4px);
-}
-
-.dust-particles {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(white 1px, transparent 1px);
-    background-size: 10px 10px;
-    opacity: 0.5;
-    animation: updraft 1s linear infinite;
-}
-
-/* --- THE SPECIMEN --- */
-.specimen-wrapper {
-    position: absolute;
-    bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 6;
-    animation: levitate 4s ease-in infinite;
-}
-
-.specimen {
-    width: 15px; height: 25px;
-    background: #000; /* Silhouette */
-    border-radius: 50% 50% 5px 5px; /* Vague humanoid/creature shape */
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
-    position: relative;
-}
-
-/* Floating debris */
-.debris {
-    position: absolute;
-    background: #000;
-    width: 3px; height: 3px;
-    border-radius: 50%;
-}
-.d1 { top: 10px; left: -10px; animation: debris-float 2s infinite; }
-.d2 { top: 20px; right: -12px; animation: debris-float 3s infinite 0.5s; }
-.d3 { bottom: -5px; left: 5px; animation: debris-float 1.5s infinite 0.2s; }
-
-
-.ground-spot {
-    position: absolute;
-    bottom: -20px;
-    width: 200px; height: 40px;
-    background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent 70%);
-    transform: rotateX(70deg);
-    filter: blur(10px);
-    z-index: 0;
-}
-
-/* --- CAM UI --- */
-.cam-ui {
-    position: absolute;
-    top: 40px; right: 40px;
-    font-family: 'Share Tech Mono', monospace;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0.7;
-}
-.rec-dot {
-    width: 10px; height: 10px; background: red; border-radius: 50%;
-    animation: blink 1s infinite;
-}
-
-.loader-status {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    font-family: 'Share Tech Mono', monospace;
-    color: #00ffff;
-    letter-spacing: 2px;
-    text-shadow: 0 0 5px #00ffff;
-    font-size: 14px;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes hover-tilt {
-    0%, 100% { transform: translateY(0) rotate(1deg); }
-    50% { transform: translateY(-10px) rotate(-1deg); }
-}
-
-@keyframes spin-rim {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes updraft {
-    0% { transform: translateY(0); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-50px); opacity: 0; }
-}
-
-@keyframes levitate {
-    0% { transform: translateY(0) rotate(0deg) scale(1); }
-    30% { transform: translateY(-20px) rotate(5deg); }
-    100% { transform: translateY(-150px) rotate(-10deg) scale(0); opacity: 0; }
-}
-
-@keyframes debris-float {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-30px); opacity: 0; }
-}
-
-@keyframes blink { 50% { opacity: 0; } }
-@keyframes beam-flicker { 0% { opacity: 0.8; } 100% { opacity: 0.9; } }
-`,
-        js: `// Target Acquired`
-    }
-},
-{
-    id: "midnight-drive-loader",
-    title: "Midnight Grid Run - Loading Animation",
-    description: "A classic synthwave/outrun aesthetic loader. A neon grid scrolls endlessly towards a retro gradient sun. Features perspective distortion and scanline effects.",
-    tags: ["Retro", "Synthwave", "80s", "Grid", "Sun", "Aesthetic", "Cool"],
-    keywords: ["synthwave grid animation", "retro sun css", "outrun style loader", "80s aesthetic spinner"],
-    code: {
-        html: `
-<div class="drive-scene">
-    <div class="sky">
-        <div class="sun"></div>
-    </div>
-    <div class="ground">
-        <div class="grid"></div>
-    </div>
-    <div class="drive-text">LOADING ASSETS</div>
-</div>`,
-        css: `
-.drive-scene {
-    width: 100%;
-    height: 100vh;
-    background: #090014;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    perspective: 400px; /* Strong perspective for the road */
-}
-
-/* THE SKY & SUN */
-.sky {
-    position: relative;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(to top, #2b1055, #000);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    z-index: 2;
-}
-
-.sun {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(to top, #ff00ff, #ffbd00);
-    border-radius: 50%;
-    margin-bottom: -40px; /* Half buried */
-    box-shadow: 0 0 40px #ff00ff;
-    /* Create the "Blinds" effect on the sun */
-    mask-image: linear-gradient(
-        to bottom,
-        black 0%, black 50%,
-        transparent 50%, transparent 55%,
-        black 55%, black 65%,
-        transparent 65%, transparent 70%,
-        black 70%, black 80%,
-        transparent 80%, transparent 85%,
-        black 85%, black 100%
-    );
-}
-
-/* THE GROUND & GRID */
-.ground {
-    position: relative;
-    width: 100%;
-    height: 50%;
-    background: #140024;
-    transform-style: preserve-3d;
-    overflow: hidden;
-}
-
-.grid {
-    position: absolute;
-    top: 0; left: -50%;
-    width: 200%;
-    height: 200%;
-    background: 
-        linear-gradient(transparent 0%, rgba(0,255,255,0.4) 2%, transparent 3%),
-        linear-gradient(90deg, transparent 0%, rgba(255,0,255,0.4) 2%, transparent 3%);
-    background-size: 40px 40px;
-    transform: rotateX(80deg) translateY(-20px);
-    animation: grid-scroll 1s linear infinite;
-    box-shadow: 0 0 50px rgba(0,255,255,0.2);
-}
-
-.drive-text {
-    position: absolute;
-    bottom: 20px;
-    font-family: 'Helvetica', sans-serif;
-    font-style: italic;
-    font-weight: bold;
-    color: #00ffff;
-    letter-spacing: 4px;
-    text-shadow: 2px 2px #ff00ff;
-    z-index: 10;
-}
-
-@keyframes grid-scroll {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 40px; }
-}
-`,
-        js: `// Enjoy the ride`
-    }
-},
-{
-    id: "retro-cassette-loader",
-    title: "Retro Mixtape - Loading Animation",
-    description: "A nostalgic cassette tape loader. Spools spin, tape winds, and the label features a handwritten font. Perfect for music players, podcasts, or retro-themed creative portfolios.",
-    tags: ["Retro", "Music", "Cassette", "80s", "90s", "Audio", "Nostalgia"],
-    keywords: ["cassette css animation", "retro music loader", "tape recorder spinner", "audio player loading"],
-    code: {
-        html: `
-<div class="cassette-scene">
-    <div class="cassette">
-        <div class="sticker-area">
-            <div class="title">AWESOME MIX VOL. 1</div>
-            
-            <div class="spool left">
-                <div class="teeth"></div>
-                <div class="tape-roll"></div>
-            </div>
-            
-            <div class="spool right">
-                <div class="teeth"></div>
-                <div class="tape-roll small"></div>
-            </div>
-            
-            <div class="window">
-                <div class="tape-bridge"></div>
-            </div>
-        </div>
-        
-        <div class="holes">
-            <div class="screw"></div>
-            <div class="screw"></div>
-            <div class="screw"></div>
-            <div class="screw"></div>
-        </div>
-    </div>
-    <div class="status-text">REWINDING...</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-
-.cassette-scene {
-    width: 100%;
-    height: 100vh;
-    background: #2d3436;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-}
-
-.cassette {
-    position: relative;
-    width: 200px;
-    height: 125px;
-    background: #333;
-    border-radius: 10px;
-    box-shadow: 
-        inset 0 0 10px #000,
-        0 10px 20px rgba(0,0,0,0.3);
-    border: 2px solid #555;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-}
-
-/* The Sticker Label */
-.sticker-area {
-    position: relative;
-    width: 180px;
-    height: 80px;
-    background: #f1c40f; /* Retro Yellow */
-    border-radius: 5px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.title {
-    font-family: 'Permanent Marker', cursive;
-    font-size: 10px;
-    color: #333;
-    position: absolute;
-    top: 5px; left: 10px;
-    transform: rotate(-2deg);
-}
-
-/* Spools */
-.spool {
-    position: absolute;
-    top: 25px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: transparent;
-    border: 2px solid #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-}
-
-.left { left: 40px; }
-.right { right: 40px; }
-
-.teeth {
-    width: 100%; height: 100%;
-    background: 
-        conic-gradient(transparent 10%, #fff 10%, #fff 20%, transparent 20%, transparent 30%, #fff 30%, #fff 40%, transparent 40%, transparent 50%, #fff 50%, #fff 60%, transparent 60%, transparent 70%, #fff 70%, #fff 80%, transparent 80%, transparent 90%, #fff 90%, #fff 100%);
-    border-radius: 50%;
-    animation: spin-reel 2s linear infinite;
-    mask-image: radial-gradient(transparent 30%, black 31%);
-}
-
-.tape-roll {
-    position: absolute;
-    border-radius: 50%;
-    background: #111;
-    z-index: -1;
-}
-
-/* Left starts full, gets smaller */
-.left .tape-roll {
-    width: 50px; height: 50px;
-    animation: shrink-roll 10s linear infinite;
-}
-
-/* Right starts small, gets bigger */
-.right .tape-roll {
-    width: 32px; height: 32px;
-    animation: grow-roll 10s linear infinite;
-}
-
-.window {
-    position: absolute;
-    top: 25px; left: 70px;
-    width: 40px; height: 30px;
-    background: #333;
-    opacity: 0.2;
-    z-index: 2;
-}
-
-.holes {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    margin-top: auto;
-}
-
-.screw {
-    width: 6px; height: 6px;
-    background: #111;
-    border-radius: 50%;
-    box-shadow: inset 1px 1px 1px rgba(255,255,255,0.2);
-}
-
-.status-text {
-    font-family: 'Courier New', monospace;
-    color: #f1c40f;
-    letter-spacing: 2px;
-    animation: blink 1s infinite;
-}
-
-/* Animations */
-@keyframes spin-reel {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes shrink-roll {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.65); } /* Don't go to 0 */
-    100% { transform: scale(1); }
-}
-
-@keyframes grow-roll {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.5); }
-    100% { transform: scale(1); }
-}
-
-@keyframes blink { 50% { opacity: 0; } }
-`,
-        js: `// Press Play`
-    }
-},
-{
-    id: "arcane-grimoire-relic",
-    title: "Arcane Grimoire Loading Animation",
-    description: "A museum-quality 3D book loader. Features worn leather textures, gold leaf detailing, individual page physics, and a mystical particle system emitting from the open pages.",
-    tags: ["Fantasy", "Magic", "Realistic", "3D", "Book", "Ancient", "Cinematic"],
-    keywords: ["realistic book css", "fantasy grimoire loader", "magic particle animation", "ancient tome spinner"],
-    code: {
-        html: `
-<div class="relic-scene">
-    <div class="mystic-fog"></div>
-    
-    <div class="book-assembly">
-        <div class="grimoire">
-            <div class="cover back-cover"></div>
-            
-            <div class="spine"></div>
-            
-            <div class="page-block"></div>
-            
-            <div class="page-layer p1">
-                <div class="page-content"></div>
-            </div>
-            <div class="page-layer p2">
-                <div class="page-content"></div>
-            </div>
-            <div class="page-layer p3">
-                <div class="page-content"></div>
-            </div>
-            <div class="page-layer p4">
-                <div class="page-content"></div>
-            </div>
-
-            <div class="cover front-cover">
-                <div class="gem-socket">
-                    <div class="gem"></div>
-                </div>
-                <div class="gold-filigree"></div>
-            </div>
-        </div>
-
-        <div class="magic-emitter">
-            <div class="rune r1">✨</div>
-            <div class="rune r2">✴</div>
-            <div class="rune r3">✦</div>
-            <div class="rune r4">✨</div>
-            <div class="glow-orb"></div>
-        </div>
-        
-        <div class="book-shadow"></div>
-    </div>
-
-    <div class="ancient-text">DECIPHERING RUNES...</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
-
-.relic-scene {
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at 50% 30%, #2a1a3a, #050208 80%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    perspective: 1200px;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Atmospheric Fog */
-.mystic-fog {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(to top, rgba(100,0,255,0.1), transparent);
-    filter: blur(20px);
-    pointer-events: none;
-}
-
-.book-assembly {
-    position: relative;
-    width: 180px;
-    height: 120px;
-    transform-style: preserve-3d;
-    animation: levitate 6s ease-in-out infinite;
-}
-
-.grimoire {
-    width: 100%; height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transform: rotateX(40deg) rotateY(0deg) rotateZ(-10deg);
-}
-
-/* --- COVERS (Worn Leather Texture) --- */
-.cover {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: #3e2723; /* Dark Leather */
-    border-radius: 4px 10px 10px 4px;
-    /* Simulated Leather Texture via Gradients */
-    background-image: 
-        radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 20%, rgba(0,0,0,0.6) 100%),
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);
-    box-shadow: 
-        inset 2px 2px 5px rgba(255,255,255,0.1),
-        inset -2px -2px 10px rgba(0,0,0,0.5);
-    transform-origin: left;
-}
-
-.back-cover {
-    transform: translateZ(0px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-}
-
-.front-cover {
-    transform: translateZ(15px); /* Thickness of book */
-    animation: open-book 8s ease-in-out infinite;
-    z-index: 10;
-}
-
-/* Spine */
-.spine {
-    position: absolute;
-    left: 0; top: 0;
-    width: 20px; height: 100%;
-    background: #2d1b18;
-    transform-origin: right;
-    transform: rotateY(-90deg) translateX(-15px);
-    border-radius: 2px;
-}
-
-/* Decorative Elements */
-.gold-filigree {
-    position: absolute;
-    inset: 10px;
-    border: 2px solid #c5a059; /* Gold */
-    border-radius: 2px 6px 6px 2px;
-    opacity: 0.6;
-    mask-image: linear-gradient(black, black); /* Simple mask placeholder */
-    /* In production, use an SVG background for ornate patterns */
-    background: radial-gradient(circle at center, transparent 60%, rgba(197, 160, 89, 0.1));
-}
-
-.gem-socket {
-    position: absolute;
-    top: 50%; right: 20px;
-    transform: translateY(-50%);
-    width: 30px; height: 30px;
-    background: #c5a059;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-
-.gem {
-    width: 20px; height: 20px;
-    background: radial-gradient(circle at 30% 30%, #ff0055, #550011);
-    border-radius: 50%;
-    box-shadow: inset 0 0 5px rgba(255,255,255,0.5);
-}
-
-/* --- PAGES (Aged Paper) --- */
-.page-block {
-    position: absolute;
-    top: 2px; left: 2px;
-    width: 170px; height: 116px;
-    background: #d7ccc8;
-    transform: translateZ(2px);
-    box-shadow: inset -5px 0 10px rgba(0,0,0,0.1);
-}
-
-.page-layer {
-    position: absolute;
-    top: 2px; left: 2px;
-    width: 170px; height: 116px;
-    background: #f5f5dc; /* Beige */
-    border-radius: 0 4px 4px 0;
-    transform-origin: left;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    border-right: 1px solid rgba(0,0,0,0.1);
-}
-
-.page-content {
-    width: 100%; height: 100%;
-    background: linear-gradient(to right, #e0e0e0, #f5f5dc 10%, #f5f5dc 90%, #e0e0e0);
-    /* Simulated Text Lines */
-    background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 10px, rgba(0,0,0,0.05) 11px);
-    background-size: 80% 80%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Page Animation Sequence */
-.p1 { animation: flip-page 8s ease-in-out infinite 1s; z-index: 4; }
-.p2 { animation: flip-page 8s ease-in-out infinite 1.5s; z-index: 3; }
-.p3 { animation: flip-page 8s ease-in-out infinite 2s; z-index: 2; }
-.p4 { animation: flip-page 8s ease-in-out infinite 2.5s; z-index: 1; }
-
-/* --- MAGIC FX --- */
-.magic-emitter {
-    position: absolute;
-    top: -20px; left: 50%;
-    width: 100px; height: 100px;
-    transform: translateX(-50%) translateZ(20px);
-    pointer-events: none;
-}
-
-.glow-orb {
-    position: absolute;
-    bottom: 0; left: 50%;
-    width: 60px; height: 60px;
-    background: radial-gradient(circle, rgba(255, 200, 0, 0.4), transparent 70%);
-    transform: translateX(-50%);
-    filter: blur(15px);
-    animation: pulse-magic 2s infinite alternate;
-}
-
-.rune {
-    position: absolute;
-    font-size: 10px;
-    color: #ffd700;
-    text-shadow: 0 0 5px #ffaa00;
-    opacity: 0;
-}
-.r1 { left: 20%; animation: rune-rise 3s ease-out infinite 0s; }
-.r2 { left: 50%; animation: rune-rise 3s ease-out infinite 1s; }
-.r3 { left: 80%; animation: rune-rise 3s ease-out infinite 2s; }
-.r4 { left: 30%; animation: rune-rise 4s ease-out infinite 0.5s; }
-
-.book-shadow {
-    position: absolute;
-    bottom: -60px;
-    left: 20px;
-    width: 140px; height: 20px;
-    background: black;
-    border-radius: 50%;
-    filter: blur(15px);
-    opacity: 0.5;
-    transform: rotateZ(-10deg);
-    animation: shadow-breath 6s ease-in-out infinite;
-}
-
-.ancient-text {
-    margin-top: 80px;
-    font-family: 'Cinzel Decorative', cursive;
-    color: #deb887; /* Burlywood */
-    font-size: 14px;
-    letter-spacing: 4px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    opacity: 0.8;
-    animation: text-glow 3s infinite alternate;
-}
-
-/* --- ANIMATIONS --- */
-
-@keyframes levitate {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-@keyframes open-book {
-    0%, 100% { transform: translateZ(15px) rotateY(0deg); }
-    15%, 85% { transform: translateZ(15px) rotateY(-160deg); }
-}
-
-@keyframes flip-page {
-    0% { transform: rotateY(0deg); }
-    15% { transform: rotateY(0deg); }
-    35% { transform: rotateY(-160deg); } /* Fast flip */
-    85% { transform: rotateY(-160deg); } /* Hold */
-    100% { transform: rotateY(0deg); } /* Close */
-}
-
-@keyframes rune-rise {
-    0% { transform: translateY(20px) scale(0); opacity: 0; }
-    20% { opacity: 1; }
-    100% { transform: translateY(-80px) rotate(360deg) scale(1.2); opacity: 0; }
-}
-
-@keyframes pulse-magic {
-    0% { opacity: 0.3; transform: translateX(-50%) scale(1); }
-    100% { opacity: 0.8; transform: translateX(-50%) scale(1.2); }
-}
-
-@keyframes shadow-breath {
-    0%, 100% { transform: rotateZ(-10deg) scale(1); opacity: 0.5; }
-    50% { transform: rotateZ(-10deg) scale(0.8); opacity: 0.3; }
-}
-
-@keyframes text-glow {
-    0% { text-shadow: 0 0 5px #deb887; }
-    100% { text-shadow: 0 0 20px #ffaa00; }
-}
-`,
-        js: `// Secrets Revealed`
-    }
-},
-{
-    id: "vault-security-loader",
-    title: "Digital Vault Lock - Loading Animation",
-    description: "A high-security fintech loader. Concentric metallic rings rotate in opposing directions like a safe's combination lock. Features a scanning light effect and metallic gradients.",
-    tags: ["Security", "Fintech", "Crypto", "Lock", "Metal", "Premium", "Bank"],
-    keywords: ["vault lock animation", "security scanner css", "fintech loader", "crypto spinner"],
-    code: {
-        html: `
-<div class="vault-scene">
-    <div class="vault-lock">
-        <div class="ring outer">
-            <div class="notch"></div>
-            <div class="notch n2"></div>
-        </div>
-        <div class="ring middle">
-            <div class="notch"></div>
-        </div>
-        <div class="lock-core">
-            <div class="keyhole"></div>
-        </div>
-        <div class="scan-beam"></div>
-    </div>
-    <div class="secure-text">VERIFYING CREDENTIALS</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
-
-.vault-scene {
-    width: 100%;
-    height: 100vh;
-    background: #0f172a; /* Slate 900 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-}
-
-.vault-lock {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    /* Metallic Background */
-    background: radial-gradient(circle, #334155, #1e293b);
-    box-shadow: 
-        0 10px 30px rgba(0,0,0,0.5),
-        inset 0 0 20px rgba(255,255,255,0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 5px solid #475569; /* Slate 600 */
-    border-top-color: #94a3b8; /* Highlight */
-    border-bottom-color: #1e293b; /* Shadow */
-    display: flex;
-    justify-content: center;
-}
-
-.outer {
-    width: 140px; height: 140px;
-    animation: spin-cw 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-}
-
-.middle {
-    width: 100px; height: 100px;
-    border-color: #64748b;
-    border-top-color: #cbd5e1;
-    animation: spin-ccw 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-}
-
-.notch {
-    position: absolute;
-    top: -5px;
-    width: 10px; height: 10px;
-    background: #38bdf8; /* Cyan Light */
-    border-radius: 50%;
-    box-shadow: 0 0 10px #38bdf8;
-}
-.n2 { top: auto; bottom: -5px; background: #ef4444; box-shadow: 0 0 10px #ef4444; }
-
-.lock-core {
-    width: 60px; height: 60px;
-    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-}
-
-.keyhole {
-    width: 12px; height: 20px;
-    background: #0f172a;
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px #000;
-}
-
-.scan-beam {
-    position: absolute;
-    width: 100%; height: 2px;
-    background: #38bdf8;
-    box-shadow: 0 0 15px #38bdf8;
-    animation: scan-vertical 2s ease-in-out infinite;
-    opacity: 0.5;
-    z-index: 10;
-}
-
-.secure-text {
-    font-family: 'Rajdhani', sans-serif;
-    color: #38bdf8;
-    letter-spacing: 3px;
-    font-size: 14px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-    animation: pulse-text 1s infinite alternate;
-}
-
-/* Animations */
-@keyframes spin-cw {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(180deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes spin-ccw {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(-180deg); }
-    100% { transform: rotate(-360deg); }
-}
-
-@keyframes scan-vertical {
-    0% { top: 0; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-
-@keyframes pulse-text {
-    from { opacity: 0.6; }
-    to { opacity: 1; }
-}
-`,
-        js: `// Access Granted`
-    }
-},
-{
-    id: "steampunk-gear-loader",
-    title: "Clockwork Steam Engine - Loading Animation",
-    description: "A detailed mechanical loader. Interlocking brass and iron gears rotate in sync, driven by a pulsing steam piston. Features metallic gradients, rivet details, and particle steam effects.",
-    tags: ["Steampunk", "Mechanical", "Gears", "Retro", "Industrial", "Metal", "Complex"],
-    keywords: ["steampunk css animation", "gear spinner loader", "mechanical clockwork css", "industrial loading screen"],
-    code: {
-        html: `
-<div class="steam-scene">
-    <div class="machine-container">
-        <div class="gear main-gear">
-            <div class="spokes"></div>
-            <div class="hub"></div>
-        </div>
-        
-        <div class="gear small-gear">
-            <div class="spokes iron"></div>
-            <div class="hub iron"></div>
-        </div>
-
-        <div class="piston-arm">
-            <div class="rod"></div>
-            <div class="connector"></div>
-        </div>
-
-        <div class="steam-vent">
-            <div class="puff p1"></div>
-            <div class="puff p2"></div>
-            <div class="puff p3"></div>
-        </div>
-    </div>
-    
-    <div class="brass-plate">
-        <span class="engraving">BUILDING PRESSURE...</span>
-        <div class="rivet r1"></div>
-        <div class="rivet r2"></div>
-        <div class="rivet r3"></div>
-        <div class="rivet r4"></div>
-    </div>
-</div>`,
-        css: `
-.steam-scene {
-    width: 100%;
-    height: 100vh;
-    background: #1a1a1a;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    background-image: radial-gradient(circle, #2a2a2a, #000);
-}
-
-.machine-container {
-    position: relative;
-    width: 200px;
-    height: 160px;
-}
-
-/* --- GEAR MECHANICS --- */
-.gear {
-    position: absolute;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-/* Brass Gear Style */
-.main-gear {
-    top: 20px; left: 20px;
-    width: 100px; height: 100px;
-    background: conic-gradient(from 0deg, #b8860b 0deg, #cd853f 10deg, #8b4513 20deg, #b8860b 30deg); 
-    /* Repeating gradient simulates teeth */
-    background: radial-gradient(circle at center, #d4af37 60%, transparent 61%),
-                conic-gradient(#8b4513 10%, transparent 10% 20%, #8b4513 20% 30%, transparent 30% 40%, #8b4513 40% 50%, transparent 50% 60%, #8b4513 60% 70%, transparent 70% 80%, #8b4513 80% 90%, transparent 90%);
-    animation: spin-cw 4s linear infinite;
-}
-
-/* Iron Gear Style */
-.small-gear {
-    bottom: 20px; right: 30px;
-    width: 70px; height: 70px;
-    background: radial-gradient(circle at center, #7f8c8d 60%, transparent 61%),
-                conic-gradient(#2c3e50 10%, transparent 10% 20%, #2c3e50 20% 30%, transparent 30% 40%, #2c3e50 40% 50%, transparent 50% 60%, #2c3e50 60% 70%, transparent 70% 80%, #2c3e50 80% 90%, transparent 90%);
-    animation: spin-ccw 2.8s linear infinite; /* Speed ratio matched to size roughly */
-}
-
-/* Inner Details */
-.spokes {
-    position: absolute;
-    width: 80%; height: 80%;
-    border: 4px solid #8b4513;
-    border-radius: 50%;
-    background: radial-gradient(transparent 50%, #d4af37 50%);
-}
-.spokes.iron { border-color: #2c3e50; background: radial-gradient(transparent 50%, #95a5a6 50%); }
-
-.hub {
-    width: 20px; height: 20px;
-    background: radial-gradient(circle at 30% 30%, #ffd700, #8b4513);
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    z-index: 5;
-}
-.hub.iron { background: radial-gradient(circle at 30% 30%, #ecf0f1, #2c3e50); }
-
-/* --- PISTON ARM --- */
-.piston-arm {
-    position: absolute;
-    top: 70px; left: 70px;
-    width: 100px; height: 10px;
-    transform-origin: left;
-    animation: piston-pump 4s linear infinite;
-    pointer-events: none;
-}
-.rod {
-    width: 100%; height: 6px;
-    background: linear-gradient(to bottom, #bdc3c7, #7f8c8d);
-    border-radius: 3px;
-}
-
-/* --- STEAM FX --- */
-.steam-vent {
-    position: absolute;
-    top: -20px; right: 0;
-    width: 20px; height: 20px;
-}
-
-.puff {
-    position: absolute;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    filter: blur(8px);
-}
-.p1 { width: 20px; height: 20px; animation: steam-rise 2s infinite 0s; }
-.p2 { width: 30px; height: 30px; animation: steam-rise 2s infinite 0.7s; }
-.p3 { width: 15px; height: 15px; animation: steam-rise 2s infinite 1.4s; }
-
-/* --- UI PLATE --- */
-.brass-plate {
-    position: relative;
-    padding: 10px 30px;
-    background: linear-gradient(to bottom, #b8860b, #8b4513);
-    border: 2px solid #5a3a1a;
-    border-radius: 4px;
-    box-shadow: 
-        inset 1px 1px 0 rgba(255,255,255,0.4),
-        0 5px 10px rgba(0,0,0,0.5);
-}
-
-.engraving {
-    font-family: 'Courier New', serif;
-    font-weight: bold;
-    color: #3e2723;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-    letter-spacing: 2px;
-}
-
-.rivet {
-    position: absolute;
-    width: 6px; height: 6px;
-    background: radial-gradient(circle at 30% 30%, #fff, #333);
-    border-radius: 50%;
-    box-shadow: 0 1px 2px black;
-}
-.r1 { top: 4px; left: 4px; }
-.r2 { top: 4px; right: 4px; }
-.r3 { bottom: 4px; left: 4px; }
-.r4 { bottom: 4px; right: 4px; }
-
-/* --- ANIMATIONS --- */
-@keyframes spin-cw { 100% { transform: rotate(360deg); } }
-@keyframes spin-ccw { 100% { transform: rotate(-360deg); } }
-
-@keyframes piston-pump {
-    0% { transform: rotate(0deg) translateX(0); }
-    25% { transform: rotate(15deg) translateX(10px); }
-    50% { transform: rotate(0deg) translateX(0); }
-    75% { transform: rotate(-15deg) translateX(10px); }
-    100% { transform: rotate(0deg) translateX(0); }
-}
-
-@keyframes steam-rise {
-    0% { transform: translateY(0) scale(0.5); opacity: 0; }
-    20% { opacity: 0.6; }
-    100% { transform: translateY(-60px) scale(2); opacity: 0; }
-}
-`,
-        js: `// Full Steam Ahead`
-    }
-},
-{
-    id: "biometric-scan-loader",
-    title: "Retina Verification - Loading Animation",
-    description: "A high-security biometric scanner. Digital segments form an iris which is scanned by a laser beam. Features a tech grid background and data-processing text effects.",
-    tags: ["Security", "Tech", "Biometric", "Scanner", "Blue", "Futuristic", "Fintech"],
-    keywords: ["retina scan animation", "biometric loader css", "security scanner ui", "fingerprint spinner"],
-    code: {
-        html: `
-<div class="bio-scene">
-    <div class="scan-container">
-        <div class="eye-outer">
-            <div class="eye-iris">
-                <div class="pupil"></div>
-                <div class="iris-segment s1"></div>
-                <div class="iris-segment s2"></div>
-                <div class="iris-segment s3"></div>
-            </div>
-            
-            <div class="scan-line"></div>
-            <div class="scan-overlay"></div>
-        </div>
-        
-        <div class="bracket tl"></div>
-        <div class="bracket tr"></div>
-        <div class="bracket bl"></div>
-        <div class="bracket br"></div>
-    </div>
-    
-    <div class="bio-text">
-        <span class="status">VERIFYING IDENTITY</span>
-        <span class="code">ID: 492-XFA-99</span>
-    </div>
-</div>`,
-        css: `
-.bio-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000510;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    font-family: 'Courier New', monospace;
-    /* Tech Grid BG */
-    background-image: 
-        linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-}
-
-.scan-container {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.eye-outer {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 255, 255, 0.3);
-    overflow: hidden;
-    background: rgba(0, 20, 40, 0.5);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-}
-
-.eye-iris {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    border: 1px dashed #00ffff;
-    animation: rotate-iris 10s linear infinite;
-}
-
-.pupil {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30px; height: 30px;
-    background: #000;
-    border: 1px solid #00ffff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ffff;
-}
-
-.iris-segment {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 4px solid transparent;
-    border-top-color: rgba(0, 255, 255, 0.5);
-    border-bottom-color: rgba(0, 255, 255, 0.5);
-}
-.s1 { width: 60px; height: 60px; animation: spin-cw 4s linear infinite; }
-.s2 { width: 100px; height: 100px; animation: spin-ccw 5s linear infinite; border-width: 2px; }
-.s3 { width: 40px; height: 40px; animation: spin-cw 2s linear infinite; border-width: 6px; border-left-color: rgba(0,255,255,0.3); border-right-color: rgba(0,255,255,0.3); }
-
-/* The Laser Scan */
-.scan-line {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: #00ffff;
-    box-shadow: 0 0 15px #00ffff;
-    animation: scan-down 2s ease-in-out infinite;
-    z-index: 10;
-}
-
-.scan-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,255,255,0) 0%, rgba(0,255,255,0.2) 50%, rgba(0,255,255,0) 100%);
-    background-size: 100% 200%;
-    animation: scan-move 2s ease-in-out infinite;
-    pointer-events: none;
-}
-
-/* UI Brackets */
-.bracket {
-    position: absolute;
-    width: 20px; height: 20px;
-    border: 2px solid #00ffff;
-    opacity: 0.6;
-}
-.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
-.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
-.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
-.br { bottom: 0; right: 0; border-left: none; border-top: none; }
-
-.bio-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.status {
-    color: #00ffff;
-    font-size: 14px;
-    letter-spacing: 2px;
-    animation: blink 0.5s infinite alternate;
-}
-
-.code {
-    color: #008888;
-    font-size: 10px;
-}
-
-/* Animations */
-@keyframes rotate-iris { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-@keyframes spin-cw { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-@keyframes spin-ccw { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
-
-@keyframes scan-down {
-    0% { top: 0%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-
-@keyframes scan-move {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 0% 100%; }
-}
-
-@keyframes blink { 100% { opacity: 0.5; } }
-`,
-        js: `// Access Granted`
-    }
-},
-{
-    id: "realistic-jellyfish-loader",
-    title: "Bioluminescent Jellyfish Loading Animation",
-    description: "A photorealistic deep-sea jellyfish loader. Features a multi-layered gelatinous bell, fluid tentacle physics, volumetric lighting, and a 3D plankton particle system.",
-    tags: ["Realistic", "Nature", "Ocean", "Bioluminescence", "3D", "Fluid", "Cinematic"],
-    keywords: ["realistic jellyfish css", "bioluminescent animation", "underwater physics loader", "deep sea creature css"],
-    code: {
-        html: `
-<div class="deep-sea-scene">
-    <div class="caustics-overlay"></div>
-    
-    <div class="jellyfish-wrapper">
-        <div class="bell-outer">
-            <div class="bell-inner">
-                <div class="organs">
-                    <span class="organ o1"></span>
-                    <span class="organ o2"></span>
-                    <span class="organ o3"></span>
-                </div>
-            </div>
-            <div class="bell-rim"></div>
-        </div>
-
-        <div class="oral-arms">
-            <div class="arm a1"></div>
-            <div class="arm a2"></div>
-            <div class="arm a3"></div>
-        </div>
-
-        <div class="tentacles-long">
-            <div class="tentacle l1"></div>
-            <div class="tentacle l2"></div>
-            <div class="tentacle l3"></div>
-            <div class="tentacle l4"></div>
-            <div class="tentacle l5"></div>
-        </div>
-    </div>
-
-    <div class="plankton-field">
-        <div class="speck s1"></div>
-        <div class="speck s2"></div>
-        <div class="speck s3"></div>
-        <div class="speck s4"></div>
-        <div class="speck s5"></div>
-        <div class="speck s6"></div>
-    </div>
-
-    <div class="depth-text">DEPTH: 4,000m</div>
-</div>`,
-        css: `
-.deep-sea-scene {
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at 50% -20%, #001e36, #000810 80%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    perspective: 1000px;
-}
-
-/* Light Caustics from surface */
-.caustics-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: 
-        radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 70% 60%, rgba(0, 100, 255, 0.03) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 10;
-}
-
-.jellyfish-wrapper {
-    position: relative;
-    width: 140px;
-    height: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: swim-cycle 6s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.2));
-}
-
-/* --- THE BELL (Complex Layering) --- */
-.bell-outer {
-    position: relative;
-    width: 120px;
-    height: 90px;
-    background: linear-gradient(180deg, rgba(100, 220, 255, 0.1), rgba(0, 150, 255, 0.05));
-    border-radius: 50% 50% 20% 20%;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(4px);
-    box-shadow: inset 0 10px 20px rgba(255, 255, 255, 0.1);
-    z-index: 5;
-    transform-origin: bottom center;
-    animation: bell-contract 3s ease-in-out infinite;
-    overflow: hidden;
-}
-
-.bell-inner {
-    position: absolute;
-    top: 10px; left: 10px; right: 10px; bottom: 5px;
-    background: radial-gradient(circle at 50% 30%, rgba(0, 200, 255, 0.1), transparent 70%);
-    border-radius: 50% 50% 30% 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.organs {
-    position: relative;
-    width: 50px; height: 30px;
-}
-
-.organ {
-    position: absolute;
-    width: 15px; height: 15px;
-    background: radial-gradient(circle, #ff00aa, transparent);
-    border-radius: 50%;
-    filter: blur(2px);
-    opacity: 0.6;
-    animation: glow-pulse 3s infinite alternate;
-}
-.o1 { top: 0; left: 17px; }
-.o2 { bottom: 0; left: 0; }
-.o3 { bottom: 0; right: 0; }
-
-.bell-rim {
-    position: absolute;
-    bottom: 0;
-    width: 100%; height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    filter: blur(2px);
-    border-radius: 50%;
-}
-
-/* --- ORAL ARMS (Frilly center) --- */
-.oral-arms {
-    position: absolute;
-    top: 80px;
-    width: 40px;
-    z-index: 4;
-    display: flex;
-    justify-content: center;
-}
-
-.arm {
-    width: 8px; height: 60px;
-    background: linear-gradient(to bottom, rgba(255, 100, 200, 0.3), transparent);
-    filter: blur(1px);
-    border-radius: 50%;
-    position: absolute;
-    transform-origin: top;
-}
-.a1 { left: 10px; animation: frill-sway 3s ease-in-out infinite 0s; }
-.a2 { right: 10px; animation: frill-sway 3s ease-in-out infinite 0.5s; }
-.a3 { width: 12px; height: 70px; background: linear-gradient(to bottom, rgba(255, 100, 200, 0.5), transparent); animation: frill-sway 3s ease-in-out infinite 0.2s; }
-
-/* --- LONG TENTACLES --- */
-.tentacles-long {
-    position: absolute;
-    top: 85px;
-    width: 100px;
-    height: 150px;
-    z-index: 3;
-}
-
-.tentacle {
-    position: absolute;
-    width: 2px;
-    background: linear-gradient(to bottom, rgba(100, 220, 255, 0.8), transparent);
-    border-radius: 1px;
-    transform-origin: top;
-    opacity: 0.6;
-}
-
-.l1 { left: 10%; height: 120px; animation: tentacle-wave 4s ease-in-out infinite 0s; }
-.l2 { left: 30%; height: 150px; animation: tentacle-wave 4s ease-in-out infinite 0.5s; }
-.l3 { left: 50%; height: 130px; animation: tentacle-wave 4s ease-in-out infinite 1s; }
-.l4 { left: 70%; height: 160px; animation: tentacle-wave 4s ease-in-out infinite 1.5s; }
-.l5 { left: 90%; height: 110px; animation: tentacle-wave 4s ease-in-out infinite 2s; }
-
-/* --- PLANKTON --- */
-.plankton-field {
-    position: absolute;
-    width: 100%; height: 100%;
-    pointer-events: none;
-}
-.speck {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    animation: drift 10s linear infinite;
-}
-.s1 { width: 2px; height: 2px; top: 80%; left: 20%; animation-duration: 12s; }
-.s2 { width: 3px; height: 3px; top: 60%; left: 80%; animation-duration: 8s; filter: blur(1px); }
-.s3 { width: 1px; height: 1px; top: 40%; left: 40%; animation-duration: 15s; }
-.s4 { width: 4px; height: 4px; top: 20%; left: 10%; animation-duration: 20s; filter: blur(2px); opacity: 0.2; }
-.s5 { width: 2px; height: 2px; top: 90%; left: 60%; animation-duration: 9s; }
-.s6 { width: 1px; height: 1px; top: 10%; left: 90%; animation-duration: 18s; }
-
-.depth-text {
-    position: absolute;
-    bottom: 40px;
-    font-family: 'Verdana', sans-serif;
-    color: rgba(0, 150, 255, 0.6);
-    font-size: 10px;
-    letter-spacing: 4px;
-}
-
-/* --- ANIMATIONS --- */
-
-@keyframes swim-cycle {
-    0% { transform: translateY(0); }
-    30% { transform: translateY(-30px); } /* Propel up */
-    100% { transform: translateY(0); } /* Drift down */
-}
-
-@keyframes bell-contract {
-    0% { transform: scaleX(1) scaleY(1); }
-    20% { transform: scaleX(0.85) scaleY(1.1); } /* Squeeze */
-    50% { transform: scaleX(1.05) scaleY(0.95); } /* Relax */
-    100% { transform: scaleX(1) scaleY(1); }
-}
-
-@keyframes glow-pulse {
-    0% { opacity: 0.4; transform: scale(1); }
-    100% { opacity: 0.8; transform: scale(1.2); }
-}
-
-@keyframes frill-sway {
-    0%, 100% { transform: rotate(5deg) scaleY(1); }
-    50% { transform: rotate(-5deg) scaleY(0.9); }
-}
-
-@keyframes tentacle-wave {
-    0% { transform: rotate(2deg) translateX(0); }
-    50% { transform: rotate(-2deg) translateX(10px); }
-    100% { transform: rotate(2deg) translateX(0); }
-}
-
-@keyframes drift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-100vh); }
-}
-`,
-        js: `// Abyssopelagic Zone`
-    }
-},
-{
-    id: "realistic-train-loader",
-    title: "Orient Express Loading Animation",
-    description: "A cinematic, photorealistic train loader. Features a detailed steam engine cutting through atmospheric fog, with volumetric headlights, particle smoke, sparks, and multi-layer parallax scrolling.",
-    tags: ["Realistic", "Train", "Cinematic", "Night", "Atmosphere", "Steam", "Travel"],
-    keywords: ["realistic train css", "steam engine animation", "cinematic parallax loader", "atmospheric night scene"],
-    code: {
-        html: `
-<div class="night-run-scene">
-    <div class="sky-gradient"></div>
-    <div class="moon-glow"></div>
-    
-    <div class="mountains layer-3"></div>
-    <div class="forest layer-2"></div>
-    <div class="fog-layer"></div>
-    
-    <div class="train-container">
-        <div class="engine-body">
-            <div class="chimney">
-                <div class="smoke-emitter">
-                    <div class="puff p1"></div>
-                    <div class="puff p2"></div>
-                    <div class="puff p3"></div>
-                </div>
-            </div>
-            <div class="dome"></div>
-            <div class="cabin-roof"></div>
-            <div class="cabin-window"></div>
-            
-            <div class="headlight">
-                <div class="beam-cone"></div>
-            </div>
-            
-            <div class="piston-rod"></div>
-            <div class="wheels-assembly">
-                <div class="big-wheel w1">
-                    <div class="spoke"></div>
-                    <div class="spoke"></div>
-                </div>
-                <div class="big-wheel w2">
-                    <div class="spoke"></div>
-                    <div class="spoke"></div>
-                </div>
-                <div class="small-wheel w3"></div>
-            </div>
-            
-            <div class="sparks-emitter"></div>
-        </div>
-    </div>
-    
-    <div class="track-bed">
-        <div class="ties"></div>
-        <div class="rail"></div>
-    </div>
-    <div class="foreground-blur"></div>
-    
-    <div class="cinematic-text">DESTINATION: UNKNOWN</div>
-</div>`,
-        css: `
-.night-run-scene {
-    width: 100%;
-    height: 100vh;
-    background: #050510;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.sky-gradient {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 60%;
-    background: linear-gradient(to bottom, #020205, #101025 80%, #1a1a3a 100%);
-    z-index: 0;
-}
-
-.moon-glow {
-    position: absolute;
-    top: 15%; right: 15%;
-    width: 80px; height: 80px;
-    background: radial-gradient(circle, rgba(200,200,255,0.8), transparent 60%);
-    filter: blur(10px);
-    opacity: 0.6;
-}
-
-/* --- PARALLAX SCENERY --- */
-.mountains {
-    position: absolute;
-    bottom: 40%;
-    width: 200%; height: 40%;
-    background: linear-gradient(170deg, transparent 40%, #080810 40%),
-                linear-gradient(190deg, transparent 40%, #080810 40%);
-    background-size: 300px 100%;
-    filter: blur(2px);
-    animation: scroll-slow 30s linear infinite;
-    opacity: 0.8;
-}
-
-.forest {
-    position: absolute;
-    bottom: 40%;
-    width: 200%; height: 100px;
-    background: 
-        conic-gradient(from 160deg at 50% 0, transparent 0deg, #050508 0deg, #050508 40deg, transparent 40deg);
-    background-size: 50px 100px;
-    filter: blur(1px);
-    animation: scroll-med 8s linear infinite;
-    z-index: 2;
-}
-
-.fog-layer {
-    position: absolute;
-    bottom: 30%;
-    width: 200%; height: 150px;
-    background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
-    filter: blur(20px);
-    animation: scroll-fast 4s linear infinite;
-    z-index: 3;
-}
-
-/* --- THE TRAIN ENGINE --- */
-.train-container {
-    position: relative;
-    z-index: 10;
-    width: 240px; height: 120px;
-    transform: scale(1.2); /* Adjust size */
-    margin-bottom: -15px; /* Sit tight on track */
-}
-
-.engine-body {
-    position: relative;
-    width: 100%; height: 100%;
-    background: linear-gradient(180deg, #222, #000);
-    border-radius: 5px 20px 5px 5px;
-    /* Detailed silhouette using clip-path */
-    clip-path: polygon(
-        20% 0%, 55% 0%, 55% 20%, 65% 20%, 65% 0%, 90% 0%, 100% 30%, /* Cabin top */
-        100% 100%, 0% 100%, 0% 60%, 10% 40%, 20% 40% /* Front nose */
-    );
-    box-shadow: inset 10px 0 20px rgba(0,0,0,0.8);
-    animation: rumble 0.1s infinite alternate;
-}
-
-/* Details overlaid on clip-path shape */
-.chimney {
-    position: absolute;
-    top: 0; left: 35px;
-    width: 25px; height: 40px;
-    background: #111;
-    z-index: 11;
-}
-
-.smoke-emitter {
-    position: absolute;
-    top: -10px; left: 50%;
-}
-
-.puff {
-    position: absolute;
-    background: rgba(200,200,200,0.1);
-    border-radius: 50%;
-    filter: blur(8px);
-}
-.p1 { width: 30px; height: 30px; animation: smoke-trail 2s linear infinite; }
-.p2 { width: 40px; height: 40px; animation: smoke-trail 2s linear infinite 0.6s; }
-.p3 { width: 25px; height: 25px; animation: smoke-trail 2s linear infinite 1.2s; }
-
-.cabin-window {
-    position: absolute;
-    top: 40px; right: 20px;
-    width: 30px; height: 25px;
-    background: #ffaa00;
-    box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
-    opacity: 0.8;
-}
-
-/* Headlight */
-.headlight {
-    position: absolute;
-    top: 65px; left: -5px;
-    width: 10px; height: 15px;
-    background: #fff;
-    border-radius: 2px;
-    box-shadow: 0 0 10px #fff;
-    z-index: 12;
-}
-
-.beam-cone {
-    position: absolute;
-    top: -30px; right: 10px; /* Shoot left */
-    width: 300px; height: 80px;
-    background: linear-gradient(to left, rgba(255,255,200,0.4), transparent);
-    clip-path: polygon(100% 45%, 0% 0%, 0% 100%, 100% 55%);
-    filter: blur(5px);
-    mix-blend-mode: screen;
-}
-
-/* Wheels */
-.wheels-assembly {
-    position: absolute;
-    bottom: -15px; left: 10px;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-}
-
-.big-wheel {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    border: 3px solid #555;
-    background: #111;
-    margin-right: 5px;
-    position: relative;
-    overflow: hidden;
-    animation: spin-wheel 0.5s linear infinite;
-}
-
-.spoke {
-    position: absolute;
-    top: 50%; left: 0;
-    width: 100%; height: 2px;
-    background: #333;
-}
-.spoke:nth-child(2) { transform: rotate(90deg); }
-
-.small-wheel {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 3px solid #555;
-    background: #111;
-    margin-left: 10px;
-    animation: spin-wheel 0.3s linear infinite;
-}
-
-.piston-rod {
-    position: absolute;
-    bottom: 25px; left: 25px;
-    width: 90px; height: 6px;
-    background: #888;
-    transform-origin: right;
-    animation: piston-move 0.5s linear infinite;
-    z-index: 13;
-}
-
-/* Sparks */
-.sparks-emitter {
-    position: absolute;
-    bottom: 0; left: 20px;
-    width: 100px; height: 5px;
-    background-image: radial-gradient(circle, #ffaa00 1px, transparent 1px);
-    background-size: 10px 5px;
-    opacity: 0;
-    animation: sparks-fly 0.5s linear infinite;
-}
-
-/* --- FOREGROUND --- */
-.track-bed {
-    position: relative;
-    width: 100%; height: 40px;
-    background: #050505;
-    z-index: 9;
-    margin-top: -10px;
-}
-.rail {
-    position: absolute;
-    top: 0; width: 100%; height: 4px;
-    background: #333;
-    box-shadow: 0 0 5px #000;
-}
-
-.foreground-blur {
-    position: absolute;
-    bottom: 0;
-    width: 100%; height: 100px;
-    background: linear-gradient(to bottom, transparent, #000);
-    z-index: 20;
-    backdrop-filter: blur(2px);
-}
-
-.cinematic-text {
-    position: absolute;
-    bottom: 40px;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 6px;
-    color: #888;
-    font-size: 12px;
-    z-index: 30;
-    text-shadow: 0 2px 4px #000;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes scroll-slow { from { background-position: 0 0; } to { background-position: -300px 0; } }
-@keyframes scroll-med { from { background-position: 0 0; } to { background-position: -600px 0; } }
-@keyframes scroll-fast { from { background-position: 0 0; } to { background-position: -1200px 0; } }
-
-@keyframes spin-wheel { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-
-@keyframes rumble {
-    from { transform: translateY(0); }
-    to { transform: translateY(1px); }
-}
-
-@keyframes smoke-trail {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-    100% { transform: translate(-150px, -20px) scale(3); opacity: 0; }
-}
-
-@keyframes piston-move {
-    0% { transform: translateX(0) rotate(0deg); }
-    25% { transform: translateX(-10px) rotate(5deg); }
-    50% { transform: translateX(0) rotate(0deg); }
-    75% { transform: translateX(10px) rotate(-5deg); }
-    100% { transform: translateX(0) rotate(0deg); }
-}
-
-@keyframes sparks-fly {
-    0% { opacity: 0.8; transform: translateX(0); }
-    100% { opacity: 0; transform: translateX(-50px); }
-}
-`,
-        js: `// Full Steam Ahead`
-    }
-},
-{
-    id: "brute-force-loader",
-    title: "System Decryption Loading Animation",
-    description: "A cyberpunk text-decoding loader. Random characters cycle rapidly before locking into the final 'SUCCESS' message, simulating a brute-force password crack.",
-    tags: ["Cyberpunk", "Hacker", "Text", "Glitch", "Matrix", "Tech", "Security"],
-    keywords: ["text scrambling animation", "hacker loader css", "brute force animation", "matrix text effect"],
-    code: {
-        html: `
-<div class="hack-scene">
-    <div class="terminal-window">
-        <div class="header">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-        </div>
-        <div class="screen">
-            <div class="code-line">> INITIALIZING DAEMON...</div>
-            <div class="code-line">> TARGET: MAINFRAME</div>
-            <div class="code-line">> DECRYPTING KEY:</div>
-            
-            <div class="decrypt-box">
-                <span class="char c1">A</span>
-                <span class="char c2">C</span>
-                <span class="char c3">C</span>
-                <span class="char c4">E</span>
-                <span class="char c5">S</span>
-                <span class="char c6">S</span>
-            </div>
-            
-            <div class="progress-bar">
-                <div class="fill"></div>
-            </div>
-        </div>
-    </div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
-.hack-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'VT323', monospace;
-}
-
-.terminal-window {
-    width: 300px;
-    height: 200px;
-    background: #0c0c0c;
-    border: 1px solid #333;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-    overflow: hidden;
-}
-
-.header {
-    height: 25px;
-    background: #1a1a1a;
-    border-bottom: 1px solid #333;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    gap: 5px;
-}
-
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
-
-.screen {
-    padding: 20px;
-    color: #00ff00;
-}
-
-.code-line {
-    font-size: 14px;
-    opacity: 0;
-    animation: type-line 0.5s forwards;
-}
-.code-line:nth-child(1) { animation-delay: 0s; }
-.code-line:nth-child(2) { animation-delay: 0.8s; }
-.code-line:nth-child(3) { animation-delay: 1.6s; margin-bottom: 15px; }
-
-.decrypt-box {
-    font-size: 32px;
-    letter-spacing: 5px;
-    margin-bottom: 20px;
-    display: flex;
-}
-
-.char {
-    display: inline-block;
-    width: 20px;
-    position: relative;
-    overflow: hidden;
-    color: #00ff00;
-    animation: flicker-char 0.1s infinite;
-}
-
-/* "Locking" the characters one by one */
-.c1 { animation: lock-char 0s forwards 2.5s; }
-.c2 { animation: lock-char 0s forwards 2.7s; }
-.c3 { animation: lock-char 0s forwards 2.9s; }
-.c4 { animation: lock-char 0s forwards 3.1s; }
-.c5 { animation: lock-char 0s forwards 3.3s; }
-.c6 { animation: lock-char 0s forwards 3.5s; }
-
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background: #111;
-    border: 1px solid #00ff00;
-}
-
-.fill {
-    height: 100%;
-    background: #00ff00;
-    width: 0%;
-    animation: fill-bar 4s steps(20) infinite;
-}
-
-/* ANIMATIONS */
-@keyframes type-line {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes flicker-char {
-    0% { opacity: 0.5; transform: scaleY(1.1); text-shadow: 0 0 5px #00ff00; }
-    50% { opacity: 1; transform: scaleY(1); }
-    100% { opacity: 0.5; transform: scaleY(1.1); }
-}
-
-/* This is a visual trick. In CSS we can't randomly generate letters easily. 
-   So we flicker the opacity and blur to make it LOOK like it's changing, 
-   then 'snap' to the clear letter. */
-@keyframes lock-char {
-    to { 
-        animation: none; 
-        opacity: 1; 
-        color: #fff; /* White means locked */
-        background: #008800;
-        text-shadow: none;
-    }
-}
-
-@keyframes fill-bar {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-`,
-        js: `// Access Granted`
-    }
-},
-{
-    id: "newtons-galaxy-loader",
-    title: "Kinetic Energy Transfer - Loading Animation",
-    description: "A physics-based abstract loader. Orbital particles swing inward to strike a central core, triggering expanding shockwaves. Mesmerizing rhythmic motion.",
-    tags: ["Physics", "Space", "Abstract", "Science", "Impact", "Energy", "Modern"],
-    keywords: ["newtons cradle animation", "impact ripple css", "physics loader", "kinetic energy spinner"],
-    code: {
-        html: `
-<div class="kinetic-scene">
-    <div class="system">
-        <div class="core-star"></div>
-        
-        <div class="shockwave s1"></div>
-        <div class="shockwave s2"></div>
-        
-        <div class="swing-arm left">
-            <div class="orb"></div>
-        </div>
-        <div class="swing-arm right">
-            <div class="orb"></div>
-        </div>
-    </div>
-    <div class="kinetic-text">CALCULATING PHYSICS...</div>
-</div>`,
-        css: `
-.kinetic-scene {
-    width: 100%;
-    height: 100vh;
-    background: #121212;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-}
-
-.system {
-    position: relative;
-    width: 200px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.core-star {
-    width: 30px; height: 30px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 20px #fff;
-    z-index: 10;
-    /* Flash when hit */
-    animation: core-flash 2s ease-in-out infinite;
-}
-
-/* The Swing Arms */
-.swing-arm {
-    position: absolute;
-    top: -50px;
-    width: 20px; height: 100px;
-    transform-origin: top center;
-}
-
-.orb {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: #00aaff;
-    box-shadow: 0 0 15px #00aaff;
-}
-
-.left {
-    left: 40px;
-    animation: swing-left 2s ease-in-out infinite;
-}
-
-.right {
-    right: 40px;
-    animation: swing-right 2s ease-in-out infinite;
-}
-
-.right .orb { background: #ff0055; box-shadow: 0 0 15px #ff0055; }
-
-/* Shockwaves */
-.shockwave {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid rgba(255,255,255,0.5);
-    border-radius: 50%;
-    opacity: 0;
-}
-
-.s1 { animation: ripple 2s ease-out infinite 0s; } /* Trigger on Left Hit (0s) */
-.s2 { animation: ripple 2s ease-out infinite 1s; } /* Trigger on Right Hit (1s) */
-
-/* ANIMATIONS */
-
-/* Cycle: 2s
-   0.0s: Left hits Center
-   1.0s: Right hits Center
-*/
-
-@keyframes swing-left {
-    0% { transform: rotate(0deg); } /* Hit */
-    25% { transform: rotate(45deg); } /* Swing Out */
-    50% { transform: rotate(0deg); } /* Return to center (rest) */
-    100% { transform: rotate(0deg); }
-}
-
-@keyframes swing-right {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(0deg); } /* Wait for left */
-    75% { transform: rotate(-45deg); } /* Swing Out */
-    100% { transform: rotate(0deg); } /* Hit */
-}
-
-@keyframes core-flash {
-    0% { transform: scale(1.2); background: #ccffff; } /* Impact Left */
-    10% { transform: scale(1); background: #fff; }
-    50% { transform: scale(1.2); background: #ffccff; } /* Impact Right */
-    60% { transform: scale(1); background: #fff; }
-    100% { transform: scale(1.2); background: #ccffff; }
-}
-
-@keyframes ripple {
-    0% { width: 30px; height: 30px; opacity: 1; border-width: 4px; }
-    100% { width: 150px; height: 150px; opacity: 0; border-width: 0px; }
-}
-
-.kinetic-text {
-    font-family: 'Helvetica', sans-serif;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: #888;
-    font-size: 10px;
-    text-transform: uppercase;
-}
-`,
-        js: `// Action & Reaction`
-    }
-},
-{
-    id: "neural-loom-pro",
-    title: "The Neural Loom - Loading Spinner",
-    description: "An ultra-modern generative loader. Two invisible points weave a complex 3D neural mesh in real-time, featuring rhythmic light impulses and high-performance Canvas rendering.",
-    tags: ["Tech", "Ultra-Modern", "Generative", "Canvas", "Data", "3D"],
-    keywords: ["neural network animation", "canvas loading spinner", "generative mesh css", "cyberpunk loader"],
-    code: {
-        html: `
-<div class="loom-scene">
-    <canvas id="loomCanvas"></canvas>
-    
-    <div class="interface-overlay">
-        <div class="scanner-line"></div>
-        <div class="data-readout">
-            <span class="label">NEURAL MESH:</span>
-            <span class="value" id="meshPercent">0%</span>
-        </div>
-    </div>
-    
-    <div class="loom-status">WEAVING SYNAPSES...</div>
-</div>`,
-        css: `
-.loom-scene {
-    width: 100%;
-    height: 100vh;
-    background: #020205; /* Deep Void Blue */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.3));
-}
-
-/* --- HUD OVERLAY --- */
-.interface-overlay {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border: 1px solid rgba(0, 242, 255, 0.1);
-    border-radius: 50%;
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.scanner-line {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #00f2ff, transparent);
-    top: 50%;
-    animation: scanner-sweep 4s ease-in-out infinite;
-    opacity: 0.3;
-}
-
-.data-readout {
-    position: absolute;
-    bottom: -40px;
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    color: #00f2ff;
-    letter-spacing: 2px;
-    display: flex;
-    gap: 10px;
-}
-
-.loom-status {
-    position: absolute;
-    bottom: 40px;
-    font-family: 'Helvetica', sans-serif;
-    font-weight: 100;
-    color: #fff;
-    letter-spacing: 8px;
-    font-size: 11px;
-    text-transform: uppercase;
-    animation: text-pulse 2s infinite alternate;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes scanner-sweep {
-    0%, 100% { transform: translateY(-140px); opacity: 0; }
-    50% { transform: translateY(140px); opacity: 0.5; }
-}
-
-@keyframes text-pulse {
-    from { opacity: 0.3; filter: blur(1px); }
-    to { opacity: 0.8; filter: blur(0); }
-}
-`,
-        js: `
-const canvas = document.getElementById('loomCanvas');
-const ctx = canvas.getContext('2d');
-const meshText = document.getElementById('meshPercent');
-
-let width, height, particles = [];
-const particleCount = 60;
-const connectionDist = 120;
-let impulseActive = false;
-let impulseProgress = 0;
-
-function init() {
-    resize();
-    for(let i=0; i<particleCount; i++) {
-        particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
-            history: []
-        });
-    }
-    animate();
-    setInterval(triggerImpulse, 4000);
-}
-
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
-
-function triggerImpulse() {
-    impulseActive = true;
-    impulseProgress = 0;
-}
-
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    
-    // Draw connections (The Weave)
-    for(let i=0; i<particles.length; i++) {
-        const p1 = particles[i];
-        p1.x += p1.vx;
-        p1.y += p1.vy;
-        
-        // Bounce logic
-        if(p1.x < 0 || p1.x > width) p1.vx *= -1;
-        if(p1.y < 0 || p1.y > height) p1.vy *= -1;
-
-        for(let j=i+1; j<particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p1.x - p2.x;
-            const dy = p1.y - p2.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-
-            if(dist < connectionDist) {
-                ctx.beginPath();
-                // If impulse is active, highlight lines
-                let opacity = 1 - (dist/connectionDist);
-                let color = impulseActive ? \`rgba(255, 255, 255, \${opacity})\` : \`rgba(0, 242, 255, \${opacity * 0.4})\`;
-                
-                ctx.strokeStyle = color;
-                ctx.lineWidth = impulseActive ? 2 : 0.5;
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-            }
+    },
+    {
+        "id": "animated-svg-neural-circuit-tech-card",
+        "title": "Animated SVG Neural Circuit Tech Card",
+        "description": "A futuristic, dark-themed technology card featuring pulsing SVG circuit lines, animated glowing nodes, and a micro-grid background. Ideal for AI, cybersecurity, and developer tool landing pages.",
+        "tags": [
+            "SVG Animation", "Tech Card", "Circuit Board", "Cybersecurity", "Dark UI", 
+            "Neon Glow", "AI Interface", "Developer Tools", "CSS Transition", "Hover Effect", 
+            "Futuristic", "Minimalist", "Sci-Fi", "Data Flow", "Web Design", 
+            "Frontend Component", "Animated Path", "Vector Graphics", "UI Component", "Creative"
+        ],
+        "keywords": [
+            "svg circuit animation css", "animated tech card ui", "neural network ui card", 
+            "cybersecurity web design", "dark theme circuit board", "pulsing data lines css", 
+            "futuristic tech interface", "svg path drawing animation", "developer tool landing page", 
+            "neon glow hover effect", "ai startup ui component", "micro grid background css", 
+            "advanced svg styling", "sci fi ui design", "tech specs card", 
+            "modern frontend dark mode", "custom css svg trace", "animated nodes css", 
+            "interactive tech component", "clean minimalistic tech ui"
+        ],
+        "code": {
+            "html": "<div class=\"quantum-container\">\n    <div class=\"quantum-card\">\n        <svg class=\"circuit-svg\" viewBox=\"0 0 260 340\" preserveAspectRatio=\"none\">\n            <path class=\"trace-base\" d=\"M15 15 L245 15 L245 80 L210 120 L210 320 L15 320 Z\" />\n            <path class=\"trace-active\" d=\"M15 15 L245 15 L245 80 L210 120 L210 320 L15 320 Z\" />\n            <circle class=\"node\" cx=\"245\" cy=\"15\" r=\"2\"/>\n            <circle class=\"node\" cx=\"210\" cy=\"120\" r=\"2\"/>\n            <circle class=\"node\" cx=\"15\" cy=\"320\" r=\"2\"/>\n        </svg>\n\n        <div class=\"inner-content\">\n            <div class=\"chip-icon\"></div>\n            <div class=\"title-block\">\n                <div class=\"status\">OFFLINE</div>\n                <h3>NEURAL_CORE</h3>\n            </div>\n            <div class=\"spec-lines\">\n                <div class=\"line l1\"></div>\n                <div class=\"line l2\"></div>\n                <div class=\"line l3\"></div>\n            </div>\n        </div>\n\n        <div class=\"edge-glow\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --qc-card-width: 260px;                  /* Card width */\n    --qc-card-height: 340px;                 /* Card height */\n    --qc-bg-color: #0b0b0b;                  /* Main background color */\n    \n    /* Circuit Traces */\n    --qc-trace-base-color: rgba(255, 255, 255, 0.05); /* Idle line color */\n    --qc-trace-active-color: rgba(180, 220, 255, 0.9); /* Glowing line color */\n    --qc-trace-glow: rgba(180, 220, 255, 0.6);         /* Box-shadow glow color */\n    \n    /* Typography */\n    --qc-font-family: 'JetBrains Mono', monospace;\n    --qc-text-color: #ffffff;                /* Primary text color */\n    --qc-status-idle: rgba(255, 255, 255, 0.3); /* Idle status text color */\n    \n    /* Animation Speeds */\n    --qc-anim-duration: 1s;                  /* Speed of the circuit drawing */\n}\n\n.quantum-container {\n    width: 100%;\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    /* Transparent to inherit preview background, add color if needed */\n    background: transparent; \n}\n\n.quantum-card {\n    position: relative;\n    width: var(--qc-card-width);\n    height: var(--qc-card-height);\n    background: var(--qc-bg-color);\n    clip-path: polygon(0 0, 100% 0, 100% 23%, 85% 35%, 85% 100%, 0 100%);\n    border: 1px solid rgba(255, 255, 255, 0.04);\n    box-shadow:\n        0 25px 60px rgba(0, 0, 0, 0.8),\n        inset 0 0 0 1px rgba(255, 255, 255, 0.02);\n    overflow: hidden;\n    cursor: pointer;\n}\n\n.quantum-card::before {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    background:\n        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),\n        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);\n    background-size: 25px 25px;\n    opacity: 0.4;\n}\n\n.circuit-svg {\n    position: absolute;\n    inset: 0;\n    z-index: 2;\n}\n\n.trace-base {\n    fill: none;\n    stroke: var(--qc-trace-base-color);\n    stroke-width: 1;\n}\n\n.trace-active {\n    fill: none;\n    stroke: var(--qc-trace-active-color);\n    stroke-width: 1.5;\n    stroke-dasharray: 50 800;\n    stroke-dashoffset: 800;\n    stroke-linecap: round;\n    filter: drop-shadow(0 0 6px var(--qc-trace-glow));\n    transition: stroke-dashoffset var(--qc-anim-duration) cubic-bezier(.7, 0, .2, 1);\n}\n\n.node {\n    fill: var(--qc-trace-active-color);\n    opacity: 0;\n    transition: opacity 0.4s ease;\n}\n\n.quantum-card:hover .trace-active {\n    stroke-dashoffset: 0;\n}\n\n.quantum-card:hover .node {\n    opacity: 1;\n}\n\n.inner-content {\n    position: relative;\n    z-index: 3;\n    padding: 24px;\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n    font-family: var(--qc-font-family);\n    color: var(--qc-text-color);\n}\n\n.chip-icon {\n    width: 32px;\n    height: 32px;\n    border: 1px solid rgba(255, 255, 255, 0.15);\n    position: relative;\n}\n\n.chip-icon::before {\n    content: \"\";\n    position: absolute;\n    inset: 6px;\n    background: rgba(255, 255, 255, 0.04);\n}\n\n.title-block {\n    margin-top: 30px;\n}\n\n.status {\n    font-size: 8px;\n    letter-spacing: 2px;\n    color: var(--qc-status-idle);\n    transition: color 0.3s ease;\n}\n\n.quantum-card:hover .status {\n    color: var(--qc-trace-active-color);\n    /* Use content change trick via CSS if desired, but here we just color it */\n}\n\n.quantum-card h3 {\n    margin-top: 6px;\n    font-size: 15px;\n    font-weight: 500;\n    letter-spacing: .5px;\n}\n\n.spec-lines {\n    margin-top: auto;\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n}\n\n.line {\n    height: 1px;\n    background: rgba(255, 255, 255, 0.1);\n}\n\n.line.l1 { width: 100%; }\n.line.l2 { width: 70%; }\n.line.l3 { width: 40%; }\n\n.edge-glow {\n    position: absolute;\n    inset: 0;\n    border-radius: 0;\n    box-shadow:\n        inset 0 0 0 1px rgba(255, 255, 255, 0.05),\n        inset 0 0 25px rgba(180, 220, 255, 0.03);\n    pointer-events: none;\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "3d-magnetic-glass-parallax-image-card",
+        "title": "3D Magnetic Glass Parallax Image Card",
+        "description": "An editorial-style 3D magnetic hover card featuring a multi-layered parallax effect, projected drop shadows, and a frosted glass overlay. Designed for architectural portfolios, photography galleries, and high-end editorial layouts.",
+        "tags": [
+            "Parallax", "3D Hover", "Magnetic", "Glassmorphism", "Editorial", 
+            "Architecture", "Portfolio Card", "Image Gallery", "JavaScript", "CSS 3D", 
+            "Depth Effect", "Frosted Glass", "Drop Shadow", "Luxury UI", "Modern Web", 
+            "Creative Design", "Interactive", "Photography", "Typography", "Animation"
+        ],
+        "keywords": [
+            "3d parallax image card", "magnetic hover effect javascript", "editorial style ui component", 
+            "architectural portfolio card", "glassmorphism overlay css", "multi layer depth card", 
+            "projected shadow css", "luxury photography gallery ui", "interactive portfolio layout", 
+            "smooth 3d tilt animation", "custom parallax card component", "creative web design cards", 
+            "elegant typography ui", "modern frontend image card", "mouse tracking parallax javascript", 
+            "frosted glass image hover", "high end editorial web design", "dynamic drop shadow effect", 
+            "advanced css 3d transform", "custom cursor magnetic card"
+        ],
+        "code": {
+            "html": "<div class=\"magnetic-container\">\n    <div class=\"shadow-projection\"></div>\n    <div class=\"magnetic-card\" id=\"magneticCard\">\n\n        <div class=\"layer layer-image\">\n            <img src=\"https://images.unsplash.com/photo-1486718448742-163732cd1544?q=80&w=600&auto=format&fit=crop\" alt=\"Brutalist Architecture\">\n            <div class=\"img-overlay\"></div>\n        </div>\n\n        <div class=\"layer layer-glass\">\n            <div class=\"refraction\"></div>\n            <div class=\"grain\"></div>\n        </div>\n\n        <div class=\"layer layer-content\">\n            <div class=\"meta\">\n                <span class=\"meta-left\">KRONOS_ARCH</span>\n                <span class=\"meta-right\">2026</span>\n            </div>\n\n            <div class=\"body\">\n                <h2 class=\"title\">The Brutalist Edit</h2>\n                <div class=\"divider\"></div>\n                <p class=\"desc\">\n                    Exploration of concrete forms and negative space in modern residential structures.\n                </p>\n            </div>\n\n            <button class=\"cta\">View Project</button>\n        </div>\n\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --arch-card-width: 260px;\n    --arch-card-height: 380px;\n    --arch-border-radius: 3px;\n    \n    /* Typography */\n    --arch-title-font: 'Cormorant Garamond', serif;\n    --arch-body-font: 'Inter', sans-serif;\n    --arch-text-main: #e5e5e5;\n    --arch-text-muted: rgba(255, 255, 255, 0.65);\n    \n    /* Colors and Glass */\n    --arch-glass-bg: rgba(255, 255, 255, 0.03);\n    --arch-glass-blur: 6px;\n    --arch-image-overlay: rgba(0, 0, 0, 0.8);\n    --arch-shadow-color: rgba(0, 0, 0, 0.6);\n    --arch-cta-bg: #ffffff;\n    --arch-cta-text: #000000;\n}\n\n.magnetic-container {\n    width: 100%;\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    /* Transparent to inherit preview backgrounds cleanly */\n    background: transparent; \n    perspective: 1600px;\n    position: relative;\n}\n\n.shadow-projection {\n    position: absolute;\n    width: 200px;\n    height: 50px;\n    background: radial-gradient(ellipse at center, var(--arch-shadow-color), transparent 70%);\n    filter: blur(20px);\n    transform: translateY(160px);\n    transition: transform 0.2s ease;\n}\n\n.magnetic-card {\n    position: relative;\n    width: var(--arch-card-width);\n    height: var(--arch-card-height);\n    transform-style: preserve-3d;\n    border-radius: var(--arch-border-radius);\n    transition: transform 0.2s ease;\n    animation: float 6s ease-in-out infinite alternate;\n    cursor: pointer;\n}\n\n@keyframes float {\n    from { transform: translateY(0px); }\n    to { transform: translateY(-8px); }\n}\n\n.layer {\n    position: absolute;\n    inset: 0;\n    border-radius: var(--arch-border-radius);\n    transition: transform 0.4s cubic-bezier(.2, 0, .2, 1);\n}\n\n.layer-image {\n    z-index: 1;\n    overflow: hidden;\n    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);\n}\n\n.layer-image img {\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n    filter: grayscale(100%) contrast(110%);\n    transition: transform 0.6s ease;\n}\n\n.img-overlay {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(to top, var(--arch-image-overlay), transparent 50%);\n}\n\n.layer-glass {\n    z-index: 2;\n    background: var(--arch-glass-bg);\n    backdrop-filter: blur(var(--arch-glass-blur));\n    border: 1px solid rgba(255, 255, 255, 0.08);\n}\n\n.grain {\n    position: absolute;\n    inset: 0;\n    opacity: 0.05;\n    background-image: url(\"https://www.transparenttextures.com/patterns/asfalt-light.png\");\n}\n\n.refraction {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(120deg, rgba(255, 255, 255, 0.1), transparent 50%);\n    opacity: 0;\n    transition: opacity 0.4s ease, transform 0.4s ease;\n}\n\n.layer-content {\n    z-index: 3;\n    padding: 24px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    color: var(--arch-text-main);\n}\n\n.meta {\n    display: flex;\n    justify-content: space-between;\n    font-family: var(--arch-body-font);\n    font-size: 9px;\n    letter-spacing: 2px;\n    color: rgba(255, 255, 255, 0.5);\n}\n\n.title {\n    font-family: var(--arch-title-font);\n    font-size: 2rem;\n    font-weight: 400;\n    margin-bottom: 12px;\n}\n\n.divider {\n    width: 30px;\n    height: 1px;\n    background: rgba(255, 255, 255, 0.8);\n    margin-bottom: 16px;\n}\n\n.desc {\n    font-family: var(--arch-body-font);\n    font-size: 11px;\n    line-height: 1.6;\n    color: var(--arch-text-muted);\n}\n\n.cta {\n    align-self: flex-start;\n    background: var(--arch-cta-bg);\n    color: var(--arch-cta-text);\n    border: none;\n    padding: 8px 18px;\n    font-family: var(--arch-body-font);\n    font-size: 10px;\n    letter-spacing: 1px;\n    cursor: pointer;\n    transition: background 0.3s ease;\n}\n\n.cta:hover { background: #d6d6d6; }\n\n/* Hover 3D Depth Separations */\n.magnetic-card:hover .layer-image {\n    transform: translateZ(-15px) translateY(-15px);\n}\n\n.magnetic-card:hover .layer-glass {\n    transform: translateZ(10px);\n}\n\n.magnetic-card:hover .layer-content {\n    transform: translateZ(25px) translateY(8px);\n}\n\n.magnetic-card:hover .refraction {\n    opacity: 0.6;\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    tiltDivider: 25,     // Higher = softer tilt angle\n    smoothness: 0.08,    // Return to center speed (0.01 to 0.2)\n    parallaxFactor: 2    // How much the internal text shifts on hover\n};\n\nconst card = document.getElementById(\"magneticCard\");\nconst shadow = document.querySelector(\".shadow-projection\");\n\nlet targetX = 0, targetY = 0;\nlet currentX = 0, currentY = 0;\n\ncard.addEventListener(\"mousemove\", (e) => {\n    const rect = card.getBoundingClientRect();\n    const x = e.clientX - rect.left;\n    const y = e.clientY - rect.top;\n\n    const centerX = rect.width / 2;\n    const centerY = rect.height / 2;\n\n    targetX = (centerX - x) / CONFIG.tiltDivider;\n    targetY = (y - centerY) / CONFIG.tiltDivider;\n\n    // Micro parallax for text\n    card.querySelector(\".title\").style.transform = `translateX(${targetX * CONFIG.parallaxFactor}px) translateY(${targetY * CONFIG.parallaxFactor}px)`;\n    card.querySelector(\".desc\").style.transform = `translateX(${targetX}px) translateY(${targetY}px)`;\n\n    // Adjust shadow based on tilt\n    if(shadow) {\n        shadow.style.transform = `translateY(160px) scale(${1 + Math.abs(targetX) / 20})`;\n    }\n});\n\nfunction animate() {\n    currentX += (targetX - currentX) * CONFIG.smoothness;\n    currentY += (targetY - currentY) * CONFIG.smoothness;\n\n    card.style.transform = `rotateX(${currentY}deg) rotateY(${currentX}deg)`;\n    requestAnimationFrame(animate);\n}\n\nanimate();\n\ncard.addEventListener(\"mouseleave\", () => {\n    // Reset to flat\n    targetX = 0;\n    targetY = 0;\n    \n    // Reset internal parallax\n    card.querySelector(\".title\").style.transform = `translateX(0px) translateY(0px)`;\n    card.querySelector(\".desc\").style.transform = `translateX(0px) translateY(0px)`;\n    \n    if(shadow) {\n        shadow.style.transform = `translateY(160px) scale(1)`;\n    }\n});"
+        }
+    },
+    {
+        "id": "interactive-cloud-server-node-dashboard",
+        "title": "Interactive Cloud Server Node Dashboard UI",
+        "description": "A highly interactive, dark-themed cloud server monitoring card. It features a real-time, ferrofluid-inspired CPU thread visualizer that reacts to user scrub interactions, alongside dynamic memory and latency metrics.",
+        "tags": [
+            "Dashboard", "Cloud Server", "Monitoring UI", "Ferrofluid Effect", "Data Visualization", 
+            "SaaS Component", "Interactive", "Real-time Metrics", "Dark Mode", "JavaScript Physics", 
+            "CPU Threads", "Server Status", "Web Widget", "Frontend Design", "Admin Panel", 
+            "Web Component", "UI/UX", "Data Widget", "Network Monitor", "Tech UI"
+        ],
+        "keywords": [
+            "cloud server dashboard ui", "interactive monitoring card", "ferrofluid cpu visualizer", 
+            "real time server metrics", "saas admin panel components", "dark theme dashboard widget", 
+            "javascript data visualization", "server status indicator css", "interactive thread monitor", 
+            "custom cloud hosting ui", "network latency visualizer", "memory usage progress bar", 
+            "frontend dashboard design", "web component monitoring", "cpu load animation js", 
+            "tech startup ui elements", "modern saas interface", "data widget css", 
+            "interactive scrub timeline", "svg gooey filter effect"
+        ],
+        "code": {
+            "html": "<div class=\"node-card\" id=\"nodeCard\">\n    <div class=\"card-header\">\n        <div class=\"instance-info\">\n            <div class=\"status-indicator online\"></div>\n            <div class=\"meta\">\n                <span class=\"region\">US-EAST-1</span>\n                <span class=\"instance-id\">i-0x829f</span>\n            </div>\n        </div>\n        <div class=\"uptime-badge\">99.9% uptime</div>\n    </div>\n\n    <div class=\"viz-container\">\n        <div class=\"viz-label\">REAL-TIME THREAD ACTIVITY</div>\n        \n        <div class=\"fluid-engine\" id=\"fluidEngine\"></div>\n        \n        <svg style=\"display:none;\">\n            <defs>\n                <filter id=\"node-goo\">\n                    <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"6\" result=\"blur\"/>\n                    <feColorMatrix in=\"blur\" mode=\"matrix\" \n                        values=\"1 0 0 0 0  \n                                0 1 0 0 0  \n                                0 0 1 0 0  \n                                0 0 0 19 -9\" \n                        result=\"goo\"/>\n                </filter>\n            </defs>\n        </svg>\n\n        <div class=\"scrub-data\">\n            <span class=\"label\">THREAD LOAD:</span>\n            <span class=\"value\" id=\"threadVal\">--</span>\n        </div>\n    </div>\n\n    <div class=\"metric-grid\">\n        <div class=\"metric-item\">\n            <span class=\"m-label\">MEMORY</span>\n            <span class=\"m-val\">12.4 / 16 GB</span>\n            <div class=\"progress-bg\"><div class=\"progress-fill\" style=\"width: 75%\"></div></div>\n        </div>\n        <div class=\"metric-item\">\n            <span class=\"m-label\">LATENCY</span>\n            <span class=\"m-val\">24ms</span>\n            <div class=\"progress-bg\"><div class=\"progress-fill\" style=\"width: 15%\"></div></div>\n        </div>\n    </div>\n\n    <div class=\"card-actions\">\n        <button class=\"action-btn\">\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M4 17l6-6-6-6M12 19h8\"/></svg>\n            SSH\n        </button>\n        <button class=\"action-btn secondary\">\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M23 4v6h-6M1 20v-6h6\"/></svg>\n            REBOOT\n        </button>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --cloud-card-bg: #121214;              /* Main card background */\n    --cloud-header-bg: #18181b;            /* Header and footer background */\n    --cloud-border-color: #27272a;         /* Border colors */\n    --cloud-text-main: #e4e4e7;            /* Primary text color */\n    --cloud-text-muted: #71717a;           /* Secondary/muted text color */\n    --cloud-status-online: #10b981;        /* Color for 'online' indicators */\n    \n    /* Visualizer Colors */\n    --viz-bg-color: #000000;               /* Background of the fluid visualizer */\n    --viz-thread-idle: #3b82f6;            /* Color of threads when not interacting */\n    --viz-thread-active: #60a5fa;          /* Highlight color when hovering over a thread */\n    --viz-thread-dimmed: #1e3a8a;          /* Color of background threads during interaction */\n}\n\n.node-card {\n    font-family: 'Inter', sans-serif;\n    width: 320px;\n    background: var(--cloud-card-bg);\n    border: 1px solid var(--cloud-border-color);\n    border-radius: 12px;\n    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n    /* Center in preview */\n    margin: auto;\n}\n\n.card-header {\n    padding: 16px;\n    border-bottom: 1px solid var(--cloud-border-color);\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background: var(--cloud-header-bg);\n}\n\n.instance-info {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n}\n\n.status-indicator {\n    width: 8px;\n    height: 8px;\n    background: var(--cloud-status-online);\n    border-radius: 50%;\n    box-shadow: 0 0 8px var(--cloud-status-online);\n}\n\n.meta {\n    display: flex;\n    flex-direction: column;\n}\n\n.region { font-size: 10px; color: var(--cloud-text-muted); font-weight: 600; }\n.instance-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--cloud-text-main); }\n\n.uptime-badge {\n    font-size: 10px;\n    color: var(--cloud-status-online);\n    background: rgba(16, 185, 129, 0.1);\n    padding: 2px 6px;\n    border-radius: 4px;\n    font-weight: 500;\n}\n\n.viz-container {\n    position: relative;\n    height: 140px;\n    background: var(--viz-bg-color);\n    padding: 10px;\n    display: flex;\n    flex-direction: column;\n    justify-content: flex-end;\n    overflow: hidden;\n}\n\n.viz-label {\n    position: absolute;\n    top: 10px;\n    left: 10px;\n    font-size: 9px;\n    color: #52525b;\n    letter-spacing: 0.5px;\n    font-weight: 600;\n}\n\n.fluid-engine {\n    width: 100%;\n    height: 100px;\n    display: flex;\n    align-items: flex-end;\n    justify-content: space-between;\n    filter: url(#node-goo);\n    margin: 0 -10px; \n    padding: 0 10px;\n    width: calc(100% + 20px);\n}\n\n.thread-bar {\n    width: 12px;\n    height: 20px;\n    background: var(--viz-thread-idle);\n    border-radius: 50% 50% 0 0;\n    transition: height 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);\n}\n\n.scrub-data {\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    font-family: 'JetBrains Mono', monospace;\n    font-size: 10px;\n    color: var(--viz-thread-idle);\n    opacity: 0;\n    transition: opacity 0.2s;\n}\n\n.node-card:hover .scrub-data { opacity: 1; }\n\n.metric-grid {\n    padding: 16px;\n    display: grid;\n    gap: 12px;\n}\n\n.metric-item {\n    display: flex;\n    flex-direction: column;\n    gap: 4px;\n}\n\n.m-label { font-size: 10px; color: var(--cloud-text-muted); font-weight: 600; }\n.m-val { font-size: 12px; color: var(--cloud-text-main); font-weight: 500; font-family: 'JetBrains Mono'; }\n\n.progress-bg {\n    width: 100%;\n    height: 4px;\n    background: var(--cloud-border-color);\n    border-radius: 2px;\n    overflow: hidden;\n}\n\n.progress-fill {\n    height: 100%;\n    background: #52525b;\n    border-radius: 2px;\n}\n\n.card-actions {\n    padding: 12px 16px;\n    background: var(--cloud-header-bg);\n    border-top: 1px solid var(--cloud-border-color);\n    display: flex;\n    gap: 8px;\n}\n\n.action-btn {\n    flex: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 6px;\n    padding: 8px;\n    border-radius: 6px;\n    font-size: 11px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: all 0.2s;\n    background: var(--cloud-text-main);\n    color: #000;\n    border: none;\n}\n\n.action-btn:hover { background: #fff; }\n\n.action-btn.secondary {\n    background: transparent;\n    color: #a1a1aa;\n    border: 1px solid #3f3f46;\n}\n\n.action-btn.secondary:hover {\n    background: var(--cloud-border-color);\n    color: #fff;\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    threadCount: 16,               // Number of vertical bars\n    idleNoiseVolatility: 0.9,      // How often bars spike randomly (0.0 to 1.0)\n    idleSpeed: 0.05,               // How fast bars return to base height\n    interactionRadius: 60,         // Pixel distance mouse affects bars\n    baseHeight: 25                 // Default height of bars during interaction\n};\n\nconst container = document.getElementById('fluidEngine');\nconst threadVal = document.getElementById('threadVal');\nconst card = document.getElementById('nodeCard');\n\nlet threads = [];\nlet animationId;\n\n// Read colors from CSS variables for JS updates\nconst style = getComputedStyle(document.body);\nconst colorIdle = style.getPropertyValue('--viz-thread-idle').trim() || '#3b82f6';\nconst colorActive = style.getPropertyValue('--viz-thread-active').trim() || '#60a5fa';\nconst colorDimmed = style.getPropertyValue('--viz-thread-dimmed').trim() || '#1e3a8a';\n\nfor(let i=0; i<CONFIG.threadCount; i++) {\n    const bar = document.createElement('div');\n    bar.className = 'thread-bar';\n    container.appendChild(bar);\n    threads.push({\n        el: bar,\n        baseHeight: 20 + Math.random() * 15,\n        targetHeight: 20,\n        x: 0 \n    });\n}\n\nfunction idleLoop() {\n    threads.forEach(t => {\n        if(Math.random() > CONFIG.idleNoiseVolatility) {\n            t.targetHeight = 20 + Math.random() * 40;\n        } else {\n            t.targetHeight += (t.baseHeight - t.targetHeight) * CONFIG.idleSpeed;\n        }\n        t.el.style.height = `${t.targetHeight}px`;\n    });\n    animationId = requestAnimationFrame(idleLoop);\n}\nidleLoop(); \n\ncard.addEventListener('mousemove', (e) => {\n    cancelAnimationFrame(animationId);\n    \n    const rect = container.getBoundingClientRect();\n    const mx = e.clientX - rect.left;\n    \n    threads.forEach((t, i) => {\n        const barX = (i / CONFIG.threadCount) * rect.width + (rect.width/CONFIG.threadCount)/2;\n        const dist = Math.abs(mx - barX);\n        \n        if (dist < CONFIG.interactionRadius) {\n            const power = 1 - (dist / CONFIG.interactionRadius);\n            t.el.style.height = `${40 + (power * 80)}px`;\n            \n            if (power > 0.9) {\n                t.el.style.backgroundColor = colorActive;\n                threadVal.innerText = Math.round(power * 100) + '%';\n            } else {\n                t.el.style.backgroundColor = colorIdle;\n            }\n        } else {\n            t.el.style.height = `${CONFIG.baseHeight}px`;\n            t.el.style.backgroundColor = colorDimmed;\n        }\n    });\n});\n\ncard.addEventListener('mouseleave', () => {\n    idleLoop();\n    threadVal.innerText = '--';\n    threads.forEach(t => {\n        t.el.style.backgroundColor = colorIdle;\n    });\n});"
+        }
+    },
+    {
+        "id": "compact-quantum-fusion-loading-spinner",
+        "title": "Compact Quantum Fusion Loading Spinner",
+        "description": "A futuristic, compact loading spinner utilizing SVG gooey filters and CSS animations. It features a pulsating core, synchronized orbiting particles, and rotating dashed rings, perfect for high-tech data processing states.",
+        "tags": [
+            "Loading Spinner", "Quantum Fusion", "Gooey Effect", "CSS Animation", "SVG Filter", 
+            "Loader", "Tech UI", "Plasma Core", "Orbiting Particles", "Compact UI", 
+            "Futuristic Design", "Web Component", "Waiting State", "Frontend", "Cyberpunk", 
+            "Visual Effects", "Microinteraction", "Neon Colors", "Synchronized", "Small Loader"
+        ],
+        "keywords": [
+            "css loading spinner gooey", "quantum fusion loader animation", "svg gooey filter css", 
+            "compact loading state ui", "orbiting particles spinner", "futuristic wait state", 
+            "high tech loading animation", "cyberpunk loading spinner", "neon glowing loader", 
+            "synchronized css animation rings", "small data processing loader", "plasma core loading effect", 
+            "custom css spinner", "web design loading screen", "microinteraction loader ui", 
+            "frontend wait animation", "svg filter liquid effect", "animated dashed ring css", 
+            "liquid fusion loader", "tech theme spinner component"
+        ],
+        "code": {
+            "html": "<div class=\"loader-scene\">\n    \n    <svg style=\"position:absolute;width:0;height:0;\">\n        <defs>\n            <filter id=\"fusion-goo-small\">\n                <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"6\" result=\"blur\" />\n                <feColorMatrix in=\"blur\" mode=\"matrix\" \n                    values=\"1 0 0 0 0  \n                            0 1 0 0 0  \n                            0 0 1 0 0  \n                            0 0 0 18 -7\" \n                    result=\"goo\" />\n                <feComposite in=\"SourceGraphic\" in2=\"goo\" operator=\"atop\"/>\n            </filter>\n        </defs>\n    </svg>\n\n    <div class=\"loader-container\">\n        <div class=\"fusion-engine\">\n            <div class=\"core\"></div>\n            <div class=\"particle p1\"></div>\n            <div class=\"particle p2\"></div>\n            <div class=\"particle p3\"></div>\n            <div class=\"particle p4\"></div>\n        </div>\n        \n        <div class=\"ring r1\"></div>\n        <div class=\"ring r2\"></div>\n    </div>\n\n    <div class=\"loading-label\">INITIALIZING</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --q-loader-primary: #00ffff;        /* Main cyan neon color */\n    --q-loader-secondary: #0088ff;      /* Secondary blue color */\n    --q-loader-text: #00ffff;           /* Loading text color */\n    --q-loader-bg: #050505;             /* Scene background color */\n    \n    /* Animation Timings */\n    --q-engine-spin: 6s;                /* Speed of the entire gooey cluster rotating */\n    --q-particle-cycle: 2s;             /* Speed of particles pulsing in and out */\n    --q-ring-outer: 10s;                /* Speed of the outer dashed ring */\n    --q-ring-inner: 4s;                 /* Speed of the inner solid ring */\n}\n\n.loader-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--q-loader-bg);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 20px;\n}\n\n.loader-container {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.fusion-engine {\n    position: relative;\n    width: 100%;\n    height: 100%;\n    filter: url('#fusion-goo-small');\n    animation: engine-spin var(--q-engine-spin) linear infinite; \n}\n\n.core {\n    position: absolute;\n    top: 50%; left: 50%;\n    transform: translate(-50%, -50%);\n    width: 24px; height: 24px;\n    background: var(--q-loader-primary);\n    border-radius: 50%;\n    animation: core-beat var(--q-particle-cycle) ease-in-out infinite; \n}\n\n.particle {\n    position: absolute;\n    top: 50%; left: 50%;\n    width: 14px; height: 14px;\n    border-radius: 50%;\n    background: var(--q-loader-primary);\n    transform: translate(-50%, -50%);\n}\n\n.p1 { animation: particle-cycle var(--q-particle-cycle) ease-in-out infinite; --angle: 0deg;   background: var(--q-loader-primary); }\n.p2 { animation: particle-cycle var(--q-particle-cycle) ease-in-out infinite; --angle: 90deg;  background: var(--q-loader-secondary); }\n.p3 { animation: particle-cycle var(--q-particle-cycle) ease-in-out infinite; --angle: 180deg; background: var(--q-loader-primary); }\n.p4 { animation: particle-cycle var(--q-particle-cycle) ease-in-out infinite; --angle: 270deg; background: var(--q-loader-secondary); }\n\n@keyframes particle-cycle {\n    0% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px); }\n    45% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(35px); }\n    55% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(35px); }\n    100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px); }\n}\n\n@keyframes core-beat {\n    0% { width: 24px; height: 24px; background: #ffffff; }\n    40% { width: 18px; height: 18px; background: var(--q-loader-primary); }\n    60% { width: 18px; height: 18px; background: var(--q-loader-primary); }\n    100% { width: 24px; height: 24px; background: #ffffff; }\n}\n\n@keyframes engine-spin {\n    from { transform: rotate(0deg); }\n    to { transform: rotate(360deg); }\n}\n\n.ring {\n    position: absolute;\n    border-radius: 50%;\n    border: 1px solid rgba(0, 255, 255, 0.1);\n    pointer-events: none;\n}\n\n.r1 { \n    width: 80px; height: 80px; \n    border-color: rgba(0, 255, 255, 0.3); \n    animation: spin var(--q-ring-inner) linear infinite; \n}\n.r2 { \n    width: 110px; height: 110px; \n    border-style: dashed; \n    border-color: rgba(0, 136, 255, 0.2); \n    animation: spin-rev var(--q-ring-outer) linear infinite; \n}\n\n.loading-label {\n    font-family: 'Courier New', monospace;\n    color: var(--q-loader-text);\n    font-size: 10px;\n    letter-spacing: 2px;\n    animation: blink 1.5s infinite;\n}\n\n@keyframes spin { to { transform: rotate(360deg); } }\n@keyframes spin-rev { to { transform: rotate(-360deg); } }\n@keyframes blink { 50% { opacity: 0.5; } }",
+            "js": ""
+        }
+    },
+    {
+        "id": "kawaii-mochi-character-bounce-loader",
+        "title": "Kawaii Mochi Character Bounce Loader",
+        "description": "An ultra-cute, playful CSS loading animation featuring a bouncing kawaii mochi character. Includes soft squash-and-stretch body physics, wiggling ears, blinking facial expressions, and floating pastel background elements.",
+        "tags": [
+            "Kawaii Loader", "Cute Animation", "Character Design", "Mochi Mascot", "Squash and Stretch", 
+            "CSS Animation", "Playful UI", "Pastel Colors", "Loading Screen", "Frontend Design", 
+            "Web Animation", "Bouncing Effect", "Sparkles", "Heart Pop", "Visual Delight", 
+            "Creative UI", "Children Website", "Anime Style", "Pure CSS", "Mascot Loader"
+        ],
+        "keywords": [
+            "kawaii css loading screen", "cute mochi character animation", "squash and stretch css", 
+            "pastel background loading ui", "adorable mascot loader", "pure css bouncing character", 
+            "playful loading animation", "anime style web loader", "floating background blobs css", 
+            "animated facial expressions css", "wiggling ears animation", "sparkle effect css", 
+            "heart pop animation loader", "childrens website ui component", "cute frontend design", 
+            "custom css loading spinner alternative", "soft body physics css", "creative wait states", 
+            "japanese kawaii ui", "friendly user interface loader"
+        ],
+        "code": {
+            "html": "<div class=\"mochi-world\">\n    <div class=\"floating-blob blob1\"></div>\n    <div class=\"floating-blob blob2\"></div>\n    <div class=\"floating-blob blob3\"></div>\n\n    <div class=\"mochi-scene\">\n        <div class=\"sparkles\">\n            <span></span>\n            <span></span>\n            <span></span>\n        </div>\n\n        <div class=\"mochi\">\n            <div class=\"ear left-ear\"></div>\n            <div class=\"ear right-ear\"></div>\n\n            <div class=\"face\">\n                <div class=\"eye left\"></div>\n                <div class=\"eye right\"></div>\n                <div class=\"cheek left\"></div>\n                <div class=\"cheek right\"></div>\n                <div class=\"mouth\"></div>\n            </div>\n        </div>\n\n        <div class=\"shadow\"></div>\n        <div class=\"heart-pop\"></div>\n\n        <div class=\"loading-text\">LOADING CUTENESS...</div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --mochi-bg-top: #ffe8f3;             /* Pastel background gradient top */\n    --mochi-bg-bottom: #ffd6ec;          /* Pastel background gradient bottom */\n    --mochi-body-color: #ffffff;         /* Main color of the mochi */\n    --mochi-body-shade: #fff6fb;         /* Shading color of the mochi */\n    --mochi-eye-color: #4a4a4a;          /* Color of the eyes */\n    --mochi-cheek-color: #ff9ecb;        /* Color of the blush */\n    --mochi-mouth-color: #ff6fa5;        /* Color of the mouth and heart */\n    --mochi-text-color: #ff6fa5;         /* Color of the loading text */\n    --mochi-font: 'Fredoka', sans-serif; /* Font family for text */\n    \n    --mochi-bounce-speed: 1.4s;          /* Speed of the main bounce loop */\n}\n\n.mochi-world {\n    width: 100%;\n    height: 100vh;\n    overflow: hidden;\n    background: linear-gradient(180deg, var(--mochi-bg-top), var(--mochi-bg-bottom));\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: relative;\n}\n\n.floating-blob {\n    position: absolute;\n    border-radius: 50%;\n    background: rgba(255, 255, 255, 0.3);\n    animation: float 10s infinite ease-in-out;\n    filter: blur(40px);\n}\n\n.blob1 { width: 200px; height: 200px; top: 10%; left: 15%; }\n.blob2 { width: 160px; height: 160px; bottom: 20%; right: 10%; animation-delay: 2s; }\n.blob3 { width: 120px; height: 120px; top: 50%; right: 30%; animation-delay: 4s; }\n\n@keyframes float {\n    0%, 100% { transform: translateY(0); }\n    50% { transform: translateY(-30px); }\n}\n\n.mochi-scene {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 18px;\n}\n\n.mochi {\n    width: 85px;\n    height: 75px;\n    background: radial-gradient(circle at 30% 30%, var(--mochi-body-color), var(--mochi-body-shade));\n    border-radius: 50% 50% 45% 45%;\n    position: relative;\n    z-index: 2;\n    animation: bounce var(--mochi-bounce-speed) infinite cubic-bezier(.4, .0, .2, 1);\n    box-shadow:\n        inset -8px -8px 20px rgba(0, 0, 0, 0.04),\n        0 10px 20px rgba(255, 105, 180, 0.2);\n}\n\n.ear {\n    position: absolute;\n    width: 18px;\n    height: 30px;\n    background: var(--mochi-body-color);\n    border-radius: 50%;\n    top: -15px;\n    animation: ear-wiggle var(--mochi-bounce-speed) infinite ease-in-out;\n}\n\n.left-ear { left: 8px; }\n.right-ear { right: 8px; }\n\n@keyframes ear-wiggle {\n    0%, 100% { transform: rotate(0deg); }\n    50% { transform: rotate(8deg); }\n}\n\n.face {\n    position: absolute;\n    top: 55%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 60%;\n    height: 45%;\n}\n\n.eye {\n    position: absolute;\n    width: 9px;\n    height: 9px;\n    background: var(--mochi-eye-color);\n    border-radius: 50%;\n    animation: blink 4s infinite;\n}\n\n.eye.left { left: 5px; }\n.eye.right { right: 5px; }\n\n.cheek {\n    position: absolute;\n    width: 12px;\n    height: 8px;\n    background: var(--mochi-cheek-color);\n    border-radius: 50%;\n    opacity: 0.7;\n}\n\n.cheek.left { left: -4px; top: 10px; }\n.cheek.right { right: -4px; top: 10px; }\n\n.mouth {\n    position: absolute;\n    bottom: 4px;\n    left: 50%;\n    transform: translateX(-50%);\n    width: 10px;\n    height: 6px;\n    border-radius: 50%;\n    background: var(--mochi-mouth-color);\n}\n\n.shadow {\n    width: 65px;\n    height: 12px;\n    background: rgba(0, 0, 0, 0.08);\n    border-radius: 50%;\n    animation: shadow-scale var(--mochi-bounce-speed) infinite ease-in-out;\n}\n\n@keyframes bounce {\n    0%, 100% { transform: translateY(0) scale(1.15, .85); }\n    30% { transform: translateY(-70px) scale(.9, 1.1); }\n    60% { transform: translateY(-35px) scale(.95, 1.05); }\n    85% { transform: translateY(0) scale(1.15, .85); }\n}\n\n@keyframes shadow-scale {\n    0%, 100% { transform: scale(1); opacity: 0.2; }\n    30% { transform: scale(.5); opacity: 0.05; }\n}\n\n.sparkles span {\n    position: absolute;\n    width: 6px;\n    height: 6px;\n    background: #ffffff;\n    border-radius: 50%;\n    animation: sparkle 2s infinite ease-in-out;\n}\n\n.sparkles span:nth-child(1) { left: -30px; top: -40px; }\n.sparkles span:nth-child(2) { right: -25px; top: -20px; animation-delay: 0.5s; }\n.sparkles span:nth-child(3) { left: 10px; top: -60px; animation-delay: 1s; }\n\n@keyframes sparkle {\n    0%, 100% { transform: scale(0); opacity: 0; }\n    50% { transform: scale(1.4); opacity: 1; }\n}\n\n.heart-pop {\n    position: absolute;\n    width: 14px;\n    height: 14px;\n    background: var(--mochi-mouth-color);\n    clip-path: polygon(50% 0%, 61% 15%, 75% 15%, 85% 28%, 75% 42%, 50% 70%, 25% 42%, 15% 28%, 25% 15%, 39% 15%);\n    animation: heart 3s infinite ease-in-out;\n}\n\n@keyframes heart {\n    0%, 100% { transform: translateY(0) scale(0); opacity: 0; }\n    50% { transform: translateY(-40px) scale(1); opacity: 1; }\n}\n\n@keyframes blink {\n    0%, 95%, 100% { transform: scaleY(1); }\n    97% { transform: scaleY(0.1); }\n}\n\n.loading-text {\n    font-family: var(--mochi-font);\n    font-size: 14px;\n    color: var(--mochi-text-color);\n    letter-spacing: 2px;\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "bauhaus-geometric-morph-loading-animation",
+        "title": "Bauhaus Geometric Morph Loading Animation",
+        "description": "A minimalist, pure CSS loading animation inspired by the Bauhaus art movement. Features three primary-colored shapes that continuously morph between circles and squares while rotating through positions, utilizing the CSS mix-blend-mode for dynamic color overlapping.",
+        "tags": [
+            "Bauhaus Design", "Loading Animation", "Geometric Shapes", "Morphing Effect", 
+            "Pure CSS", "Minimalist UI", "Mix Blend Mode", "Abstract Art", 
+            "Loader Spinner", "Primary Colors", "Modern Web", "Creative Design", 
+            "Frontend Component", "Wait State", "UI Animation", "Web Art", 
+            "Color Theory", "CSS Keyframes", "Graphic Design", "Loading Indicator"
+        ],
+        "keywords": [
+            "bauhaus loading animation css", "geometric morphing loader", "minimalist css spinner", 
+            "pure css shape morph", "mix blend mode multiply css", "primary color web design", 
+            "abstract loading indicator", "modern art ui component", "css keyframe morphing", 
+            "creative wait state design", "bauhaus graphic design web", "circle to square animation", 
+            "overlapping colors css", "frontend loader design", "css art loading screen", 
+            "aesthetic ui components", "animated geometry css", "loading spinner alternatives", 
+            "web design loading animations", "custom css loaders"
+        ],
+        "code": {
+            "html": "<div class=\"art-scene\">\n    <div class=\"canvas\">\n        <div class=\"shape shape-1\"></div>\n        <div class=\"shape shape-2\"></div>\n        <div class=\"shape shape-3\"></div>\n    </div>\n    <div class=\"gallery-text\">DESIGNING</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --bauhaus-bg: #f4f4f0;              /* Canvas background color */\n    --bauhaus-color-1: #e63946;         /* Color of shape 1 (Red) */\n    --bauhaus-color-2: #457b9d;         /* Color of shape 2 (Blue) */\n    --bauhaus-color-3: #e9c46a;         /* Color of shape 3 (Yellow) */\n    --bauhaus-text-color: #1d3557;      /* Color of the text */\n    \n    --bauhaus-shape-size: 30px;         /* Size of individual shapes */\n    --bauhaus-canvas-size: 120px;       /* Width of the movement area */\n    --bauhaus-speed: 4s;                /* Total duration of one cycle */\n}\n\n.art-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--bauhaus-bg);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 30px;\n}\n\n.canvas {\n    position: relative;\n    width: var(--bauhaus-canvas-size);\n    height: var(--bauhaus-canvas-size);\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n\n.shape {\n    width: var(--bauhaus-shape-size);\n    height: var(--bauhaus-shape-size);\n    /* Creates the secondary colors when shapes overlap */\n    mix-blend-mode: multiply; \n}\n\n.shape-1 {\n    background: var(--bauhaus-color-1);\n    animation: morph-1 var(--bauhaus-speed) ease-in-out infinite;\n}\n\n.shape-2 {\n    background: var(--bauhaus-color-2);\n    animation: morph-2 var(--bauhaus-speed) ease-in-out infinite;\n}\n\n.shape-3 {\n    background: var(--bauhaus-color-3);\n    animation: morph-3 var(--bauhaus-speed) ease-in-out infinite;\n}\n\n/* \n   Cycle Logic:\n   - Change border-radius (circle <-> square)\n   - Translate X across the canvas\n   - Rotate geometry\n*/\n\n@keyframes morph-1 {\n    0%   { border-radius: 50%; transform: translateX(0); }\n    33%  { border-radius: 0%;  transform: translateX(45px) rotate(90deg); }\n    66%  { border-radius: 50%; transform: translateX(90px) rotate(180deg); }\n    100% { border-radius: 50%; transform: translateX(0) rotate(360deg); }\n}\n\n@keyframes morph-2 {\n    0%   { border-radius: 0%;  transform: translateX(0); }\n    33%  { border-radius: 50%; transform: translateX(45px) rotate(90deg); }\n    66%  { border-radius: 0%;  transform: translateX(-45px) rotate(180deg); }\n    100% { border-radius: 0%;  transform: translateX(0) rotate(360deg); }\n}\n\n@keyframes morph-3 {\n    0%   { border-radius: 50%; transform: translateX(0); }\n    33%  { border-radius: 0%;  transform: translateX(-90px) rotate(90deg); }\n    66%  { border-radius: 50%; transform: translateX(-45px) rotate(180deg); }\n    100% { border-radius: 50%; transform: translateX(0) rotate(360deg); }\n}\n\n.gallery-text {\n    font-family: 'Helvetica Neue', sans-serif;\n    font-weight: 700;\n    letter-spacing: 4px;\n    color: var(--bauhaus-text-color);\n    font-size: 12px;\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "cozy-coffee-cup-loading-spinner",
+        "title": "Cozy Coffee Cup Loading Spinner",
+        "description": "A relaxing, minimalist pure CSS loading animation depicting a steaming cup of coffee. Features organic turbulence for the steam wisps, a gentle liquid wobble, and fading typography. Perfect for lifestyle blogs, cafes, or relaxed web environments.",
+        "tags": [
+            "CSS Loader", "Coffee Cup", "Cozy Aesthetic", "Minimalist UI", "Pure CSS", 
+            "Loading Spinner", "Animation", "Steam Effect", "Liquid Wobble", "Wait State", 
+            "Cafe Theme", "Lifestyle Web", "Relaxing UI", "Frontend", "Web Design", 
+            "Line Art", "Warm Colors", "Vector Graphic", "UI Component", "Creative Loader"
+        ],
+        "keywords": [
+            "coffee cup loading animation", "cozy aesthetic loader css", "pure css steam effect", 
+            "minimalist coffee spinner", "liquid wobble animation css", "cafe website loading screen", 
+            "relaxing wait state ui", "warm color web design", "creative css loaders", 
+            "animated line art css", "steaming cup animation", "food blog loading spinner", 
+            "lifestyle website ui elements", "custom css loading screen", "frontend cozy design", 
+            "brewing content loader", "aesthetic ui components", "css keyframe wobble", 
+            "organic steam animation", "simple beautiful loaders"
+        ],
+        "code": {
+            "html": "<div class=\"cozy-scene\">\n    <div class=\"cup-container\">\n        <div class=\"steam s1\"></div>\n        <div class=\"steam s2\"></div>\n        <div class=\"steam s3\"></div>\n        \n        <div class=\"cup\">\n            <div class=\"coffee\"></div>\n        </div>\n        <div class=\"handle\"></div>\n        <div class=\"plate\"></div>\n    </div>\n    <div class=\"cozy-text\">BREWING CONTENT</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --coffee-bg: #f7f3e8;            /* Background color (Cream/Beige) */\n    --coffee-cup-color: #ffffff;     /* Color of the mug */\n    --coffee-accent: #d4a373;        /* Color for outline, coffee, and steam (Latte Brown) */\n    --coffee-text-color: #a98467;    /* Color of the text */\n    --coffee-font: 'Lora', serif;    /* Font family */\n    \n    --steam-speed: 2.5s;             /* Duration of the steam rising */\n    --wobble-speed: 4s;              /* Duration of the liquid rocking */\n}\n\n.cozy-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--coffee-bg);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n}\n\n.cup-container {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.cup {\n    position: relative;\n    width: 70px;\n    height: 50px;\n    background: var(--coffee-cup-color);\n    border: 3px solid var(--coffee-accent);\n    border-radius: 0 0 40px 40px;\n    z-index: 10;\n    overflow: hidden;\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);\n}\n\n.coffee {\n    position: absolute;\n    top: 10px; left: 0; right: 0; bottom: 0;\n    background: var(--coffee-accent);\n    opacity: 0.2;\n    transform-origin: 50% 0;\n    animation: liquid-wobble var(--wobble-speed) ease-in-out infinite;\n}\n\n.handle {\n    position: absolute;\n    right: 5px; top: 10px;\n    width: 25px; height: 30px;\n    border: 3px solid var(--coffee-accent);\n    border-radius: 0 50% 50% 0;\n    z-index: 1;\n}\n\n.plate {\n    position: absolute;\n    bottom: 12px;\n    width: 90px;\n    height: 4px;\n    background: var(--coffee-accent);\n    border-radius: 10px;\n}\n\n.steam {\n    position: absolute;\n    top: -20px;\n    width: 6px;\n    height: 15px;\n    background: var(--coffee-accent);\n    border-radius: 50%;\n    opacity: 0;\n    filter: blur(3px);\n}\n\n.s1 { left: 35px; animation: steam-rise var(--steam-speed) ease-out infinite 0s; }\n.s2 { left: 50px; animation: steam-rise var(--steam-speed) ease-out infinite 0.8s; }\n.s3 { left: 65px; animation: steam-rise var(--steam-speed) ease-out infinite 1.6s; }\n\n@keyframes steam-rise {\n    0%   { transform: translateY(0) scale(1); opacity: 0; }\n    20%  { opacity: 0.6; }\n    100% { transform: translateY(-40px) scale(2); opacity: 0; }\n}\n\n@keyframes liquid-wobble {\n    0%, 100% { transform: rotate(0deg); }\n    25%      { transform: rotate(3deg); }\n    75%      { transform: rotate(-3deg); }\n}\n\n.cozy-text {\n    font-family: var(--coffee-font);\n    font-style: italic;\n    color: var(--coffee-text-color);\n    font-size: 14px;\n    letter-spacing: 1px;\n    animation: fade 3s infinite;\n}\n\n@keyframes fade {\n    0%, 100% { opacity: 0.6; }\n    50%      { opacity: 1; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "cute-spooky-ghost-loading-animation",
+        "title": "Ultra Cute Spooky Ghost Loading Animation",
+        "description": "A delightfully spooky, ultra-cute pure CSS loading animation featuring a floating ghost holding a glowing lantern. Includes atmospheric details like drifting mist, flying bats, tail ripple physics, and blinking expressions.",
+        "tags": [
+            "Ghost Loader", "Cute UI", "Spooky Animation", "Halloween Design", "CSS Animation", 
+            "Loading Screen", "Character Design", "Lantern Glow", "Atmospheric Effect", "Wait State", 
+            "Pure CSS", "Frontend Design", "Playful UI", "Visual Effects", "Floating Character", 
+            "Web Animation", "Creative Coding", "Holiday UI", "Kawaii Spooky", "Mascot Loader"
+        ],
+        "keywords": [
+            "cute ghost loading screen", "halloween css animation", "spooky mascot loader", 
+            "floating ghost pure css", "lantern glow effect web", "drifting mist animation css", 
+            "kawaii spooky ui", "animated facial expressions css", "wiggly tail physics css", 
+            "night theme loading indicator", "flying bats css animation", "cute horror web design", 
+            "creative wait state animation", "custom character loader", "css keyframe floating", 
+            "pastel spooky background", "frontend holiday design", "atmospheric loading spinner", 
+            "css glowing aura effect", "playful web loader"
+        ],
+        "code": {
+            "html": "<div class=\"spooky-world\">\n    <div class=\"mist mist-1\"></div>\n    <div class=\"mist mist-2\"></div>\n\n    <div class=\"bat bat-1\"></div>\n    <div class=\"bat bat-2\"></div>\n\n    <div class=\"spooky-scene\">\n        <div class=\"ghost\">\n            <div class=\"aura\"></div>\n\n            <div class=\"face\">\n                <div class=\"eye left\"></div>\n                <div class=\"eye right\"></div>\n                <div class=\"blush left\"></div>\n                <div class=\"blush right\"></div>\n                <div class=\"mouth\"></div>\n            </div>\n\n            <div class=\"hands\">\n                <div class=\"hand left\"></div>\n                <div class=\"hand right\">\n                    <div class=\"lantern\">\n                        <div class=\"light\"></div>\n                        <div class=\"spark\"></div>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"tail\"></div>\n        </div>\n\n        <div class=\"shadow\"></div>\n        <div class=\"spooky-text\">SUMMONING SPIRITS...</div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --ghost-bg-inner: #3b2f5a;           /* Inner circle gradient background */\n    --ghost-bg-outer: #1a1230;           /* Outer space background */\n    --ghost-body: #ffffff;               /* Ghost main color */\n    --ghost-body-shade: #f1f1ff;         /* Ghost shading */\n    --ghost-eye: #2b1e4a;                /* Eye color */\n    --ghost-blush: #ff9ecb;              /* Blush color */\n    --ghost-mouth: #ff6fa5;              /* Mouth color */\n    --ghost-lantern-light: #ffaa33;      /* Lantern glow color */\n    --ghost-text: #d5c6ff;               /* Loading text color */\n    \n    --ghost-float-speed: 3.5s;           /* Speed of the up/down floating */\n}\n\n.spooky-world {\n    width: 100%;\n    height: 100vh;\n    overflow: hidden;\n    background: radial-gradient(circle at 50% 30%, var(--ghost-bg-inner), var(--ghost-bg-outer) 70%);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: relative;\n}\n\n.mist {\n    position: absolute;\n    width: 300px;\n    height: 100px;\n    background: rgba(255, 255, 255, 0.05);\n    filter: blur(30px);\n    border-radius: 50%;\n    animation: drift 12s infinite linear;\n}\n\n.mist-1 { top: 20%; left: -10%; }\n.mist-2 { bottom: 15%; right: -10%; animation-delay: 4s; }\n\n@keyframes drift {\n    0%   { transform: translateX(0); }\n    50%  { transform: translateX(100px); }\n    100% { transform: translateX(0); }\n}\n\n.bat {\n    position: absolute;\n    width: 20px;\n    height: 10px;\n    background: #000000;\n    clip-path: polygon(0 50%, 20% 0, 40% 50%, 60% 0, 80% 50%, 100% 50%, 80% 100%, 60% 50%, 40% 100%, 20% 50%);\n    animation: fly 6s infinite linear;\n    opacity: 0.3;\n}\n\n.bat-1 { top: 25%; left: 10%; }\n.bat-2 { top: 35%; right: 15%; animation-delay: 2s; }\n\n@keyframes fly {\n    0%   { transform: translateX(0); }\n    50%  { transform: translateX(80px); }\n    100% { transform: translateX(0); }\n}\n\n.spooky-scene {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 25px;\n    position: relative;\n}\n\n.ghost {\n    position: relative;\n    width: 85px;\n    height: 105px;\n    background: radial-gradient(circle at 30% 30%, var(--ghost-body), var(--ghost-body-shade));\n    border-radius: 45px 45px 0 0;\n    animation: float var(--ghost-float-speed) ease-in-out infinite;\n    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);\n    z-index: 2;\n}\n\n.aura {\n    position: absolute;\n    inset: -15px;\n    border-radius: 50%;\n    background: radial-gradient(circle, rgba(200, 180, 255, 0.2), transparent 70%);\n    z-index: -1;\n}\n\n.tail {\n    position: absolute;\n    bottom: -12px;\n    left: 0;\n    width: 100%;\n    height: 25px;\n    background: var(--ghost-body);\n    border-radius: 0 0 30px 30px;\n    animation: ripple 2s infinite ease-in-out;\n}\n\n@keyframes ripple {\n    0%, 100% { transform: skewX(0deg); }\n    50%      { transform: skewX(5deg); }\n}\n\n.face {\n    position: absolute;\n    top: 35px;\n    left: 50%;\n    transform: translateX(-50%);\n    width: 60px;\n    height: 40px;\n}\n\n.eye {\n    position: absolute;\n    width: 12px;\n    height: 16px;\n    background: var(--ghost-eye);\n    border-radius: 50%;\n    animation: blink 5s infinite;\n}\n\n.eye.left { left: 8px; }\n.eye.right { right: 8px; }\n\n.blush {\n    position: absolute;\n    width: 12px;\n    height: 6px;\n    background: var(--ghost-blush);\n    border-radius: 50%;\n    opacity: 0.6;\n    top: 20px;\n}\n\n.blush.left { left: 5px; }\n.blush.right { right: 5px; }\n\n.mouth {\n    position: absolute;\n    bottom: 0;\n    left: 50%;\n    transform: translateX(-50%);\n    width: 10px;\n    height: 8px;\n    background: var(--ghost-mouth);\n    border-radius: 50%;\n}\n\n.hand {\n    position: absolute;\n    top: 65px;\n    width: 16px;\n    height: 16px;\n    background: var(--ghost-body);\n    border-radius: 50%;\n}\n\n.hand.left { left: -6px; }\n.hand.right { right: -6px; display: flex; justify-content: center; }\n\n.lantern {\n    position: absolute;\n    bottom: -28px;\n    width: 16px;\n    height: 26px;\n    background: #3a2a1f;\n    border-radius: 5px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    transform-origin: top;\n    animation: swing var(--ghost-float-speed) ease-in-out infinite;\n}\n\n.light {\n    width: 8px;\n    height: 14px;\n    background: var(--ghost-lantern-light);\n    border-radius: 3px;\n    box-shadow: 0 0 20px var(--ghost-lantern-light);\n    animation: flicker 0.6s infinite alternate;\n}\n\n.spark {\n    position: absolute;\n    width: 4px;\n    height: 4px;\n    background: #ffd966;\n    border-radius: 50%;\n    top: -5px;\n    animation: sparkle 1.5s infinite ease-in-out;\n}\n\n.shadow {\n    width: 70px;\n    height: 12px;\n    background: rgba(0, 0, 0, 0.3);\n    border-radius: 50%;\n    animation: shadow-pulse var(--ghost-float-speed) ease-in-out infinite;\n}\n\n.spooky-text {\n    font-family: monospace;\n    color: var(--ghost-text);\n    letter-spacing: 2px;\n    font-size: 13px;\n}\n\n@keyframes float {\n    0%, 100% { transform: translateY(0); }\n    50%      { transform: translateY(-18px); }\n}\n\n@keyframes shadow-pulse {\n    0%, 100% { transform: scale(1); opacity: 0.25; }\n    50%      { transform: scale(0.75); opacity: 0.15; }\n}\n\n@keyframes swing {\n    0%, 100% { transform: rotate(-12deg); }\n    50%      { transform: rotate(12deg); }\n}\n\n@keyframes flicker {\n    0%   { opacity: 0.8; }\n    100% { opacity: 1; }\n}\n\n@keyframes sparkle {\n    0%, 100% { transform: translateY(0) scale(0); opacity: 0; }\n    50%      { transform: translateY(-8px) scale(1); opacity: 1; }\n}\n\n@keyframes blink {\n    0%, 96%, 100% { transform: scaleY(1); }\n    98%           { transform: scaleY(0.1); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "pure-css-lofi-vinyl-record-player-loader",
+        "title": "Pure CSS Lo-Fi Vinyl Record Player Loading Animation",
+        "description": "A cozy, retro-themed pure CSS loading animation featuring a classic vinyl record player.  Complete with a spinning textured platter, mechanical tone arm movement, and pulsating typography. Perfect for music streaming apps, lo-fi aesthetic websites, and retro-themed interfaces.",
+        "tags": [
+            "CSS Loader", "Vinyl Record", "Retro UI", "Music Player", "Lo-Fi Aesthetic", 
+            "Pure CSS", "Animation", "Loading Screen", "Turntable", "Chill Vibe", 
+            "Frontend Design", "Wait State", "Creative Coding", "Web Animation", "Nostalgic Design", 
+            "UI Component", "Spinner Alternative", "Vintage Style", "Web Design", "CSS Keyframes"
+        ],
+        "keywords": [
+            "css vinyl record animation", "lo-fi music loader", "retro record player spinner", 
+            "pure css turntable", "vintage loading screen", "music streaming ui component", 
+            "lofi aesthetic web design", "custom css loaders", "spinning vinyl animation", 
+            "tone arm css movement", "nostalgic website loader", "chill vibe loading spinner", 
+            "frontend music interface", "animated retro ui", "css keyframe rotation", 
+            "web design wait states", "creative loading indicators", "aesthetic css spinner", 
+            "turntable ui design", "vinyl groove texture css"
+        ],
+        "code": {
+            "html": "<div class=\"vinyl-scene\">\n    <div class=\"turntable\">\n        <div class=\"platter\"></div>\n        <div class=\"record\">\n            <div class=\"label-sticker\">\n                <div class=\"hole\"></div>\n            </div>\n        </div>\n        <div class=\"tone-arm\">\n            <div class=\"counterweight\"></div>\n            <div class=\"arm-body\"></div>\n            <div class=\"headshell\"></div>\n        </div>\n    </div>\n    <div class=\"vibe-text\">DROPPING THE NEEDLE...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --vinyl-bg-color: #d4c4a8;           /* Canvas background color */\n    --turntable-base: #8c6e52;           /* Turntable chassis color (Wood) */\n    --record-base: #111111;              /* Base vinyl color */\n    --record-groove: #222222;            /* Vinyl groove detail color */\n    --record-label: #ff6b6b;             /* Center sticker color */\n    --text-color: #5e4b3c;               /* Typography color */\n    \n    /* Animation Speeds */\n    --record-spin-speed: 2s;             /* Speed of the record spinning */\n    --tone-arm-speed: 4s;                /* Speed of the needle dropping/lifting */\n    --text-pulse-speed: 2s;              /* Speed of the text blinking */\n}\n\n.vinyl-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: var(--vinyl-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 30px;\n}\n\n.turntable {\n    position: relative;\n    width: 220px;\n    height: 180px;\n    background: var(--turntable-base);\n    border-radius: 10px;\n    box-shadow: \n        inset 0 0 20px rgba(0, 0, 0, 0.2),\n        5px 5px 15px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n}\n\n.platter {\n    position: absolute;\n    top: 10px; \n    left: 10px;\n    width: 160px; \n    height: 160px;\n    background: #444444;\n    border-radius: 50%;\n    box-shadow: inset 0 0 10px #000000;\n}\n\n.record {\n    position: absolute;\n    top: 15px; \n    left: 15px;\n    width: 150px; \n    height: 150px;\n    background: repeating-radial-gradient(\n        var(--record-base) 0px, \n        var(--record-base) 2px, \n        var(--record-groove) 3px, \n        var(--record-groove) 4px\n    );\n    border-radius: 50%;\n    animation: spin-record var(--record-spin-speed) linear infinite;\n}\n\n.label-sticker {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 50px; \n    height: 50px;\n    background: var(--record-label);\n    border-radius: 50%;\n    border: 2px solid #ffffff;\n}\n\n.hole {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 8px; \n    height: 8px;\n    background: #e0e0e0;\n    border-radius: 50%;\n}\n\n.tone-arm {\n    position: absolute;\n    top: 20px; \n    right: 20px;\n    width: 40px; \n    height: 140px;\n    transform-origin: top center;\n    animation: move-arm var(--tone-arm-speed) ease-in-out infinite;\n}\n\n.counterweight {\n    position: absolute; \n    top: 0; \n    left: 50%; \n    transform: translateX(-50%);\n    width: 20px; \n    height: 20px; \n    background: #666666; \n    border-radius: 50%; \n    border: 2px solid #444444;\n}\n\n.arm-body {\n    position: absolute; \n    top: 10px; \n    left: 50%; \n    transform: translateX(-50%);\n    width: 6px; \n    height: 100px; \n    background: #999999; \n    border-radius: 3px;\n}\n\n.headshell {\n    position: absolute; \n    bottom: 20px; \n    left: 50%;\n    width: 12px; \n    height: 20px; \n    background: #333333;\n    transform: translateX(-50%) rotate(20deg);\n}\n\n.vibe-text {\n    font-family: 'Courier New', monospace;\n    font-weight: bold;\n    color: var(--text-color);\n    font-size: 12px;\n    letter-spacing: 1px;\n    animation: pulse var(--text-pulse-speed) infinite;\n}\n\n@keyframes spin-record {\n    from { transform: rotate(0deg); }\n    to { transform: rotate(360deg); }\n}\n\n@keyframes move-arm {\n    0%, 100% { transform: rotate(0deg); }\n    30%, 70% { transform: rotate(-35deg); }\n}\n\n@keyframes pulse {\n    0%, 100% { opacity: 0.6; }\n    50% { opacity: 1; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "futuristic-3d-tesseract-hologram-loader",
+        "title": "Futuristic 3D Tesseract Holographic Loading Spinner",
+        "description": "An advanced CSS 3D loading animation depicting a futuristic tesseract containment field.  Features a rotating holographic outer cube, a counter-spinning glowing energy core, and an animated data scanning readout. Ideal for sci-fi, gaming, and high-tech web projects.",
+        "tags": [
+            "3D Animation", "Tesseract", "Holographic", "Sci-Fi UI", "CSS 3D", 
+            "Cube Loader", "Futuristic Design", "Neon Glow", "Tech Interface", "Loading Spinner", 
+            "Web Component", "Frontend", "Cyberpunk", "Gaming UI", "Data Scan", 
+            "Creative Coding", "Pure CSS", "Wait State", "Energy Core", "Visual Effects"
+        ],
+        "keywords": [
+            "3d tesseract css animation", "holographic cube loader", "futuristic loading spinner", 
+            "sci fi ui design", "neon glowing cube css", "css 3d transform cube", 
+            "cyberpunk web components", "gaming website loader", "tech interface animation", 
+            "containment field css", "animated data scanner", "pure css 3d spinner", 
+            "creative loading screens", "high tech frontend design", "energy core animation", 
+            "rotating 3d box css", "webgl alternative css", "modern wait state ui", 
+            "custom 3d loader", "hologram effect css"
+        ],
+        "code": {
+            "html": "<div class=\"tesseract-scene\">\n    <div class=\"cube-wrapper\">\n        <div class=\"cube\">\n            <div class=\"face front\"></div>\n            <div class=\"face back\"></div>\n            <div class=\"face right\"></div>\n            <div class=\"face left\"></div>\n            <div class=\"face top\"></div>\n            <div class=\"face bottom\"></div>\n            \n            <div class=\"core-cube\">\n                <div class=\"core-face front\"></div>\n                <div class=\"core-face back\"></div>\n                <div class=\"core-face right\"></div>\n                <div class=\"core-face left\"></div>\n                <div class=\"core-face top\"></div>\n                <div class=\"core-face bottom\"></div>\n            </div>\n        </div>\n    </div>\n    <div class=\"tech-readout\">\n        <span class=\"label\">CONTAINMENT STABLE</span>\n        <div class=\"data-line\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --tess-bg: #000510;                     /* Deep Space Blue Background */\n    \n    /* Outer Hologram Cube */\n    --tess-outer-size: 100px;\n    --tess-outer-border: rgba(0, 255, 255, 0.5); /* Neon Cyan */\n    --tess-outer-fill: rgba(0, 255, 255, 0.05);\n    --tess-outer-glow: rgba(0, 255, 255, 0.2);\n    --tess-outer-speed: 10s;\n    \n    /* Inner Energy Core Cube */\n    --tess-inner-size: 40px;\n    --tess-inner-border: #ff0066;           /* Neon Magenta */\n    --tess-inner-fill: rgba(255, 0, 100, 0.6);\n    --tess-inner-speed: 4s;\n    \n    /* Typography */\n    --tess-text-color: #00ffff;\n    \n    --tess-perspective: 1000px;             /* 3D Depth intensity */\n}\n\n.tesseract-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: var(--tess-bg);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    perspective: var(--tess-perspective);\n    overflow: hidden;\n}\n\n.cube-wrapper {\n    width: var(--tess-outer-size);\n    height: var(--tess-outer-size);\n    position: relative;\n    transform-style: preserve-3d;\n    animation: rotate-scene var(--tess-outer-speed) linear infinite;\n}\n\n.cube {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    transform-style: preserve-3d;\n}\n\n.face {\n    position: absolute;\n    width: var(--tess-outer-size);\n    height: var(--tess-outer-size);\n    border: 1px solid var(--tess-outer-border);\n    background: var(--tess-outer-fill);\n    box-shadow: 0 0 15px var(--tess-outer-glow);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.face::after {\n    content: '';\n    width: 80%; \n    height: 80%;\n    border: 1px dashed var(--tess-outer-glow);\n}\n\n/* Math: translateZ = size / 2 = 50px */\n.front  { transform: rotateY(0deg) translateZ(50px); }\n.back   { transform: rotateY(180deg) translateZ(50px); }\n.right  { transform: rotateY(90deg) translateZ(50px); }\n.left   { transform: rotateY(-90deg) translateZ(50px); }\n.top    { transform: rotateX(90deg) translateZ(50px); }\n.bottom { transform: rotateX(-90deg) translateZ(50px); }\n\n.core-cube {\n    width: var(--tess-inner-size);\n    height: var(--tess-inner-size);\n    position: absolute;\n    /* Centering calculation: (100 - 40) / 2 = 30px */\n    top: 30px; \n    left: 30px; \n    transform-style: preserve-3d;\n    animation: counter-spin var(--tess-inner-speed) linear infinite;\n}\n\n.core-face {\n    position: absolute;\n    width: var(--tess-inner-size);\n    height: var(--tess-inner-size);\n    background: var(--tess-inner-fill);\n    border: 1px solid var(--tess-inner-border);\n    box-shadow: 0 0 20px var(--tess-inner-border);\n}\n\n/* Math: translateZ = inner size / 2 = 20px */\n.core-face.front  { transform: rotateY(0deg) translateZ(20px); }\n.core-face.back   { transform: rotateY(180deg) translateZ(20px); }\n.core-face.right  { transform: rotateY(90deg) translateZ(20px); }\n.core-face.left   { transform: rotateY(-90deg) translateZ(20px); }\n.core-face.top    { transform: rotateX(90deg) translateZ(20px); }\n.core-face.bottom { transform: rotateX(-90deg) translateZ(20px); }\n\n@keyframes rotate-scene {\n    0%   { transform: rotateX(0deg) rotateY(0deg); }\n    100% { transform: rotateX(360deg) rotateY(360deg); }\n}\n\n@keyframes counter-spin {\n    0%   { transform: rotateX(0deg) rotateY(0deg); }\n    100% { transform: rotateX(-360deg) rotateY(-360deg); }\n}\n\n.tech-readout {\n    margin-top: 80px;\n    font-family: 'Courier New', monospace;\n    color: var(--tess-text-color);\n    text-align: center;\n    letter-spacing: 2px;\n    font-size: 10px;\n}\n\n.data-line {\n    width: 150px;\n    height: 2px;\n    background: rgba(0, 255, 255, 0.2);\n    margin-top: 5px;\n    position: relative;\n    overflow: hidden;\n}\n\n.data-line::after {\n    content: '';\n    position: absolute; \n    top: 0; \n    left: 0;\n    width: 50%; \n    height: 100%;\n    background: var(--tess-text-color);\n    animation: scan 2s ease-in-out infinite;\n}\n\n@keyframes scan {\n    0%   { left: -50%; }\n    100% { left: 100%; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "tactical-sci-fi-orbital-radar-hud-loader",
+        "title": "Tactical Sci-Fi Orbital Radar HUD Loading Screen",
+        "description": "A pure CSS tactical Heads-Up Display (HUD) loading screen.  It simulates a futuristic radar system with rotating targeting rings, a sweeping scanner, orbiting blips, and an animated data readout over a CRT scanline background.",
+        "tags": [
+            "Radar", "HUD", "Sci-Fi", "Military UI", "Loading Screen", 
+            "Scanner", "Tactical", "CSS Animation", "Iron Man UI", "Tech Design", 
+            "Cyberpunk", "Orbiting Blip", "Targeting System", "CRT Effect", "Frontend", 
+            "Web Design", "Wait State", "Creative Coding", "Pure CSS", "Interface"
+        ],
+        "keywords": [
+            "radar scanner css animation", "sci fi hud loader", "tactical military ui web", 
+            "futuristic targeting system", "iron man hud css", "orbiting radar blip", 
+            "css scanner sweep", "crt scanline background", "cyberpunk loading screen", 
+            "pure css hud animation", "tech interface components", "web design radar effect", 
+            "animated data readout", "creative wait state", "custom css spinner alternative", 
+            "holographic radar ui", "frontend sci fi design", "rotating hud rings", 
+            "interactive tech loader", "system scan animation"
+        ],
+        "code": {
+            "html": "<div class=\"hud-scene\">\n    <div class=\"radar-system\">\n        <div class=\"grid-overlay\"></div>\n        \n        <div class=\"ring outer-ring\"></div>\n        <div class=\"blip target-1\"></div>\n        \n        <div class=\"ring mid-ring\">\n            <div class=\"scanner-sweep\"></div>\n        </div>\n        \n        <div class=\"core-circle\">\n            <div class=\"dot-matrix\"></div>\n        </div>\n        \n        <div class=\"crosshair-h\"></div>\n        <div class=\"crosshair-v\"></div>\n    </div>\n    <div class=\"hud-text\">\n        <span>SYSTEM SCAN</span>\n        <span class=\"count\">42.8%</span>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --hud-bg-color: #050505;              /* Base background color */\n    --hud-primary-color: #00ff00;         /* Radar UI primary color (Neon Green) */\n    --hud-alert-color: #ff0000;           /* Radar blip alert color (Red) */\n    --hud-size: 200px;                    /* Overall size of the radar */\n    \n    /* Animation Speeds */\n    --hud-orbit-speed: 4s;                /* Speed of the red target blip */\n    --hud-sweep-speed: 2s;                /* Speed of the inner scanner line */\n    --hud-outer-spin: 10s;                /* Speed of the outer dashed ring */\n    --hud-core-pulse: 2s;                 /* Speed of the center glowing pulse */\n}\n\n.hud-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: var(--hud-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 20px;\n    /* CRT Scanline overlay effect */\n    background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);\n    background-size: 100% 4px;\n}\n\n.radar-system {\n    position: relative;\n    width: var(--hud-size);\n    height: var(--hud-size);\n}\n\n.grid-overlay {\n    position: absolute;\n    inset: -20%;\n    background-image: \n        radial-gradient(rgba(0, 255, 0, 0.15) 1px, transparent 1px);\n    background-size: 20px 20px;\n    border-radius: 50%;\n    opacity: 0.3;\n}\n\n.outer-ring {\n    position: absolute;\n    inset: 0;\n    border: 1px dashed rgba(0, 255, 0, 0.3);\n    border-radius: 50%;\n    border-top: 1px solid var(--hud-primary-color);\n    border-bottom: 1px solid var(--hud-primary-color);\n    animation: spin-slow var(--hud-outer-spin) linear infinite;\n    box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);\n}\n\n.target-1 {\n    position: absolute;\n    top: 10px; \n    left: 50%;\n    width: 6px; \n    height: 6px;\n    background: var(--hud-alert-color);\n    border-radius: 50%;\n    box-shadow: 0 0 5px var(--hud-alert-color);\n    animation: orbit-blip var(--hud-orbit-speed) linear infinite;\n    /* Offset rotation origin to the center of the 200px radar (100px - 10px top = 90px) */\n    transform-origin: 0 90px; \n}\n\n.mid-ring {\n    position: absolute;\n    inset: 30px;\n    border: 1px solid rgba(0, 255, 0, 0.1);\n    border-radius: 50%;\n}\n\n.scanner-sweep {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    width: 50%; \n    height: 2px;\n    background: linear-gradient(90deg, transparent, var(--hud-primary-color));\n    transform-origin: left center;\n    animation: radar-sweep var(--hud-sweep-speed) linear infinite;\n    opacity: 0.6;\n}\n\n.core-circle {\n    position: absolute;\n    inset: 70px;\n    border: 2px solid var(--hud-primary-color);\n    border-radius: 50%;\n    background: rgba(0, 255, 0, 0.05);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);\n    animation: pulse-core var(--hud-core-pulse) ease-in-out infinite;\n}\n\n.crosshair-h {\n    position: absolute;\n    top: 50%; \n    left: 0; \n    width: 100%; \n    height: 1px;\n    background: rgba(0, 255, 0, 0.3);\n}\n\n.crosshair-v {\n    position: absolute;\n    left: 50%; \n    top: 0; \n    width: 1px; \n    height: 100%;\n    background: rgba(0, 255, 0, 0.3);\n}\n\n.hud-text {\n    font-family: 'Share Tech Mono', monospace;\n    color: var(--hud-primary-color);\n    display: flex;\n    gap: 10px;\n    font-size: 12px;\n    text-shadow: 0 0 5px var(--hud-primary-color);\n}\n\n.count {\n    animation: blink-text 0.5s infinite alternate;\n}\n\n@keyframes orbit-blip {\n    0%   { transform: rotate(0deg) translateY(0); opacity: 1; }\n    50%  { opacity: 0.2; }\n    100% { transform: rotate(360deg) translateY(0); opacity: 1; }\n}\n\n@keyframes radar-sweep {\n    0%   { transform: rotate(0deg); }\n    100% { transform: rotate(360deg); }\n}\n\n@keyframes spin-slow {\n    100% { transform: rotate(360deg); }\n}\n\n@keyframes pulse-core {\n    0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); border-color: var(--hud-primary-color); }\n    50%      { box-shadow: 0 0 25px rgba(0, 255, 0, 0.5); border-color: #afffa; }\n}\n\n@keyframes blink-text {\n    from { opacity: 1; }\n    to   { opacity: 0.5; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "retro-vhs-glitch-text-loading-effect",
+        "title": "Retro VHS Glitch Text Loading Effect",
+        "description": "A pure CSS retro VHS glitch effect perfect for 90s aesthetic, cyberpunk, or horror-themed websites. Features RGB channel splitting, chromatic aberration, scanline textures, and a rolling screen overlay.",
+        "tags": [
+            "Glitch Effect", "VHS", "Retro UI", "90s Aesthetic", "Text Animation", 
+            "CSS Animation", "Chromatic Aberration", "Scanlines", "Cyberpunk", "Horror Theme", 
+            "Typography", "Pure CSS", "Wait State", "Loading Screen", "Frontend Design", 
+            "Creative Coding", "RGB Split", "Web Design", "Nostalgic", "UI Component"
+        ],
+        "keywords": [
+            "css vhs glitch effect", "retro 90s loading screen", "chromatic aberration css", 
+            "text glitch animation", "analog horror web design", "pure css scanlines", 
+            "rgb split text effect", "cyberpunk typography animation", "vhs tracking css", 
+            "nostalgic ui components", "css text distortion", "custom loading screen text", 
+            "frontend glitch effect", "creative typography web", "animated retro text", 
+            "css keyframe glitching", "rolling screen overlay css", "vcr ui css", 
+            "glitch art web design", "spooky loading animation"
+        ],
+        "code": {
+            "html": "<div class=\"vhs-scene\">\n    <div class=\"screen-overlay\"></div>\n    <div class=\"glitch-wrapper\">\n        \n        <div class=\"glitch\" data-text=\"TRACKING...\">TRACKING...</div>\n    </div>\n    <div class=\"scanlines\"></div>\n    <div class=\"vcr-ui\">PLAY > 00:00:04</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --vhs-bg-color: #0000bb;            /* Classic blue screen background */\n    --vhs-text-color: #ffffff;          /* Main text color */\n    --vhs-font-family: 'Vt323', monospace; /* Retro font */\n    --vhs-font-size: 80px;              /* Main text size */\n    \n    /* Glitch Colors */\n    --glitch-color-1: #ff00c1;          /* Magenta RGB shift */\n    --glitch-color-2: #00fff9;          /* Cyan RGB shift */\n    \n    /* Overlay Opacities */\n    --scanline-opacity: 0.2;            /* Darkness of the scanlines */\n    --roll-bar-opacity: 0.2;            /* Visibility of the rolling white bar */\n}\n\n.vhs-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--vhs-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n}\n\n.glitch-wrapper {\n    position: relative;\n}\n\n.glitch {\n    font-family: var(--vhs-font-family);\n    font-size: var(--vhs-font-size);\n    color: var(--vhs-text-color);\n    font-weight: bold;\n    text-transform: uppercase;\n    position: relative;\n    letter-spacing: 5px;\n}\n\n.glitch::before,\n.glitch::after {\n    content: attr(data-text);\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: var(--vhs-bg-color);\n}\n\n.glitch::before {\n    color: var(--glitch-color-1);\n    animation: glitch-anim-1 2s infinite linear alternate-reverse;\n    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);\n    left: -2px;\n}\n\n.glitch::after {\n    color: var(--glitch-color-2);\n    animation: glitch-anim-2 2s infinite linear alternate-reverse;\n    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);\n    left: 2px;\n}\n\n.scanlines {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(\n        to bottom,\n        rgba(255, 255, 255, 0),\n        rgba(255, 255, 255, 0) 50%,\n        rgba(0, 0, 0, var(--scanline-opacity)) 50%,\n        rgba(0, 0, 0, var(--scanline-opacity))\n    );\n    background-size: 100% 4px;\n    pointer-events: none;\n    z-index: 10;\n}\n\n.screen-overlay {\n    position: absolute;\n    top: 0; left: 0; width: 100%; height: 10px;\n    background: rgba(255, 255, 255, var(--roll-bar-opacity));\n    opacity: 0.5;\n    animation: roll-bar 5s linear infinite;\n    filter: blur(5px);\n}\n\n.vcr-ui {\n    position: absolute;\n    top: 40px; left: 40px;\n    font-family: var(--vhs-font-family);\n    color: var(--vhs-text-color);\n    font-size: 24px;\n    text-shadow: 2px 2px #000000;\n    animation: blink 1s steps(2) infinite;\n}\n\n@keyframes glitch-anim-1 {\n    0% { clip-path: inset(20% 0 80% 0); }\n    20% { clip-path: inset(60% 0 10% 0); }\n    40% { clip-path: inset(40% 0 50% 0); }\n    60% { clip-path: inset(80% 0 5% 0); }\n    80% { clip-path: inset(10% 0 70% 0); }\n    100% { clip-path: inset(30% 0 20% 0); }\n}\n\n@keyframes glitch-anim-2 {\n    0% { clip-path: inset(10% 0 60% 0); }\n    20% { clip-path: inset(80% 0 5% 0); }\n    40% { clip-path: inset(30% 0 20% 0); }\n    60% { clip-path: inset(10% 0 80% 0); }\n    80% { clip-path: inset(50% 0 30% 0); }\n    100% { clip-path: inset(70% 0 10% 0); }\n}\n\n@keyframes roll-bar {\n    0% { top: -10%; opacity: 0; }\n    10% { opacity: var(--roll-bar-opacity); }\n    90% { opacity: var(--roll-bar-opacity); }\n    100% { top: 110%; opacity: 0; }\n}\n\n@keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }",
+            "js": ""
+        }
+    },
+    {
+        "id": "isometric-3d-server-stack-css-loader",
+        "title": "Isometric 3D Server Stack CSS Loader",
+        "description": "A professional, pure CSS isometric loading animation. Features a 3D server stack with rhythmic levitation physics, blinking data processing lights, and a pulsating drop shadow. Ideal for SaaS, cloud computing, and database management interfaces.",
+        "tags": [
+            "Isometric", "3D CSS", "Server Stack", "Cloud Computing", "SaaS Loader", 
+            "Data Processing", "Levitation Effect", "Pure CSS", "Database Animation", "Tech UI", 
+            "Frontend Design", "Wait State", "Blinking Lights", "Enterprise UI", "Web Component", 
+            "Creative Loader", "Modern Design", "UI Animation", "Dashboard Loader", "Visual Effects"
+        ],
+        "keywords": [
+            "isometric css animation", "3d server stack loader", "cloud computing loading spinner", 
+            "saas dashboard ui components", "database syncing animation", "pure css 3d levitation", 
+            "enterprise web design loader", "blinking data lights css", "isometric projection css", 
+            "tech theme wait state", "custom loading screen css", "frontend data visualization loader", 
+            "modern server animation", "ui ux loading feedback", "creative css cube animation", 
+            "animated tech graphics css", "floating 3d layers", "data processing spinner", 
+            "professional web loader", "css keyframe bounce"
+        ],
+        "code": {
+            "html": "<div class=\"iso-scene\">\n    <div class=\"stack-container\">\n        <div class=\"layer l3\">\n            <div class=\"side top\"></div>\n            <div class=\"side left\"></div>\n            <div class=\"side right\"></div>\n        </div>\n        <div class=\"layer l2\">\n            <div class=\"side top\"></div>\n            <div class=\"side left\"></div>\n            <div class=\"side right\"></div>\n        </div>\n        <div class=\"layer l1\">\n            <div class=\"side top\"></div>\n            <div class=\"side left\"></div>\n            <div class=\"side right\"></div>\n        </div>\n    </div>\n    <div class=\"server-shadow\"></div>\n    <div class=\"iso-text\">SYNCING DATABASE</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --iso-bg-color: #f1f5f9;             /* Background color (Slate 100) */\n    \n    /* Server Colors */\n    --iso-color-top: #3b82f6;            /* Top face color (Blue 500) */\n    --iso-color-left: #2563eb;           /* Left face color (Blue 600) */\n    --iso-color-right: #1d4ed8;          /* Right face color (Blue 700) */\n    --iso-color-light: #60a5fa;          /* Blinking data light color */\n    \n    /* Text Styling */\n    --iso-text-color: #64748b;           /* Text color */\n    --iso-font-family: 'Verdana', sans-serif;\n    \n    /* Animation */\n    --iso-bounce-speed: 2s;              /* Speed of the levitation cycle */\n    --iso-bounce-height: 40px;           /* How high the layers levitate */\n}\n\n.iso-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--iso-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 50px;\n}\n\n.stack-container {\n    position: relative;\n    width: 60px;\n    height: 60px;\n    /* Isometric Rotation Magic */\n    transform: rotateX(60deg) rotateZ(45deg);\n    transform-style: preserve-3d;\n}\n\n.layer {\n    position: absolute;\n    width: 60px; height: 60px;\n    transform-style: preserve-3d;\n    transition: transform 0.3s;\n}\n\n.l1 { animation: stack-bounce var(--iso-bounce-speed) ease-in-out infinite 0s; z-index: 1; }\n.l2 { animation: stack-bounce var(--iso-bounce-speed) ease-in-out infinite 0.15s; z-index: 2; }\n.l3 { animation: stack-bounce var(--iso-bounce-speed) ease-in-out infinite 0.3s; z-index: 3; }\n\n.side {\n    position: absolute;\n    width: 100%; height: 100%;\n    border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.top {\n    background: var(--iso-color-top);\n    transform: translateZ(10px);\n}\n.left {\n    background: var(--iso-color-left);\n    transform: rotateX(-90deg) translateZ(30px);\n    height: 10px; top: 50px;\n}\n.right {\n    background: var(--iso-color-right);\n    transform: rotateY(90deg) translateZ(30px);\n    width: 10px; left: 50px;\n}\n\n.right::after, .left::after {\n    content: '';\n    position: absolute;\n    top: 3px; left: 3px;\n    width: 4px; height: 4px;\n    background: var(--iso-color-light);\n    border-radius: 50%;\n    animation: blink-data 1s infinite;\n    box-shadow: 0 0 5px var(--iso-color-light);\n}\n\n.server-shadow {\n    width: 80px; height: 20px;\n    background: rgba(0, 0, 0, 0.1);\n    border-radius: 50%;\n    filter: blur(8px);\n    animation: shadow-size var(--iso-bounce-speed) ease-in-out infinite;\n    margin-top: -30px;\n}\n\n.iso-text {\n    font-family: var(--iso-font-family);\n    font-weight: 600;\n    letter-spacing: 1px;\n    color: var(--iso-text-color);\n    font-size: 11px;\n    text-transform: uppercase;\n}\n\n@keyframes stack-bounce {\n    0% { transform: translateZ(0px); }\n    50% { transform: translateZ(var(--iso-bounce-height)); }\n    100% { transform: translateZ(0px); }\n}\n\n@keyframes shadow-size {\n    0% { transform: scale(1); opacity: 0.1; }\n    50% { transform: scale(0.8); opacity: 0.05; }\n    100% { transform: scale(1); opacity: 0.1; }\n}\n\n@keyframes blink-data {\n    0%, 100% { opacity: 0.3; }\n    50% { opacity: 1; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "precision-3d-gyroscope-orbit-spinner",
+        "title": "Precision 3D Gyroscope Orbit Spinner",
+        "description": "A sophisticated pure CSS 3D gyroscope loading spinner. Features three independently rotating rings on different axes (X, Y, and Z) encapsulating a pulsating glowing core. Designed for high-tech, financial, or data-driven applications.",
+        "tags": [
+            "3D Animation", "Gyroscope", "Loading Spinner", "Pure CSS", "Orbiting Rings", 
+            "Tech UI", "Enterprise Design", "Data Processing", "Wait State", "Precision", 
+            "Glowing Core", "Web Component", "Frontend", "CSS Transform", "Futuristic", 
+            "Dashboard Loader", "Minimalist", "Creative Design", "Visual Effects", "Animation"
+        ],
+        "keywords": [
+            "css 3d gyroscope animation", "precision orbit loading spinner", "enterprise ui loader", 
+            "rotating rings css", "high tech web wait state", "pure css 3d transforms", 
+            "financial dashboard loader", "data processing animation", "glowing core css effect", 
+            "futuristic loading screen", "custom css spinner", "3d orbit animation", 
+            "frontend data visuals", "css keyframe rotation axes", "minimalist tech spinner", 
+            "animated tech graphics", "web design loading ui", "creative frontend components", 
+            "complex css animations", "nested rotation css"
+        ],
+        "code": {
+            "html": "<div class=\"gyro-scene\">\n    <div class=\"gyroscope\">\n        <div class=\"ring outer\"></div>\n        <div class=\"ring middle\"></div>\n        <div class=\"ring inner\"></div>\n        <div class=\"core\"></div>\n    </div>\n    <div class=\"gyro-text\">CALIBRATING</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --gyro-bg-color: #0f172a;               /* Scene background color */\n    \n    /* Ring Colors */\n    --gyro-outer-color: #3b82f6;            /* Outer ring color */\n    --gyro-middle-color: #60a5fa;           /* Middle ring color */\n    --gyro-inner-color: #93c5fd;            /* Inner ring color */\n    --gyro-core-color: #ffffff;             /* Center glowing core color */\n    \n    /* Typography */\n    --gyro-text-color: #94a3b8;             \n    --gyro-font-family: 'Inter', sans-serif;\n    \n    /* Animation Speeds */\n    --gyro-float-speed: 4s;                 /* Speed of the up/down levitation */\n    --gyro-outer-speed: 4s;\n    --gyro-middle-speed: 5s;\n    --gyro-inner-speed: 3s;\n}\n\n.gyro-scene {\n    width: 100%;\n    height: 100vh;\n    background: var(--gyro-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n    perspective: 800px; /* Essential for 3D ring rotation */\n}\n\n.gyroscope {\n    position: relative;\n    width: 120px;\n    height: 120px;\n    transform-style: preserve-3d;\n    animation: floating var(--gyro-float-speed) ease-in-out infinite;\n}\n\n.ring {\n    position: absolute;\n    inset: 0;\n    border-radius: 50%;\n    border: 2px solid transparent;\n    transform-style: preserve-3d;\n}\n\n.outer {\n    border-top: 2px solid var(--gyro-outer-color);\n    border-bottom: 2px solid var(--gyro-outer-color);\n    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);\n    animation: spin-x var(--gyro-outer-speed) linear infinite;\n}\n\n.middle {\n    inset: 10px;\n    border-left: 2px solid var(--gyro-middle-color);\n    border-right: 2px solid var(--gyro-middle-color);\n    box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);\n    animation: spin-y var(--gyro-middle-speed) linear infinite;\n}\n\n.inner {\n    inset: 25px;\n    border-top: 2px solid var(--gyro-inner-color);\n    border-left: 2px solid var(--gyro-inner-color);\n    box-shadow: 0 0 10px rgba(147, 197, 253, 0.2);\n    animation: spin-z var(--gyro-inner-speed) linear infinite;\n}\n\n.core {\n    position: absolute;\n    top: 50%; left: 50%;\n    transform: translate(-50%, -50%);\n    width: 12px; height: 12px;\n    background: var(--gyro-core-color);\n    border-radius: 50%;\n    box-shadow: 0 0 20px var(--gyro-core-color);\n    animation: pulse-core 2s ease-in-out infinite;\n}\n\n.gyro-text {\n    font-family: var(--gyro-font-family);\n    font-size: 11px;\n    letter-spacing: 3px;\n    color: var(--gyro-text-color);\n    text-transform: uppercase;\n    font-weight: 600;\n}\n\n@keyframes spin-x {\n    0% { transform: rotateX(0deg) rotateY(0deg); }\n    100% { transform: rotateX(360deg) rotateY(45deg); }\n}\n\n@keyframes spin-y {\n    0% { transform: rotateY(0deg) rotateX(45deg); }\n    100% { transform: rotateY(360deg) rotateX(45deg); }\n}\n\n@keyframes spin-z {\n    0% { transform: rotateZ(0deg) rotateX(15deg); }\n    100% { transform: rotateZ(360deg) rotateX(15deg); }\n}\n\n@keyframes pulse-core {\n    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }\n    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }\n}\n\n@keyframes floating {\n    0%, 100% { transform: translateY(0px); }\n    50% { transform: translateY(-10px); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "network-data-packet-transfer-loader",
+        "title": "Network Data Packet Transfer Loading Animation",
+        "description": "A pure CSS visualization of data packets traversing a network topology. Features glowing data clusters, connection nodes, and high-speed transfer animations. Ideal for upload screens, cloud syncing, and tech infrastructure dashboards.",
+        "tags": [
+            "Network", "Data Stream", "Loading Animation", "Tech UI", "Upload", 
+            "Connectivity", "CSS Animation", "Server Topology", "Wait State", "Glowing Hub", 
+            "Data Packets", "Frontend", "Cybersecurity", "Cloud Sync", "Web Component", 
+            "Dark Theme", "Creative Coding", "Dashboard Loader", "Visual Effects", "Minimalist"
+        ],
+        "keywords": [
+            "css network animation", "data packet loader", "uploading data spinner", 
+            "server topology css", "cloud sync wait state", "glowing data node", 
+            "high speed transfer animation", "pure css tech loader", "cybersecurity loading screen", 
+            "dashboard sync indicator", "custom css spinner", "animated network map", 
+            "tech infrastructure ui", "frontend wait animation", "data stream visualizer", 
+            "neon green server loader", "css keyframe data travel", "creative loading ui", 
+            "minimalist tech spinner", "web design connectivity"
+        ],
+        "code": {
+            "html": "<div class=\"net-scene\">\n    <div class=\"hub-container\">\n        <div class=\"hub\"></div>\n        \n        <div class=\"packet p1\"></div>\n        <div class=\"packet p2\"></div>\n        <div class=\"packet p3\"></div>\n        <div class=\"packet p4\"></div>\n        \n        <div class=\"line l1\"></div>\n        <div class=\"line l2\"></div>\n        <div class=\"line l3\"></div>\n        <div class=\"line l4\"></div>\n    </div>\n    <div class=\"net-text\">ESTABLISHING UPLINK</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --net-bg-color: #000000;            /* Background color */\n    --net-hub-color: #00ff88;           /* Color of the central hub and packets */\n    --net-line-color: rgba(0, 255, 136, 0.3); /* Color of the connection lines */\n    --net-text-color: #00ff88;          /* Color of the status text */\n    \n    --net-transfer-speed: 1.5s;         /* Speed of the data packets traveling */\n    --net-pulse-speed: 1s;              /* Speed of the central hub pulsing */\n}\n\n.net-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: var(--net-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n}\n\n.hub-container {\n    position: relative;\n    width: 200px;\n    height: 200px;\n}\n\n/* The Central Hub */\n.hub {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 20px; \n    height: 20px;\n    background: var(--net-hub-color);\n    border-radius: 50%;\n    box-shadow: 0 0 20px var(--net-hub-color);\n    z-index: 10;\n    animation: hub-pulse var(--net-pulse-speed) ease-in-out infinite;\n}\n\n/* Connection Lines */\n.line {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    width: 100px; \n    height: 2px;\n    background: linear-gradient(90deg, transparent, var(--net-line-color));\n    transform-origin: left center;\n}\n.l1 { transform: rotate(0deg); }\n.l2 { transform: rotate(90deg); }\n.l3 { transform: rotate(180deg); }\n.l4 { transform: rotate(270deg); }\n\n/* Data Packets */\n.packet {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    width: 8px; \n    height: 4px;\n    background: #ffffff;\n    border-radius: 4px;\n    box-shadow: 0 0 10px #ffffff;\n    z-index: 5;\n    opacity: 0;\n}\n\n/* \n   The Travel Animation:\n   Packets start far away (100px) and zoom into the center (0px)\n   using CSS variables for rotation reuse.\n*/\n.p1 { --r: 0deg;   transform: rotate(var(--r)); animation: data-in var(--net-transfer-speed) linear infinite 0s; }\n.p2 { --r: 90deg;  transform: rotate(var(--r)); animation: data-in var(--net-transfer-speed) linear infinite 0.5s; }\n.p3 { --r: 180deg; transform: rotate(var(--r)); animation: data-in var(--net-transfer-speed) linear infinite 0.25s; }\n.p4 { --r: 270deg; transform: rotate(var(--r)); animation: data-in var(--net-transfer-speed) linear infinite 0.75s; }\n\n@keyframes data-in {\n    0%   { transform: rotate(var(--r)) translateX(100px); opacity: 0; }\n    20%  { opacity: 1; }\n    90%  { transform: rotate(var(--r)) translateX(10px); opacity: 1; }\n    100% { transform: rotate(var(--r)) translateX(0px); opacity: 0; }\n}\n\n@keyframes hub-pulse {\n    0%   { box-shadow: 0 0 20px var(--net-hub-color); transform: translate(-50%, -50%) scale(1); }\n    10%  { box-shadow: 0 0 40px var(--net-hub-color); transform: translate(-50%, -50%) scale(1.2); background: #ffffff; }\n    100% { box-shadow: 0 0 20px var(--net-hub-color); transform: translate(-50%, -50%) scale(1); }\n}\n\n.net-text {\n    font-family: 'Courier New', monospace;\n    color: var(--net-text-color);\n    letter-spacing: 2px;\n    font-size: 12px;\n    text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "magnetic-ferrofluid-science-loader",
+        "title": "Magnetic Ferrofluid Science Loading Animation",
+        "description": "A sophisticated CSS loading animation replicating magnetic ferrofluid. Uses SVG gooey filters and organic timing offsets to create black, metallic spikes that morph around a central core, resembling an active magnetic field.",
+        "tags": [
+            "Ferrofluid", "Magnetic", "Science", "Gooey Filter", "Dark UI", 
+            "Physics Simulation", "CSS Animation", "SVG Filter", "Premium Loader", "Organic", 
+            "Alien UI", "Liquid Effect", "Wait State", "Web Design", "Creative Coding", 
+            "Frontend", "Abstract", "Metallic", "Tech Dashboard", "Visual Effects"
+        ],
+        "keywords": [
+            "css ferrofluid animation", "magnetic field loader", "svg gooey liquid spinner", 
+            "dark science ui component", "organic blob css animation", "graphite liquid wait state", 
+            "alien tech interface", "custom premium loader css", "physics simulation spinner", 
+            "metallic spike animation", "frontend liquid effects", "creative wait states", 
+            "webgl alternative gooey", "abstract tech loader", "magnetic ring css", 
+            "advanced css filters", "dark mode spinner", "ui ux loading screens", 
+            "fluid dynamics web design", "smooth liquid loader"
+        ],
+        "code": {
+            "html": "<div class=\"ferro-scene\">\n    \n    <svg style=\"position:absolute;width:0;height:0;\">\n        <defs>\n            <filter id=\"ferro-goo\">\n                <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"8\" result=\"blur\"/>\n                <feColorMatrix in=\"blur\" mode=\"matrix\"\n                    values=\"1 0 0 0 0\n                            0 1 0 0 0\n                            0 0 1 0 0\n                            0 0 0 18 -7\"\n                    result=\"goo\"/>\n                <feComposite in=\"SourceGraphic\" in2=\"goo\" operator=\"atop\"/>\n            </filter>\n        </defs>\n    </svg>\n\n    <div class=\"magnet-container\">\n        <div class=\"magnetic-ring\"></div>\n\n        <div class=\"fluid-box\">\n            <div class=\"core-ball\"></div>\n            <div class=\"spike s1\"></div>\n            <div class=\"spike s2\"></div>\n            <div class=\"spike s3\"></div>\n            <div class=\"spike s4\"></div>\n            <div class=\"spike s5\"></div>\n            <div class=\"spike s6\"></div>\n            <div class=\"spike s7\"></div>\n            <div class=\"spike s8\"></div>\n        </div>\n    </div>\n\n    <div class=\"ferro-text\">MAGNETIC FIELD ACTIVE</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --ferro-bg-top: #1a1f29;             /* Background gradient center */\n    --ferro-bg-bottom: #0b0e13;          /* Background gradient edge */\n    \n    --ferro-core-color: #2a313d;         /* Center of the metallic core */\n    --ferro-core-edge: #0a0c11;          /* Edge of the metallic core */\n    \n    --ferro-ring-glow: rgba(0, 200, 255, 0.05); /* Glow of the outer magnetic ring */\n    --ferro-text-color: #8f9bb3;         /* Loading text color */\n    \n    --ferro-pulse-speed: 2.4s;           /* Speed of the individual spikes */\n    --ferro-system-rotation: 14s;        /* Speed of the entire system rotating */\n}\n\n.ferro-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: radial-gradient(circle at 50% 40%, var(--ferro-bg-top), var(--ferro-bg-bottom) 70%);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n}\n\n.magnet-container {\n    width: 170px;\n    height: 170px;\n    position: relative;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    filter: url(#ferro-goo);\n    animation: rotate-system var(--ferro-system-rotation) linear infinite;\n}\n\n.magnetic-ring {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    border: 1px solid rgba(255, 255, 255, 0.06);\n    box-shadow: 0 0 25px var(--ferro-ring-glow);\n    animation: pulse-ring 4s ease-in-out infinite;\n}\n\n@keyframes pulse-ring {\n    0%, 100% { transform: scale(1); opacity: 0.5; }\n    50%      { transform: scale(1.08); opacity: 0.2; }\n}\n\n.fluid-box {\n    position: relative;\n    width: 100%;\n    height: 100%;\n}\n\n.core-ball {\n    position: absolute;\n    top: 50%; left: 50%;\n    transform: translate(-50%, -50%);\n    width: 70px;\n    height: 70px;\n    border-radius: 50%;\n    background: radial-gradient(circle at 35% 30%, var(--ferro-core-color), var(--ferro-core-edge) 70%);\n    box-shadow:\n        inset -8px -10px 18px rgba(255, 255, 255, 0.06),\n        inset 10px 12px 20px rgba(0, 0, 0, 0.8);\n}\n\n.spike {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    width: 24px;\n    height: 24px;\n    border-radius: 50%;\n    background: radial-gradient(circle at 30% 30%, #2b313c, #050608 80%);\n    transform: translate(-50%, -50%);\n}\n\n/* Organic timing offsets */\n.s1 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 0s;    --angle: 0deg; }\n.s2 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 0.3s;  --angle: 45deg; }\n.s3 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 0.6s;  --angle: 90deg; }\n.s4 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 0.9s;  --angle: 135deg; }\n.s5 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 1.2s;  --angle: 180deg; }\n.s6 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 1.5s;  --angle: 225deg; }\n.s7 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 1.8s;  --angle: 270deg; }\n.s8 { animation: pulse var(--ferro-pulse-speed) ease-in-out infinite 2.1s;  --angle: 315deg; }\n\n@keyframes pulse {\n    0%   { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0); }\n    45%  { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-50px) scale(0.55); }\n    60%  { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-45px) scale(0.6); }\n    100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0); }\n}\n\n@keyframes rotate-system {\n    from { transform: rotate(0deg); }\n    to   { transform: rotate(360deg); }\n}\n\n/* Subtle depth shadow below the entire system */\n.magnet-container::after {\n    content: \"\";\n    position: absolute;\n    bottom: -25px;\n    width: 120px;\n    height: 20px;\n    background: radial-gradient(circle, rgba(0, 0, 0, 0.5), transparent 70%);\n    border-radius: 50%;\n    filter: blur(8px);\n    z-index: -1;\n}\n\n.ferro-text {\n    font-family: 'Inter', sans-serif;\n    font-weight: 600;\n    letter-spacing: 3px;\n    font-size: 11px;\n    color: var(--ferro-text-color);\n    text-transform: uppercase;\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "relativistic-hyperdrive-black-hole-loader",
+        "title": "Relativistic Hyperdrive Black Hole Loader",
+        "description": "A stunning visual representation of a black hole accretion disk engaging hyperdrive. Features conic gradients, CSS masking, and layered blur effects to simulate relativistic speed and cosmic time dilation.",
+        "tags": [
+            "Black Hole", "Space", "Cosmic", "Hyperdrive", "Sci-Fi", 
+            "Loading Animation", "Pure CSS", "Conic Gradient", "Warp Speed", "Time Dilation", 
+            "Dark Theme", "Web Design", "Frontend", "Visual Effects", "Spinner", 
+            "Galaxy", "Astronomy", "Creative Coding", "UI Component", "Wait State"
+        ],
+        "keywords": [
+            "black hole css animation", "hyperdrive warp speed loader", "cosmic loading spinner", 
+            "accretion disk css effect", "sci fi wait state ui", "conic gradient space animation", 
+            "css mask ring animation", "relativistic speed web design", "dark theme galaxy loader", 
+            "animated singularity css", "pure css warp effect", "custom loading screen space", 
+            "frontend astronomy ui", "creative cosmic animations", "motion blur css effect", 
+            "breathing pulse animation", "webgl alternative space", "futuristic ui components", 
+            "interactive loading graphics", "time dilation visualizer"
+        ],
+        "code": {
+            "html": "<div class=\"warp-scene\">\n    <div class=\"singularity-container\">\n        <div class=\"black-hole\"></div>\n        <div class=\"accretion-disk\"></div>\n        <div class=\"accretion-disk blur\"></div>\n    </div>\n    <div class=\"warp-text\">ENGAGING HYPERDRIVE</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --warp-bg-color: #000000;              /* Space background */\n    \n    /* Accretion Disk Colors */\n    --disk-color-1: transparent;\n    --disk-color-2: #4400ff;               /* Deep purple */\n    --disk-color-3: #aa00ff;               /* Neon purple */\n    --disk-color-4: #ffffff;               /* Intense light */\n    \n    --warp-text-color: #aa00ff;\n    --warp-spin-speed: 1s;                 /* Speed of rotation */\n}\n\n.warp-scene {\n    width: 100%;\n    min-height: 100vh;\n    background: var(--warp-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n}\n\n.singularity-container {\n    position: relative;\n    width: 200px;\n    height: 200px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.black-hole {\n    position: absolute;\n    width: 60px;\n    height: 60px;\n    background: #000000;\n    border-radius: 50%;\n    z-index: 10;\n    box-shadow: 0 0 20px #000000; /* Devours surrounding light */\n}\n\n.accretion-disk {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    /* The Spiral Gradient creating the light streaks */\n    background: conic-gradient(\n        from 0deg,\n        var(--disk-color-1) 0%,\n        var(--disk-color-2) 40%, \n        var(--disk-color-3) 60%, \n        var(--disk-color-4) 80%, \n        var(--disk-color-1) 100%\n    );\n    /* Mask to hollow out the center, creating a ring */\n    -webkit-mask-image: radial-gradient(transparent 35%, black 40%);\n    mask-image: radial-gradient(transparent 35%, black 40%);\n    animation: warp-spin var(--warp-spin-speed) linear infinite;\n}\n\n/* Second layer stacked on top to create a motion blur trail */\n.accretion-disk.blur {\n    filter: blur(10px);\n    opacity: 0.8;\n    animation: warp-spin var(--warp-spin-speed) linear infinite;\n}\n\n.warp-text {\n    font-family: 'Verdana', sans-serif;\n    color: var(--warp-text-color);\n    font-size: 10px;\n    letter-spacing: 6px;\n    text-transform: uppercase;\n    animation: pulse-text 0.5s infinite alternate;\n}\n\n@keyframes warp-spin {\n    0%   { transform: rotate(0deg) scale(1); }\n    50%  { transform: rotate(180deg) scale(1.1); } /* Simulates gravitational breathing */\n    100% { transform: rotate(360deg) scale(1); }\n}\n\n@keyframes pulse-text {\n    from { opacity: 0.5; letter-spacing: 6px; }\n    to   { opacity: 1;   letter-spacing: 8px; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "retro-synthwave-3d-neon-pyramid-loader",
+        "title": "Retro Synthwave 3D Neon Pyramid Loading Animation",
+        "description": "A nostalgic 1980s synthwave-inspired 3D loading animation.  Features a spinning neon wireframe pyramid, a pulsating energy core, and a continuously scrolling retro grid floor with futuristic cyberpunk aesthetics.",
+        "tags": [
+            "Synthwave", "Retro", "3D Animation", "Neon", "Cyberpunk", 
+            "Loading Screen", "Grid Floor", "1980s", "Pyramid", "Wireframe", 
+            "Pure CSS", "Web Design", "Frontend", "Nostalgic", "Sci-Fi", 
+            "Glowing Core", "CSS Transform", "Perspective", "Visual Effects", "Vaporwave"
+        ],
+        "keywords": [
+            "synthwave css animation", "3d neon pyramid loader", "retro 80s grid background", 
+            "cyberpunk loading screen", "pure css wireframe pyramid", "vaporwave aesthetic web design", 
+            "scrolling neon grid css", "futuristic 3d spinner", "glowing core animation", 
+            "css perspective 3d scene", "custom css loading indicator", "retro arcade ui elements", 
+            "outrun aesthetic loader", "neon glowing polygon", "frontend visual effects", 
+            "creative coding css", "animated retro scene", "3d geometry css", 
+            "sci-fi web components", "css keyframe rotation"
+        ],
+        "code": {
+            "html": "<div class=\"pyramid-scene\">\n    <div class=\"grid-floor\"></div>\n\n    <div class=\"scene-camera\">\n        <div class=\"pyramid-assembly\">\n            <div class=\"core-light\"></div>\n            \n            <div class=\"face front\"></div>\n            <div class=\"face back\"></div>\n            <div class=\"face right\"></div>\n            <div class=\"face left\"></div>\n            \n            <div class=\"base-shadow\"></div>\n        </div>\n    </div>\n\n    <div class=\"status-text\">\n        <span class=\"glitch-text\">SYSTEM ONLINE</span>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --sw-bg: radial-gradient(circle at 50% 30%, #2b1055, #000000); /* Scene background */\n    \n    /* Grid Colors */\n    --sw-grid-pink: rgba(255, 0, 255, 0.4);\n    --sw-grid-cyan: rgba(0, 255, 255, 0.4);\n    \n    /* Pyramid Face Gradient */\n    --sw-pyramid-top: rgba(0, 255, 255, 0.6);\n    --sw-pyramid-bottom: rgba(255, 0, 255, 0.2);\n    --sw-pyramid-border: rgba(255, 255, 255, 0.6);\n    \n    /* Light Source & Text */\n    --sw-core-light: #ffffff;\n    --sw-text-color: #00ffff;\n    --sw-text-glow: #ff00ff;\n    \n    /* Animation Speeds */\n    --sw-spin-speed: 8s;\n    --sw-float-speed: 4s;\n    --sw-grid-speed: 3s;\n}\n\n.pyramid-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--sw-bg);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    perspective: 1000px;\n    overflow: hidden;\n    position: relative;\n}\n\n.grid-floor {\n    position: absolute;\n    bottom: -20%;\n    width: 200%;\n    height: 100%;\n    background: \n        linear-gradient(transparent 0%, var(--sw-grid-pink) 2%, transparent 3%),\n        linear-gradient(90deg, transparent 0%, var(--sw-grid-cyan) 2%, transparent 3%);\n    background-size: 60px 60px;\n    transform: rotateX(70deg);\n    animation: grid-scroll var(--sw-grid-speed) linear infinite;\n    mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);\n    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 60%);\n    pointer-events: none;\n}\n\n.scene-camera {\n    width: 140px;\n    height: 140px;\n    transform-style: preserve-3d;\n    animation: float-object var(--sw-float-speed) ease-in-out infinite;\n}\n\n.pyramid-assembly {\n    width: 100%;\n    height: 100%;\n    position: relative;\n    transform-style: preserve-3d;\n    animation: spin-geometry var(--sw-spin-speed) linear infinite;\n}\n\n.face {\n    position: absolute;\n    width: 140px;\n    height: 140px;\n    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);\n    background: linear-gradient(180deg, var(--sw-pyramid-top) 0%, var(--sw-pyramid-bottom) 100%);\n    transform-origin: bottom center;\n    backdrop-filter: blur(4px);\n    -webkit-backdrop-filter: blur(4px);\n    border-bottom: 2px solid var(--sw-pyramid-border);\n    box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2);\n}\n\n.front { transform: translateZ(70px) rotateX(30deg); }\n.back  { transform: rotateY(180deg) translateZ(70px) rotateX(30deg); }\n.right { transform: rotateY(90deg) translateZ(70px) rotateX(30deg); }\n.left  { transform: rotateY(-90deg) translateZ(70px) rotateX(30deg); }\n\n.core-light {\n    position: absolute;\n    top: 60%; left: 50%;\n    transform: translate(-50%, -50%);\n    width: 40px; height: 40px;\n    background: var(--sw-core-light);\n    border-radius: 50%;\n    box-shadow: \n        0 0 20px var(--sw-text-glow),\n        0 0 60px var(--sw-text-color);\n    animation: pulse-energy 2s infinite alternate;\n}\n\n.base-shadow {\n    position: absolute;\n    width: 140px; height: 140px;\n    background: radial-gradient(circle, rgba(255, 0, 255, 0.8), transparent 60%);\n    transform: rotateX(90deg) translateZ(-100px);\n    filter: blur(20px);\n    animation: shadow-scale var(--sw-float-speed) ease-in-out infinite;\n}\n\n.status-text {\n    margin-top: 120px;\n    font-family: 'Montserrat', sans-serif;\n    font-weight: 800;\n    font-size: 12px;\n    letter-spacing: 6px;\n    color: var(--sw-text-color);\n    text-shadow: 0 0 10px var(--sw-text-glow);\n    position: relative;\n    z-index: 10;\n}\n\n@keyframes spin-geometry {\n    0% { transform: rotateY(0deg); }\n    100% { transform: rotateY(360deg); }\n}\n\n@keyframes float-object {\n    0%, 100% { transform: translateY(0); }\n    50% { transform: translateY(-20px); }\n}\n\n@keyframes grid-scroll {\n    0% { background-position: 0 0; }\n    100% { background-position: 0 60px; }\n}\n\n@keyframes pulse-energy {\n    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }\n    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }\n}\n\n@keyframes shadow-scale {\n    0%, 100% { transform: rotateX(90deg) translateZ(-100px) scale(0.8); opacity: 0.5; }\n    50% { transform: rotateX(90deg) translateZ(-100px) scale(1.2); opacity: 0.2; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "magical-3d-spinning-crystal-loader",
+        "title": "Magical 3D Spinning Crystal Loading Animation",
+        "description": "A mesmerizing, pure CSS 3D loading animation resembling a magical floating crystal gemstone.  Includes a pulsating glowing core, glassy translucent facets, and a continuous 3D rotation effect, ideal for fantasy, gaming, or premium web experiences.",
+        "tags": [
+            "Crystal", "3D Animation", "Magic", "Gemstone", "Loading Spinner", 
+            "Pure CSS", "Glassmorphism", "Translucent", "Fantasy UI", "Web Component", 
+            "Frontend", "Glowing Core", "Octahedron", "Geometry", "CSS 3D", 
+            "Visual Effects", "Gaming UI", "Creative Coding", "Mystical", "Wait State"
+        ],
+        "keywords": [
+            "3d crystal css animation", "magical gemstone loader", "spinning octahedron css", 
+            "fantasy game loading screen", "translucent glass shape", "glowing core spinner", 
+            "pure css 3d geometry", "custom loading animation css", "mystical web design ui", 
+            "floating diamond css", "css perspective crystal", "creative wait state", 
+            "frontend visual effects", "css keyframe 3d rotation", "glassmorphism 3d object", 
+            "rpg ui components", "animated polygon loader", "neon glowing gem", 
+            "crystal shard animation", "futuristic crystal UI"
+        ],
+        "code": {
+            "html": "<div class=\"crystal-scene\">\n    <div class=\"crystal\">\n        <div class=\"pyramid top\">\n            <div class=\"side s1\"></div>\n            <div class=\"side s2\"></div>\n            <div class=\"side s3\"></div>\n            <div class=\"side s4\"></div>\n        </div>\n        <div class=\"pyramid bottom\">\n            <div class=\"side s1\"></div>\n            <div class=\"side s2\"></div>\n            <div class=\"side s3\"></div>\n            <div class=\"side s4\"></div>\n        </div>\n    </div>\n    <div class=\"crystal-text\">CRYSTALLIZING</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --crys-bg-color: #0f172a;                     /* Dark background color */\n    --crys-face-bg: rgba(100, 200, 255, 0.1);     /* Translucent crystal face color */\n    --crys-face-border: rgba(255, 255, 255, 0.4); /* Edge highlight color */\n    --crys-face-shadow: rgba(100, 200, 255, 0.2); /* Inner face glow */\n    \n    --crys-core-light: #ffffff;                   /* Bright core center */\n    --crys-core-glow: rgba(255, 255, 255, 0.8);   /* Diffused core glow */\n    --crys-text-color: #a5f3fc;                   /* Loading text color */\n    \n    --crys-spin-speed: 8s;                        /* Duration of 360 degree rotation */\n}\n\n.crystal-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--crys-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 80px;\n    perspective: 1000px;\n}\n\n.crystal {\n    position: relative;\n    width: 80px;\n    height: 120px;\n    transform-style: preserve-3d;\n    animation: crystal-spin var(--crys-spin-speed) linear infinite;\n}\n\n.pyramid {\n    position: absolute;\n    width: 100%; \n    height: 50%;\n    transform-style: preserve-3d;\n}\n\n.pyramid.top { top: 0; }\n.pyramid.bottom { bottom: 0; transform: rotateX(180deg); }\n\n.side {\n    position: absolute;\n    width: 80px; \n    height: 60px;\n    background: var(--crys-face-bg);\n    border: 1px solid var(--crys-face-border);\n    box-shadow: 0 0 10px var(--crys-face-shadow);\n    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);\n    transform-origin: bottom center;\n}\n\n.s1 { transform: translateZ(40px) rotateX(35deg); }\n.s2 { transform: rotateY(90deg) translateZ(40px) rotateX(35deg); }\n.s3 { transform: rotateY(180deg) translateZ(40px) rotateX(35deg); }\n.s4 { transform: rotateY(-90deg) translateZ(40px) rotateX(35deg); }\n\n.crystal::after {\n    content: '';\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 10px; \n    height: 10px;\n    box-shadow: 0 0 50px 20px var(--crys-core-glow);\n    background: var(--crys-core-light);\n    border-radius: 50%;\n    animation: pulse-core 2s infinite;\n}\n\n@keyframes crystal-spin {\n    0%   { transform: rotateY(0deg) rotateX(10deg); }\n    100% { transform: rotateY(360deg) rotateX(10deg); }\n}\n\n@keyframes pulse-core {\n    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }\n    50%      { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }\n}\n\n.crystal-text {\n    font-family: 'Cinzel', serif;\n    color: var(--crys-text-color);\n    letter-spacing: 4px;\n    font-size: 12px;\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "futuristic-3d-glass-prism-loader",
+        "title": "Futuristic 3D Glass Prism Loading Animation",
+        "description": "A high-tech geometric loading animation featuring a rotating 3D glass octahedron prism. Built purely with CSS, it showcases refractive-style overlapping faces, a glowing neon core, and a dynamic floating drop shadow. Perfect for futuristic and cyberpunk interfaces.",
+        "tags": [
+            "3D Prism", "Glassmorphism", "Geometric", "Loading Screen", "Sci-Fi", 
+            "Neon Glow", "CSS Animation", "Octahedron", "Floating Object", "Futuristic", 
+            "Web Design", "Frontend", "Pure CSS", "Drop Shadow", "Wait State", 
+            "Cyberpunk", "UI Component", "Abstract Art", "3D Transform", "Visual Effects"
+        ],
+        "keywords": [
+            "3d glass prism loader", "css geometric loading animation", "futuristic octahedron spinner", 
+            "neon glowing core css", "floating 3d shape animation", "glassmorphism ui components", 
+            "pure css 3d transforms", "sci-fi loading screen", "cyberpunk web design", 
+            "abstract geometry animation", "dynamic drop shadow css", "custom css loaders", 
+            "creative frontend effects", "animated prism css", "css keyframe hovering", 
+            "transparent 3d object", "high tech ui loader", "webgl alternative css", 
+            "modern wait state", "aesthetic loading indicator"
+        ],
+        "code": {
+            "html": "<div class=\"prism-scene\">\n    <div class=\"prism-wrapper\">\n        <div class=\"octahedron\">\n            <div class=\"face top t1\"></div>\n            <div class=\"face top t2\"></div>\n            <div class=\"face top t3\"></div>\n            <div class=\"face top t4\"></div>\n            \n            <div class=\"face bottom b1\"></div>\n            <div class=\"face bottom b2\"></div>\n            <div class=\"face bottom b3\"></div>\n            <div class=\"face bottom b4\"></div>\n            \n            <div class=\"prism-core\"></div>\n        </div>\n        <div class=\"prism-shadow\"></div>\n    </div>\n    <div class=\"prism-text\">CHARGING CRYSTAL</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --prism-bg-center: #1a1a2e;                 /* Background gradient center */\n    --prism-bg-edge: #000000;                   /* Background gradient edge */\n    \n    /* Face Gradients */\n    --prism-face-top: rgba(0, 255, 255, 0.1);   /* Top face gradient start (Cyan) */\n    --prism-face-bottom: rgba(255, 0, 255, 0.3);/* Bottom face gradient end (Magenta) */\n    --prism-face-border: rgba(255, 255, 255, 0.5); /* Face border line */\n    \n    /* Glowing Core */\n    --prism-core-light: #ffffff;                /* Center bright light */\n    --prism-glow-1: #00ffff;                    /* Outer glow 1 */\n    --prism-glow-2: #ff00ff;                    /* Outer glow 2 */\n    \n    /* Typography */\n    --prism-text-color: #00ffff;                /* Text color */\n    \n    /* Speeds */\n    --prism-spin-speed: 12s;\n    --prism-float-speed: 4s;\n}\n\n.prism-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: radial-gradient(circle at center, var(--prism-bg-center), var(--prism-bg-edge));\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    perspective: 1000px;\n    gap: 60px;\n    overflow: hidden;\n}\n\n.prism-wrapper {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    transform-style: preserve-3d;\n    animation: prism-float var(--prism-float-speed) ease-in-out infinite;\n}\n\n.octahedron {\n    width: 100%;\n    height: 100%;\n    position: relative;\n    transform-style: preserve-3d;\n    animation: prism-spin var(--prism-spin-speed) linear infinite;\n}\n\n.face {\n    position: absolute;\n    width: 100px; \n    height: 87px; \n    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);\n    background: linear-gradient(180deg, var(--prism-face-top), var(--prism-face-bottom));\n    border-bottom: 1px solid var(--prism-face-border);\n    backdrop-filter: blur(2px);\n    -webkit-backdrop-filter: blur(2px);\n    transform-origin: bottom center;\n}\n\n/* Top Pyramid Faces */\n.top { top: -87px; left: 0; transform-origin: bottom center; }\n.t1 { transform: translateZ(50px) rotateX(30deg); }\n.t2 { transform: rotateY(90deg) translateZ(50px) rotateX(30deg); }\n.t3 { transform: rotateY(180deg) translateZ(50px) rotateX(30deg); }\n.t4 { transform: rotateY(270deg) translateZ(50px) rotateX(30deg); }\n\n/* Bottom Pyramid Faces */\n.bottom { top: 0; left: 0; transform-origin: top center; }\n.b1 { transform: translateZ(50px) rotateX(-30deg); }\n.b2 { transform: rotateY(90deg) translateZ(50px) rotateX(-30deg); }\n.b3 { transform: rotateY(180deg) translateZ(50px) rotateX(-30deg); }\n.b4 { transform: rotateY(270deg) translateZ(50px) rotateX(-30deg); }\n\n.prism-core {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 40px; \n    height: 40px;\n    background: var(--prism-core-light);\n    border-radius: 50%;\n    box-shadow: \n        0 0 40px var(--prism-glow-1), \n        0 0 20px var(--prism-glow-2);\n    animation: pulse-light 2s infinite alternate;\n}\n\n.prism-shadow {\n    position: absolute;\n    top: 150px; \n    left: 50%;\n    transform: translateX(-50%) rotateX(90deg);\n    width: 80px; \n    height: 80px;\n    background: radial-gradient(circle, rgba(0, 255, 255, 0.4), transparent 70%);\n    filter: blur(10px);\n    animation: shadow-scale var(--prism-float-speed) ease-in-out infinite;\n}\n\n.prism-text {\n    font-family: 'Verdana', sans-serif;\n    color: var(--prism-text-color);\n    font-size: 10px;\n    letter-spacing: 6px;\n    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);\n}\n\n@keyframes prism-spin {\n    0%   { transform: rotateY(0deg) rotateX(10deg); }\n    100% { transform: rotateY(360deg) rotateX(10deg); }\n}\n\n@keyframes prism-float {\n    0%, 100% { transform: translateY(0); }\n    50%      { transform: translateY(-20px); }\n}\n\n@keyframes pulse-light {\n    0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }\n    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }\n}\n\n@keyframes shadow-scale {\n    0%, 100% { transform: translateX(-50%) rotateX(90deg) scale(1); opacity: 0.4; }\n    50%      { transform: translateX(-50%) rotateX(90deg) scale(0.6); opacity: 0.2; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "classified-ufo-found-footage-loader",
+        "title": "Classified UFO Found Footage Loading Animation",
+        "description": "A cinematic, pure CSS loading animation styled like classified found footage.  It features a hovering metallic flying saucer with rotating rim lights, a volumetric abduction beam, floating debris, and a retro camcorder HUD overlay.",
+        "tags": [
+            "UFO", "Found Footage", "Sci-Fi", "Loading Screen", "Cinematic", 
+            "CSS Animation", "Volumetric Light", "Retro UI", "Horror Theme", "Metallic Texture", 
+            "Camcorder Overlay", "Floating Debris", "Wait State", "Web Component", "Creative Coding", 
+            "Atmospheric", "Dark Mode", "Frontend Design", "Particle Effect", "Conic Gradient"
+        ],
+        "keywords": [
+            "ufo css animation", "found footage loading screen", "cinematic sci-fi loader", 
+            "camcorder hud overlay", "volumetric light beam css", "metallic saucer animation", 
+            "retro vhs recording ui", "floating debris css", "atmospheric dark web design", 
+            "custom alien loader", "css keyframe hovering", "pure css particle effect", 
+            "conic gradient metal texture", "horror theme wait state", "creative frontend components", 
+            "animated sci-fi graphic", "ufo abduction animation", "web design visual effects", 
+            "spooky loading spinner", "interactive story ui"
+        ],
+        "code": {
+            "html": "<div class=\"classified-scene\">\n    <div class=\"film-grain\"></div>\n    <div class=\"fog-layer\"></div>\n\n    <div class=\"ufo-assembly\">\n        <div class=\"saucer-body\">\n            <div class=\"cockpit-dome\"></div>\n            <div class=\"metallic-rim\">\n                <div class=\"rim-light l1\"></div>\n            </div>\n            <div class=\"engine-core\"></div>\n        </div>\n\n        <div class=\"beam-cone\">\n            <div class=\"beam-core\"></div>\n            <div class=\"dust-particles\"></div>\n        </div>\n        \n        <div class=\"ground-spot\"></div>\n\n        <div class=\"specimen-wrapper\">\n            <div class=\"specimen\"></div>\n            <div class=\"debris d1\"></div>\n            <div class=\"debris d2\"></div>\n            <div class=\"debris d3\"></div>\n        </div>\n    </div>\n\n    <div class=\"cam-ui\">\n        <div class=\"rec-dot\"></div> REC\n        <span class=\"time-code\">02:14:59:12</span>\n    </div>\n    <div class=\"loader-status\">UPLINK ESTABLISHED...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --ufo-bg-color: #050508;                 /* Night sky background */\n    \n    /* UFO Colors */\n    --ufo-metal-base: #444444;               /* Base metal color */\n    --ufo-dome-color: rgba(200, 255, 255, 0.9); /* Cockpit dome highlight */\n    --ufo-light-color: #00ffff;              /* Cyan engine and rim lights */\n    \n    /* Beam Colors */\n    --ufo-beam-outer: rgba(0, 255, 255, 0.2);/* Outer volumetric beam */\n    --ufo-beam-inner: rgba(255, 255, 255, 0.3);/* Inner intense beam */\n    \n    /* UI Text */\n    --ufo-ui-color: #ffffff;                 /* Camera HUD text */\n    --ufo-ui-accent: #00ffff;                /* Loader status text */\n    --ufo-font-family: 'Share Tech Mono', monospace;\n    \n    /* Animation Timings */\n    --ufo-hover-speed: 4s;                   /* Ship hover up/down speed */\n    --ufo-rim-speed: 2s;                     /* Speed of rotating lights */\n    --ufo-abduct-speed: 4s;                  /* Speed of specimen lifting */\n}\n\n.classified-scene {\n    width: 100%;\n    min-height: 500px;\n    height: 100vh;\n    background: var(--ufo-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n    perspective: 1000px;\n}\n\n.film-grain {\n    position: absolute;\n    inset: 0;\n    background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E\");\n    opacity: 0.15;\n    pointer-events: none;\n    z-index: 20;\n}\n\n.fog-layer {\n    position: absolute;\n    bottom: 0;\n    width: 100%;\n    height: 40%;\n    background: linear-gradient(to top, rgba(10, 20, 30, 0.8), transparent);\n    filter: blur(20px);\n    z-index: 1;\n}\n\n.ufo-assembly {\n    position: relative;\n    width: 300px;\n    height: 400px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    transform-style: preserve-3d;\n}\n\n.saucer-body {\n    position: relative;\n    width: 200px;\n    height: 60px;\n    z-index: 10;\n    transform-style: preserve-3d;\n    animation: hover-tilt var(--ufo-hover-speed) ease-in-out infinite;\n}\n\n.metallic-rim {\n    position: absolute;\n    top: 20px;\n    width: 100%;\n    height: 40px;\n    border-radius: 50%;\n    /* Realistic Metal Gradient */\n    background: conic-gradient(\n        from 90deg,\n        #2a2a2a 0%,\n        #555555 10%,\n        #888888 25%,\n        #111111 45%,\n        var(--ufo-metal-base) 50%,\n        #222222 70%,\n        #666666 85%,\n        #2a2a2a 100%\n    );\n    box-shadow: \n        inset 0 1px 2px rgba(255, 255, 255, 0.3),\n        0 10px 20px rgba(0, 0, 0, 0.5);\n    overflow: hidden;\n    transform: rotateX(10deg);\n}\n\n.rim-light {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    width: 180px; \n    height: 180px;\n    transform: translate(-50%, -50%);\n    border-radius: 50%;\n    border: 2px dashed rgba(0, 255, 255, 0.3);\n    animation: spin-rim var(--ufo-rim-speed) linear infinite;\n}\n\n.rim-light::after {\n    content: ''; \n    position: absolute; \n    top: 0; \n    left: 50%; \n    width: 4px; \n    height: 4px;\n    background: #ffffff; \n    box-shadow: 0 0 10px var(--ufo-light-color); \n    border-radius: 50%;\n}\n\n.cockpit-dome {\n    position: absolute;\n    top: 0; \n    left: 50%;\n    transform: translateX(-50%);\n    width: 80px; \n    height: 40px;\n    background: radial-gradient(circle at 30% 20%, var(--ufo-dome-color), rgba(0, 50, 60, 0.8));\n    border-radius: 50%;\n    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);\n    z-index: 5;\n}\n\n.engine-core {\n    position: absolute;\n    bottom: -5px; \n    left: 50%;\n    transform: translateX(-50%) rotateX(10deg);\n    width: 60px; \n    height: 20px;\n    border-radius: 50%;\n    background: #ffffff;\n    box-shadow: 0 0 30px 10px rgba(0, 255, 255, 0.6);\n    z-index: 1;\n}\n\n.beam-cone {\n    position: absolute;\n    top: 60px;\n    width: 140px;\n    height: 250px;\n    clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);\n    background: linear-gradient(to bottom, var(--ufo-beam-outer), rgba(0, 255, 255, 0.05));\n    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 70%);\n    mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 70%);\n    z-index: 5;\n    animation: beam-flicker 0.1s infinite alternate;\n}\n\n.beam-core {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(90deg, transparent 45%, var(--ufo-beam-inner) 50%, transparent 55%);\n    filter: blur(4px);\n}\n\n.dust-particles {\n    position: absolute;\n    inset: 0;\n    background-image: radial-gradient(white 1px, transparent 1px);\n    background-size: 10px 10px;\n    opacity: 0.5;\n    animation: updraft 1s linear infinite;\n}\n\n.specimen-wrapper {\n    position: absolute;\n    bottom: 40px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    z-index: 6;\n    animation: levitate var(--ufo-abduct-speed) ease-in infinite;\n}\n\n.specimen {\n    width: 15px; \n    height: 25px;\n    background: #000000; \n    border-radius: 50% 50% 5px 5px;\n    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);\n    position: relative;\n}\n\n.debris {\n    position: absolute;\n    background: #000000;\n    width: 3px; \n    height: 3px;\n    border-radius: 50%;\n}\n\n.d1 { top: 10px; left: -10px; animation: debris-float 2s infinite; }\n.d2 { top: 20px; right: -12px; animation: debris-float 3s infinite 0.5s; }\n.d3 { bottom: -5px; left: 5px; animation: debris-float 1.5s infinite 0.2s; }\n\n.ground-spot {\n    position: absolute;\n    bottom: -20px;\n    width: 200px; \n    height: 40px;\n    background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.3), transparent 70%);\n    transform: rotateX(70deg);\n    filter: blur(10px);\n    z-index: 0;\n}\n\n.cam-ui {\n    position: absolute;\n    top: 40px; \n    right: 40px;\n    font-family: var(--ufo-font-family);\n    color: var(--ufo-ui-color);\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    opacity: 0.7;\n}\n\n.rec-dot {\n    width: 10px; \n    height: 10px; \n    background: red; \n    border-radius: 50%;\n    animation: blink 1s infinite;\n}\n\n.loader-status {\n    position: absolute;\n    bottom: 40px;\n    left: 40px;\n    font-family: var(--ufo-font-family);\n    color: var(--ufo-ui-accent);\n    letter-spacing: 2px;\n    text-shadow: 0 0 5px var(--ufo-ui-accent);\n    font-size: 14px;\n}\n\n@keyframes hover-tilt {\n    0%, 100% { transform: translateY(0) rotate(1deg); }\n    50%      { transform: translateY(-10px) rotate(-1deg); }\n}\n\n@keyframes spin-rim {\n    0%   { transform: translate(-50%, -50%) rotate(0deg); }\n    100% { transform: translate(-50%, -50%) rotate(360deg); }\n}\n\n@keyframes updraft {\n    0%   { transform: translateY(0); opacity: 0; }\n    50%  { opacity: 1; }\n    100% { transform: translateY(-50px); opacity: 0; }\n}\n\n@keyframes levitate {\n    0%   { transform: translateY(0) rotate(0deg) scale(1); }\n    30%  { transform: translateY(-20px) rotate(5deg); }\n    100% { transform: translateY(-150px) rotate(-10deg) scale(0); opacity: 0; }\n}\n\n@keyframes debris-float {\n    0%   { transform: translateY(0); opacity: 1; }\n    100% { transform: translateY(-30px); opacity: 0; }\n}\n\n@keyframes blink { 50% { opacity: 0; } }\n@keyframes beam-flicker { 0% { opacity: 0.8; } 100% { opacity: 0.9; } }",
+            "js": ""
+        }
+    },
+    {
+        "id": "retro-midnight-city-drive-loader",
+        "title": "Retro Midnight City Drive Loading Animation",
+        "description": "A looping, pure CSS synthwave loading animation. Depicts a retro aesthetic scene with a setting neon sun and a rapidly scrolling perspective grid floor, giving the illusion of driving through a digital 80s landscape.",
+        "tags": [
+            "Retro", "Synthwave", "80s Aesthetic", "Neon Sun", "Perspective Grid", 
+            "Loading Screen", "CSS Animation", "Outrun", "Vaporwave", "Web Design", 
+            "Pure CSS", "Wait State", "Frontend Component", "Visual Effects", "Looping Animation", 
+            "Cyberpunk", "Nostalgic UI", "Creative Coding", "Dashboard Background", "Driving"
+        ],
+        "keywords": [
+            "synthwave css animation", "midnight city drive loader", "retro neon sun css", 
+            "scrolling perspective grid", "outrun aesthetic loading screen", "80s retro web design", 
+            "vaporwave ui components", "css keyframe grid scroll", "pure css driving animation", 
+            "neon sunset background", "cyberpunk wait state", "custom loading indicators", 
+            "nostalgic frontend design", "css mask image sun", "animated retro typography", 
+            "creative css loaders", "3d perspective grid", "lofi aesthetic web elements", 
+            "neon glow css effects", "looping landscape animation"
+        ],
+        "code": {
+            "html": "<div class=\"drive-scene\">\n    <div class=\"sky\">\n        <div class=\"sun\"></div>\n    </div>\n    <div class=\"ground\">\n        <div class=\"grid\"></div>\n    </div>\n    <div class=\"drive-text\">LOADING ASSETS</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --drive-bg-color: #090014;            /* Main container background */\n    \n    /* Sky and Sun */\n    --drive-sky-top: #2b1055;             /* Gradient top color */\n    --drive-sun-top: #ff00ff;             /* Sun gradient top (Magenta) */\n    --drive-sun-bottom: #ffbd00;          /* Sun gradient bottom (Yellow/Orange) */\n    \n    /* Ground and Grid */\n    --drive-ground-bg: #140024;           /* Solid ground color */\n    --drive-grid-cyan: rgba(0, 255, 255, 0.4); /* Grid horizontal lines */\n    --drive-grid-magenta: rgba(255, 0, 255, 0.4); /* Grid vertical lines */\n    \n    /* Typography */\n    --drive-text-color: #00ffff;\n    --drive-text-shadow: #ff00ff;\n    --drive-font: 'Helvetica', sans-serif;\n    \n    --drive-grid-speed: 1s;               /* Speed of the driving effect */\n}\n\n.drive-scene {\n    width: 100%;\n    height: 100vh;\n    min-height: 300px;\n    background: var(--drive-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    perspective: 400px; /* Strong perspective for the road effect */\n}\n\n.sky {\n    position: relative;\n    width: 100%;\n    height: 50%;\n    background: linear-gradient(to top, var(--drive-sky-top), #000000);\n    display: flex;\n    justify-content: center;\n    align-items: flex-end;\n    z-index: 2;\n}\n\n.sun {\n    width: 120px;\n    height: 120px;\n    background: linear-gradient(to top, var(--drive-sun-top), var(--drive-sun-bottom));\n    border-radius: 50%;\n    margin-bottom: -40px; /* Sits half-buried in the horizon */\n    box-shadow: 0 0 40px var(--drive-sun-top);\n    \n    /* Create the iconic 80s 'Blinds' effect on the sun using CSS masking */\n    mask-image: linear-gradient(\n        to bottom,\n        black 0%, black 50%,\n        transparent 50%, transparent 55%,\n        black 55%, black 65%,\n        transparent 65%, transparent 70%,\n        black 70%, black 80%,\n        transparent 80%, transparent 85%,\n        black 85%, black 100%\n    );\n    -webkit-mask-image: linear-gradient(\n        to bottom,\n        black 0%, black 50%,\n        transparent 50%, transparent 55%,\n        black 55%, black 65%,\n        transparent 65%, transparent 70%,\n        black 70%, black 80%,\n        transparent 80%, transparent 85%,\n        black 85%, black 100%\n    );\n}\n\n.ground {\n    position: relative;\n    width: 100%;\n    height: 50%;\n    background: var(--drive-ground-bg);\n    transform-style: preserve-3d;\n    overflow: hidden;\n}\n\n.grid {\n    position: absolute;\n    top: 0; \n    left: -50%;\n    width: 200%;\n    height: 200%;\n    background: \n        linear-gradient(transparent 0%, var(--drive-grid-cyan) 2%, transparent 3%),\n        linear-gradient(90deg, transparent 0%, var(--drive-grid-magenta) 2%, transparent 3%);\n    background-size: 40px 40px;\n    transform: rotateX(80deg) translateY(-20px);\n    animation: grid-scroll var(--drive-grid-speed) linear infinite;\n    box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);\n}\n\n.drive-text {\n    position: absolute;\n    bottom: 20px;\n    font-family: var(--drive-font);\n    font-style: italic;\n    font-weight: bold;\n    color: var(--drive-text-color);\n    letter-spacing: 4px;\n    text-shadow: 2px 2px var(--drive-text-shadow);\n    z-index: 10;\n}\n\n@keyframes grid-scroll {\n    0%   { background-position: 0 0; }\n    100% { background-position: 0 40px; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "retro-mixtape-cassette-tape-loader",
+        "title": "Retro Mixtape Cassette Tape Loading Animation",
+        "description": "A highly detailed, pure CSS loading animation of a retro 80s/90s cassette tape. Features spinning mechanical teeth, dynamically resizing tape rolls to simulate rewinding, and authentic vintage styling.",
+        "tags": [
+            "Cassette Tape", "Retro UI", "Music Loader", "80s Design", "90s Nostalgia", 
+            "CSS Animation", "Mixtape", "Audio Player", "Loading Screen", "Pure CSS", 
+            "Wait State", "Mechanical UI", "Frontend", "Creative Coding", "Web Design", 
+            "Vintage Aesthetic", "Skeuomorphic", "Typography", "Visual Effects", "Spinner Alternative"
+        ],
+        "keywords": [
+            "cassette tape css animation", "retro mixtape loader", "vintage music loading screen", 
+            "pure css tape recorder", "80s aesthetic ui components", "90s nostalgia web design", 
+            "animated tape spools css", "custom css loading spinner", "audio streaming ui", 
+            "skeuomorphic web design", "creative frontend wait states", "spinning reel css animation", 
+            "handwritten font styling", "retro yellow sticker css", "cassette rewinding animation", 
+            "mechanical ui elements", "music blog loading graphics", "custom ui loaders", 
+            "css keyframe scale animation", "retro tech ui"
+        ],
+        "code": {
+            "html": "<div class=\"cassette-scene\">\n    <div class=\"cassette\">\n        <div class=\"sticker-area\">\n            <div class=\"title\">AWESOME MIX VOL. 1</div>\n            \n            <div class=\"spool left\">\n                <div class=\"teeth\"></div>\n                <div class=\"tape-roll\"></div>\n            </div>\n            \n            <div class=\"spool right\">\n                <div class=\"teeth\"></div>\n                <div class=\"tape-roll small\"></div>\n            </div>\n            \n            <div class=\"window\">\n                <div class=\"tape-bridge\"></div>\n            </div>\n        </div>\n        \n        <div class=\"holes\">\n            <div class=\"screw\"></div>\n            <div class=\"screw\"></div>\n            <div class=\"screw\"></div>\n            <div class=\"screw\"></div>\n        </div>\n    </div>\n    <div class=\"status-text\">REWINDING...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');\n\n:root {\n    --tape-bg-color: #2d3436;             /* Scene background color */\n    --tape-chassis-color: #333333;        /* Main plastic cassette color */\n    --tape-sticker-color: #f1c40f;        /* Retro yellow label color */\n    --tape-text-main: #333333;            /* Label text color */\n    --tape-text-glow: #f1c40f;            /* Status text color */\n    \n    /* Animation Speeds */\n    --tape-spin-speed: 2s;                /* Speed of the mechanical teeth */\n    --tape-rewind-duration: 10s;          /* Time it takes to transfer tape left to right */\n}\n\n.cassette-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--tape-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 30px;\n}\n\n.cassette {\n    position: relative;\n    width: 200px;\n    height: 125px;\n    background: var(--tape-chassis-color);\n    border-radius: 10px;\n    box-shadow: \n        inset 0 0 10px #000000,\n        0 10px 20px rgba(0, 0, 0, 0.3);\n    border: 2px solid #555555;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    padding: 10px;\n}\n\n/* The Sticker Label */\n.sticker-area {\n    position: relative;\n    width: 180px;\n    height: 80px;\n    background: var(--tape-sticker-color);\n    border-radius: 5px;\n    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n}\n\n.title {\n    font-family: 'Permanent Marker', cursive;\n    font-size: 10px;\n    color: var(--tape-text-main);\n    position: absolute;\n    top: 5px; \n    left: 10px;\n    transform: rotate(-2deg);\n}\n\n/* Spools */\n.spool {\n    position: absolute;\n    top: 25px;\n    width: 30px;\n    height: 30px;\n    border-radius: 50%;\n    background: transparent;\n    border: 2px solid var(--tape-chassis-color);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 5;\n}\n\n.left { left: 40px; }\n.right { right: 40px; }\n\n/* Pure CSS drawing of the mechanical reel teeth */\n.teeth {\n    width: 100%; \n    height: 100%;\n    background: \n        conic-gradient(transparent 10%, #ffffff 10%, #ffffff 20%, transparent 20%, transparent 30%, #ffffff 30%, #ffffff 40%, transparent 40%, transparent 50%, #ffffff 50%, #ffffff 60%, transparent 60%, transparent 70%, #ffffff 70%, #ffffff 80%, transparent 80%, transparent 90%, #ffffff 90%, #ffffff 100%);\n    border-radius: 50%;\n    animation: spin-reel var(--tape-spin-speed) linear infinite;\n    mask-image: radial-gradient(transparent 30%, black 31%);\n    -webkit-mask-image: radial-gradient(transparent 30%, black 31%);\n}\n\n.tape-roll {\n    position: absolute;\n    border-radius: 50%;\n    background: #111111;\n    z-index: -1;\n}\n\n/* Left roll starts full, shrinks */\n.left .tape-roll {\n    width: 50px; \n    height: 50px;\n    animation: shrink-roll var(--tape-rewind-duration) linear infinite;\n}\n\n/* Right roll starts small, grows */\n.right .tape-roll {\n    width: 32px; \n    height: 32px;\n    animation: grow-roll var(--tape-rewind-duration) linear infinite;\n}\n\n/* Center visual window */\n.window {\n    position: absolute;\n    top: 25px; \n    left: 70px;\n    width: 40px; \n    height: 30px;\n    background: var(--tape-chassis-color);\n    opacity: 0.2;\n    z-index: 2;\n}\n\n/* Corner Screws */\n.holes {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n    padding: 0 10px;\n    margin-top: auto;\n}\n\n.screw {\n    width: 6px; \n    height: 6px;\n    background: #111111;\n    border-radius: 50%;\n    box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.2);\n}\n\n.status-text {\n    font-family: 'Courier New', monospace;\n    color: var(--tape-text-glow);\n    letter-spacing: 2px;\n    animation: blink 1s infinite;\n}\n\n@keyframes spin-reel {\n    to { transform: rotate(360deg); }\n}\n\n@keyframes shrink-roll {\n    0%   { transform: scale(1); }\n    50%  { transform: scale(0.65); } /* Doesn't go fully to 0 to simulate remaining tape */\n    100% { transform: scale(1); }\n}\n\n@keyframes grow-roll {\n    0%   { transform: scale(1); }\n    50%  { transform: scale(1.5); }\n    100% { transform: scale(1); }\n}\n\n@keyframes blink {\n    50% { opacity: 0; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "pure-css-3d-fantasy-grimoire-book-loader",
+        "title": "Pure CSS 3D Fantasy Grimoire Book Loading Animation",
+        "description": "A cinematic, pure CSS 3D loading animation featuring an ancient floating spellbook. Includes realistic worn leather textures, gold filigree, flipping pages, and glowing magical rune particles. Perfect for fantasy games, storytelling web experiences, and RPG UIs.",
+        "tags": [
+            "3D Animation", "Fantasy UI", "Magic Spellbook", "Loading Screen", "Pure CSS", 
+            "Grimoire", "Book Animation", "Page Flip", "Particle Effects", "Glowing Runes", 
+            "RPG Interface", "Cinematic Loader", "Gaming Web Design", "Creative Coding", "CSS Keyframes", 
+            "Atmospheric", "Frontend Design", "Wait State", "UI Component", "Storytelling"
+        ],
+        "keywords": [
+            "css 3d book animation", "fantasy game loading screen", "magical grimoire loader", 
+            "flipping pages css effect", "pure css particle animation", "ancient spellbook ui", 
+            "rpg website loader", "cinematic web design", "glowing runes css", 
+            "floating book animation", "custom loading spinner alternative", "css perspective 3d", 
+            "storytelling ui components", "interactive fantasy elements", "css keyframe page turn", 
+            "worn leather texture css", "magical atmospheric effects", "frontend game design", 
+            "creative wait state", "css book UI"
+        ],
+        "code": {
+            "html": "<div class=\"relic-scene\">\n    <div class=\"mystic-fog\"></div>\n    \n    <div class=\"book-assembly\">\n        <div class=\"grimoire\">\n            <div class=\"cover back-cover\"></div>\n            <div class=\"spine\"></div>\n            <div class=\"page-block\"></div>\n            \n            <div class=\"page-layer p1\">\n                <div class=\"page-content\"></div>\n            </div>\n            <div class=\"page-layer p2\">\n                <div class=\"page-content\"></div>\n            </div>\n            <div class=\"page-layer p3\">\n                <div class=\"page-content\"></div>\n            </div>\n            <div class=\"page-layer p4\">\n                <div class=\"page-content\"></div>\n            </div>\n\n            <div class=\"cover front-cover\">\n                <div class=\"gem-socket\">\n                    <div class=\"gem\"></div>\n                </div>\n                <div class=\"gold-filigree\"></div>\n            </div>\n        </div>\n\n        <div class=\"magic-emitter\">\n            <div class=\"rune r1\">✨</div>\n            <div class=\"rune r2\">✴</div>\n            <div class=\"rune r3\">✦</div>\n            <div class=\"rune r4\">✨</div>\n            <div class=\"glow-orb\"></div>\n        </div>\n        \n        <div class=\"book-shadow\"></div>\n    </div>\n\n    <div class=\"ancient-text\">DECIPHERING RUNES...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');\n\n:root {\n    /* Scene & Background */\n    --grim-bg-gradient: radial-gradient(circle at 50% 30%, #2a1a3a, #050208 80%); /* Change to 'transparent' to drop into your own UI */\n    \n    /* Book Colors */\n    --grim-leather-color: #3e2723;               /* Dark leather cover */\n    --grim-spine-color: #2d1b18;                 /* Spine color */\n    --grim-gold-accent: #c5a059;                 /* Gold filigree and socket */\n    --grim-gem-center: #ff0055;                  /* Gemstone bright center */\n    --grim-gem-edge: #550011;                    /* Gemstone dark edge */\n    --grim-page-base: #f5f5dc;                   /* Aged paper color */\n    --grim-page-edge: #e0e0e0;                   /* Page shading */\n    \n    /* Magic & Runes */\n    --grim-rune-color: #ffd700;                  /* Floating particles */\n    --grim-text-color: #deb887;                  /* Loading text */\n    --grim-glow-color: rgba(255, 200, 0, 0.4);   /* Ambient magic glow */\n    --grim-fog-color: rgba(100, 0, 255, 0.1);    /* Bottom fog tint */\n    \n    /* Animations */\n    --grim-float-speed: 6s;                      /* Book levitation speed */\n    --grim-flip-speed: 8s;                       /* Page turning cycle speed */\n}\n\n.relic-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--grim-bg-gradient);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    perspective: 1200px;\n    overflow: hidden;\n    position: relative;\n}\n\n.mystic-fog {\n    position: absolute;\n    bottom: 0;\n    width: 100%;\n    height: 50%;\n    background: linear-gradient(to top, var(--grim-fog-color), transparent);\n    filter: blur(20px);\n    pointer-events: none;\n}\n\n.book-assembly {\n    position: relative;\n    width: 180px;\n    height: 120px;\n    transform-style: preserve-3d;\n    animation: levitate var(--grim-float-speed) ease-in-out infinite;\n}\n\n.grimoire {\n    width: 100%; \n    height: 100%;\n    position: relative;\n    transform-style: preserve-3d;\n    transform: rotateX(40deg) rotateY(0deg) rotateZ(-10deg);\n}\n\n.cover {\n    position: absolute;\n    width: 100%; \n    height: 100%;\n    background: var(--grim-leather-color);\n    border-radius: 4px 10px 10px 4px;\n    background-image: \n        radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 20%, rgba(0,0,0,0.6) 100%),\n        repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);\n    box-shadow: \n        inset 2px 2px 5px rgba(255,255,255,0.1),\n        inset -2px -2px 10px rgba(0,0,0,0.5);\n    transform-origin: left;\n}\n\n.back-cover {\n    transform: translateZ(0px);\n    box-shadow: 0 20px 40px rgba(0,0,0,0.6);\n}\n\n.front-cover {\n    transform: translateZ(15px);\n    animation: open-book var(--grim-flip-speed) ease-in-out infinite;\n    z-index: 10;\n}\n\n.spine {\n    position: absolute;\n    left: 0; \n    top: 0;\n    width: 20px; \n    height: 100%;\n    background: var(--grim-spine-color);\n    transform-origin: right;\n    transform: rotateY(-90deg) translateX(-15px);\n    border-radius: 2px;\n}\n\n.gold-filigree {\n    position: absolute;\n    inset: 10px;\n    border: 2px solid var(--grim-gold-accent);\n    border-radius: 2px 6px 6px 2px;\n    opacity: 0.6;\n    background: radial-gradient(circle at center, transparent 60%, rgba(197, 160, 89, 0.1));\n}\n\n.gem-socket {\n    position: absolute;\n    top: 50%; \n    right: 20px;\n    transform: translateY(-50%);\n    width: 30px; \n    height: 30px;\n    background: var(--grim-gold-accent);\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    box-shadow: 0 2px 5px rgba(0,0,0,0.5);\n}\n\n.gem {\n    width: 20px; \n    height: 20px;\n    background: radial-gradient(circle at 30% 30%, var(--grim-gem-center), var(--grim-gem-edge));\n    border-radius: 50%;\n    box-shadow: inset 0 0 5px rgba(255,255,255,0.5);\n}\n\n.page-block {\n    position: absolute;\n    top: 2px; \n    left: 2px;\n    width: 170px; \n    height: 116px;\n    background: #d7ccc8;\n    transform: translateZ(2px);\n    box-shadow: inset -5px 0 10px rgba(0,0,0,0.1);\n}\n\n.page-layer {\n    position: absolute;\n    top: 2px; \n    left: 2px;\n    width: 170px; \n    height: 116px;\n    background: var(--grim-page-base);\n    border-radius: 0 4px 4px 0;\n    transform-origin: left;\n    transform-style: preserve-3d;\n    backface-visibility: hidden;\n    border-right: 1px solid rgba(0,0,0,0.1);\n}\n\n.page-content {\n    width: 100%; \n    height: 100%;\n    background: linear-gradient(to right, var(--grim-page-edge), var(--grim-page-base) 10%, var(--grim-page-base) 90%, var(--grim-page-edge));\n    background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 10px, rgba(0,0,0,0.05) 11px);\n    background-size: 80% 80%;\n    background-position: center;\n    background-repeat: no-repeat;\n}\n\n.p1 { animation: flip-page var(--grim-flip-speed) ease-in-out infinite 1s; z-index: 4; }\n.p2 { animation: flip-page var(--grim-flip-speed) ease-in-out infinite 1.5s; z-index: 3; }\n.p3 { animation: flip-page var(--grim-flip-speed) ease-in-out infinite 2s; z-index: 2; }\n.p4 { animation: flip-page var(--grim-flip-speed) ease-in-out infinite 2.5s; z-index: 1; }\n\n.magic-emitter {\n    position: absolute;\n    top: -20px; \n    left: 50%;\n    width: 100px; \n    height: 100px;\n    transform: translateX(-50%) translateZ(20px);\n    pointer-events: none;\n}\n\n.glow-orb {\n    position: absolute;\n    bottom: 0; \n    left: 50%;\n    width: 60px; \n    height: 60px;\n    background: radial-gradient(circle, var(--grim-glow-color), transparent 70%);\n    transform: translateX(-50%);\n    filter: blur(15px);\n    animation: pulse-magic 2s infinite alternate;\n}\n\n.rune {\n    position: absolute;\n    font-size: 10px;\n    color: var(--grim-rune-color);\n    text-shadow: 0 0 5px var(--grim-rune-color);\n    opacity: 0;\n}\n\n.r1 { left: 20%; animation: rune-rise 3s ease-out infinite 0s; }\n.r2 { left: 50%; animation: rune-rise 3s ease-out infinite 1s; }\n.r3 { left: 80%; animation: rune-rise 3s ease-out infinite 2s; }\n.r4 { left: 30%; animation: rune-rise 4s ease-out infinite 0.5s; }\n\n.book-shadow {\n    position: absolute;\n    bottom: -60px;\n    left: 20px;\n    width: 140px; \n    height: 20px;\n    background: #000000;\n    border-radius: 50%;\n    filter: blur(15px);\n    opacity: 0.5;\n    transform: rotateZ(-10deg);\n    animation: shadow-breath var(--grim-float-speed) ease-in-out infinite;\n}\n\n.ancient-text {\n    margin-top: 80px;\n    font-family: 'Cinzel Decorative', cursive;\n    color: var(--grim-text-color);\n    font-size: 14px;\n    letter-spacing: 4px;\n    text-shadow: 0 2px 10px rgba(0,0,0,0.8);\n    opacity: 0.8;\n    animation: text-glow 3s infinite alternate;\n}\n\n@keyframes levitate {\n    0%, 100% { transform: translateY(0); }\n    50%      { transform: translateY(-15px); }\n}\n\n@keyframes open-book {\n    0%, 100% { transform: translateZ(15px) rotateY(0deg); }\n    15%, 85% { transform: translateZ(15px) rotateY(-160deg); }\n}\n\n@keyframes flip-page {\n    0%   { transform: rotateY(0deg); }\n    15%  { transform: rotateY(0deg); }\n    35%  { transform: rotateY(-160deg); }\n    85%  { transform: rotateY(-160deg); }\n    100% { transform: rotateY(0deg); }\n}\n\n@keyframes rune-rise {\n    0%   { transform: translateY(20px) scale(0); opacity: 0; }\n    20%  { opacity: 1; }\n    100% { transform: translateY(-80px) rotate(360deg) scale(1.2); opacity: 0; }\n}\n\n@keyframes pulse-magic {\n    0%   { opacity: 0.3; transform: translateX(-50%) scale(1); }\n    100% { opacity: 0.8; transform: translateX(-50%) scale(1.2); }\n}\n\n@keyframes shadow-breath {\n    0%, 100% { transform: rotateZ(-10deg) scale(1); opacity: 0.5; }\n    50%      { transform: rotateZ(-10deg) scale(0.8); opacity: 0.3; }\n}\n\n@keyframes text-glow {\n    0%   { text-shadow: 0 0 5px var(--grim-text-color); }\n    100% { text-shadow: 0 0 20px var(--grim-rune-color); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "biometric-security-vault-lock-loader",
+        "title": "Biometric Security Vault Lock Loading Animation",
+        "description": "A high-tech, pure CSS loading animation depicting a secure biometric vault lock. Features complex rotating metallic rings, glowing cyan notches, and a vertical laser scanning beam. Ideal for fintech, cybersecurity, and crypto applications.",
+        "tags": [
+            "Security UI", "Vault Lock", "Biometric Scanner", "Fintech Design", "Loading Animation", 
+            "Pure CSS", "Crypto UI", "Metallic Texture", "Laser Scan", "Cybersecurity", 
+            "Tech Dashboard", "Wait State", "Web Component", "Frontend", "UI Animation", 
+            "Rotating Rings", "Dashboard Loader", "Modern Interface", "Visual Effects", "CSS Keyframes"
+        ],
+        "keywords": [
+            "biometric scanner css animation", "vault lock loading screen", "fintech ui components", 
+            "cybersecurity web design", "crypto dashboard loader", "pure css rotating rings", 
+            "laser scan effect css", "metallic ui elements", "secure login animation", 
+            "high tech wait state", "custom css spinner", "animated lock css", 
+            "frontend security design", "css keyframe rotation", "banking app loader", 
+            "futuristic tech UI", "glowing scanner beam", "UI UX loading feedback", 
+            "creative css loaders", "modern web animations"
+        ],
+        "code": {
+            "html": "<div class=\"vault-scene\">\n    <div class=\"vault-lock\">\n        <div class=\"ring outer\">\n            <div class=\"notch\"></div>\n            <div class=\"notch n2\"></div>\n        </div>\n        <div class=\"ring middle\">\n            <div class=\"notch\"></div>\n        </div>\n        <div class=\"lock-core\">\n            <div class=\"keyhole\"></div>\n        </div>\n        <div class=\"scan-beam\"></div>\n    </div>\n    <div class=\"secure-text\">VERIFYING CREDENTIALS</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');\n\n:root {\n    --vault-bg-color: #0f172a;               /* Scene background */\n    \n    /* Metallic Palette */\n    --vault-metal-base: #334155;             /* Main vault body */\n    --vault-metal-dark: #1e293b;             /* Shadows and depth */\n    --vault-metal-light: #94a3b8;            /* Highlights */\n    --vault-metal-core: #e2e8f0;             /* Center core bright spot */\n    \n    /* Tech Accents */\n    --vault-accent-cyan: #38bdf8;            /* Primary scanner / light color */\n    --vault-accent-red: #ef4444;             /* Secondary warning light */\n    --vault-text-font: 'Rajdhani', sans-serif;\n    \n    /* Animation Speeds */\n    --vault-spin-speed: 3s;                  /* Rotation speed of rings */\n    --vault-scan-speed: 2s;                  /* Speed of the vertical laser */\n}\n\n.vault-scene {\n    width: 100%;\n    min-height: 300px;\n    height: 100vh;\n    background: var(--vault-bg-color); /* Set to transparent to integrate into existing dark UI */\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 40px;\n}\n\n.vault-lock {\n    position: relative;\n    width: 160px;\n    height: 160px;\n    border-radius: 50%;\n    background: radial-gradient(circle, var(--vault-metal-base), var(--vault-metal-dark));\n    box-shadow: \n        0 10px 30px rgba(0,0,0,0.5),\n        inset 0 0 20px rgba(255,255,255,0.05);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden; /* Contains the scan beam */\n}\n\n.ring {\n    position: absolute;\n    border-radius: 50%;\n    border: 5px solid #475569;\n    border-top-color: var(--vault-metal-light);\n    border-bottom-color: var(--vault-metal-dark);\n    display: flex;\n    justify-content: center;\n}\n\n.outer {\n    width: 140px; \n    height: 140px;\n    animation: spin-cw var(--vault-spin-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;\n}\n\n.middle {\n    width: 100px; \n    height: 100px;\n    border-color: #64748b;\n    border-top-color: #cbd5e1;\n    animation: spin-ccw var(--vault-spin-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;\n}\n\n.notch {\n    position: absolute;\n    top: -5px;\n    width: 10px; \n    height: 10px;\n    background: var(--vault-accent-cyan);\n    border-radius: 50%;\n    box-shadow: 0 0 10px var(--vault-accent-cyan);\n}\n\n.n2 {\n    top: auto; \n    bottom: -5px; \n    background: var(--vault-accent-red); \n    box-shadow: 0 0 10px var(--vault-accent-red); \n}\n\n.lock-core {\n    width: 60px; \n    height: 60px;\n    background: linear-gradient(135deg, var(--vault-metal-core), var(--vault-metal-light));\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 5;\n    box-shadow: 0 0 15px rgba(0,0,0,0.3);\n}\n\n.keyhole {\n    width: 12px; \n    height: 20px;\n    background: var(--vault-bg-color);\n    border-radius: 10px;\n    box-shadow: inset 0 0 5px #000000;\n}\n\n.scan-beam {\n    position: absolute;\n    width: 100%; \n    height: 2px;\n    background: var(--vault-accent-cyan);\n    box-shadow: 0 0 15px var(--vault-accent-cyan);\n    animation: scan-vertical var(--vault-scan-speed) ease-in-out infinite;\n    opacity: 0.5;\n    z-index: 10;\n}\n\n.secure-text {\n    font-family: var(--vault-text-font);\n    color: var(--vault-accent-cyan);\n    letter-spacing: 3px;\n    font-size: 14px;\n    text-transform: uppercase;\n    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);\n    animation: pulse-text 1s infinite alternate;\n}\n\n@keyframes spin-cw {\n    0%   { transform: rotate(0deg); }\n    50%  { transform: rotate(180deg); }\n    100% { transform: rotate(360deg); }\n}\n\n@keyframes spin-ccw {\n    0%   { transform: rotate(0deg); }\n    50%  { transform: rotate(-180deg); }\n    100% { transform: rotate(-360deg); }\n}\n\n@keyframes scan-vertical {\n    0%   { top: 0; opacity: 0; }\n    10%  { opacity: 1; }\n    90%  { opacity: 1; }\n    100% { top: 100%; opacity: 0; }\n}\n\n@keyframes pulse-text {\n    from { opacity: 0.6; }\n    to   { opacity: 1; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "steampunk-mechanical-gear-engine-loader",
+        "title": "Steampunk Mechanical Gear Engine Loading Animation",
+        "description": "An intricate, pure CSS steampunk loading animation featuring interlocking brass and iron gears, a pumping steam piston, and synchronized steam puff particles. Perfect for industrial, gaming, and retro-futuristic web designs.",
+        "tags": [
+            "Steampunk", "Mechanical UI", "Gear Animation", "Pure CSS", "Loading Screen", 
+            "Industrial Design", "Retro Futuristic", "Piston Pump", "Steam Effect", "Wait State", 
+            "Web Component", "Frontend Design", "Creative Coding", "CSS Keyframes", "Metallic Textures", 
+            "Gaming UI", "UI Animation", "Visual Effects", "Complex CSS", "Spinner Alternative"
+        ],
+        "keywords": [
+            "steampunk css animation", "mechanical gear loader", "industrial loading screen", 
+            "brass gear css effect", "pure css piston animation", "steam particle effect", 
+            "retro futuristic ui", "custom loading spinner", "interlocking gears animation", 
+            "metallic ui components", "gaming website loader", "creative wait states", 
+            "css keyframe rotation", "frontend visual effects", "clockwork engine css", 
+            "animated mechanical parts", "web design loading indicators", "complex css animations", 
+            "UI UX steampunk", "steam puff css"
+        ],
+        "code": {
+            "html": "<div class=\"steam-scene\">\n    <div class=\"machine-container\">\n        <div class=\"gear main-gear\">\n            <div class=\"spokes\"></div>\n            <div class=\"hub\"></div>\n        </div>\n        \n        <div class=\"gear small-gear\">\n            <div class=\"spokes iron\"></div>\n            <div class=\"hub iron\"></div>\n        </div>\n\n        <div class=\"piston-arm\">\n            <div class=\"rod\"></div>\n            <div class=\"connector\"></div>\n        </div>\n\n        <div class=\"steam-vent\">\n            <div class=\"puff p1\"></div>\n            <div class=\"puff p2\"></div>\n            <div class=\"puff p3\"></div>\n        </div>\n    </div>\n    \n    <div class=\"brass-plate\">\n        <span class=\"engraving\">BUILDING PRESSURE...</span>\n        <div class=\"rivet r1\"></div>\n        <div class=\"rivet r2\"></div>\n        <div class=\"rivet r3\"></div>\n        <div class=\"rivet r4\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --steam-bg-gradient: radial-gradient(circle, #2a2a2a, #000000); /* Scene background */\n    \n    /* Gear Colors */\n    --gear-brass-light: #d4af37;             /* Gold/Brass bright */\n    --gear-brass-mid: #b8860b;               /* Gold/Brass medium */\n    --gear-brass-dark: #8b4513;              /* Gold/Brass shadow */\n    \n    --gear-iron-light: #ecf0f1;              /* Iron bright */\n    --gear-iron-mid: #7f8c8d;                /* Iron medium */\n    --gear-iron-dark: #2c3e50;               /* Iron shadow */\n    \n    /* Particles & Text */\n    --steam-puff-color: rgba(255, 255, 255, 0.4);\n    --steam-text-color: #3e2723;\n    \n    /* Base Animation Speeds */\n    --steam-gear-speed: 4s;\n}\n\n.steam-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: #1a1a1a;\n    background-image: var(--steam-bg-gradient);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 50px;\n}\n\n.machine-container {\n    position: relative;\n    width: 200px;\n    height: 160px;\n}\n\n.gear {\n    position: absolute;\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    box-shadow: 0 5px 15px rgba(0,0,0,0.5);\n}\n\n.main-gear {\n    top: 20px; \n    left: 20px;\n    width: 100px; \n    height: 100px;\n    /* Complex gradients drawing the gear teeth */\n    background: \n        radial-gradient(circle at center, var(--gear-brass-light) 60%, transparent 61%),\n        conic-gradient(\n            var(--gear-brass-dark) 10%, transparent 10% 20%, \n            var(--gear-brass-dark) 20% 30%, transparent 30% 40%, \n            var(--gear-brass-dark) 40% 50%, transparent 50% 60%, \n            var(--gear-brass-dark) 60% 70%, transparent 70% 80%, \n            var(--gear-brass-dark) 80% 90%, transparent 90%\n        );\n    animation: spin-cw var(--steam-gear-speed) linear infinite;\n}\n\n.small-gear {\n    bottom: 20px; \n    right: 30px;\n    width: 70px; \n    height: 70px;\n    background: \n        radial-gradient(circle at center, var(--gear-iron-mid) 60%, transparent 61%),\n        conic-gradient(\n            var(--gear-iron-dark) 10%, transparent 10% 20%, \n            var(--gear-iron-dark) 20% 30%, transparent 30% 40%, \n            var(--gear-iron-dark) 40% 50%, transparent 50% 60%, \n            var(--gear-iron-dark) 60% 70%, transparent 70% 80%, \n            var(--gear-iron-dark) 80% 90%, transparent 90%\n        );\n    /* Spin ratio matched to size */\n    animation: spin-ccw calc(var(--steam-gear-speed) * 0.7) linear infinite; \n}\n\n.spokes {\n    position: absolute;\n    width: 80%; \n    height: 80%;\n    border: 4px solid var(--gear-brass-dark);\n    border-radius: 50%;\n    background: radial-gradient(transparent 50%, var(--gear-brass-light) 50%);\n}\n\n.spokes.iron {\n    border-color: var(--gear-iron-dark); \n    background: radial-gradient(transparent 50%, #95a5a6 50%); \n}\n\n.hub {\n    width: 20px; \n    height: 20px;\n    background: radial-gradient(circle at 30% 30%, #ffd700, var(--gear-brass-dark));\n    border-radius: 50%;\n    box-shadow: 0 2px 4px rgba(0,0,0,0.4);\n    z-index: 5;\n}\n\n.hub.iron {\n    background: radial-gradient(circle at 30% 30%, var(--gear-iron-light), var(--gear-iron-dark)); \n}\n\n.piston-arm {\n    position: absolute;\n    top: 70px; \n    left: 70px;\n    width: 100px; \n    height: 10px;\n    transform-origin: left;\n    animation: piston-pump var(--steam-gear-speed) linear infinite;\n    pointer-events: none;\n}\n\n.rod {\n    width: 100%; \n    height: 6px;\n    background: linear-gradient(to bottom, #bdc3c7, var(--gear-iron-mid));\n    border-radius: 3px;\n}\n\n.steam-vent {\n    position: absolute;\n    top: -20px; \n    right: 0;\n    width: 20px; \n    height: 20px;\n}\n\n.puff {\n    position: absolute;\n    background: var(--steam-puff-color);\n    border-radius: 50%;\n    filter: blur(8px);\n}\n\n.p1 { width: 20px; height: 20px; animation: steam-rise 2s infinite 0s; }\n.p2 { width: 30px; height: 30px; animation: steam-rise 2s infinite 0.7s; }\n.p3 { width: 15px; height: 15px; animation: steam-rise 2s infinite 1.4s; }\n\n.brass-plate {\n    position: relative;\n    padding: 10px 30px;\n    background: linear-gradient(to bottom, var(--gear-brass-mid), var(--gear-brass-dark));\n    border: 2px solid #5a3a1a;\n    border-radius: 4px;\n    box-shadow: \n        inset 1px 1px 0 rgba(255,255,255,0.4),\n        0 5px 10px rgba(0,0,0,0.5);\n}\n\n.engraving {\n    font-family: 'Courier New', serif;\n    font-weight: bold;\n    color: var(--steam-text-color);\n    text-shadow: 0 1px 0 rgba(255,255,255,0.3);\n    letter-spacing: 2px;\n}\n\n.rivet {\n    position: absolute;\n    width: 6px; \n    height: 6px;\n    background: radial-gradient(circle at 30% 30%, #ffffff, #333333);\n    border-radius: 50%;\n    box-shadow: 0 1px 2px #000000;\n}\n\n.r1 { top: 4px; left: 4px; }\n.r2 { top: 4px; right: 4px; }\n.r3 { bottom: 4px; left: 4px; }\n.r4 { bottom: 4px; right: 4px; }\n\n@keyframes spin-cw { 100% { transform: rotate(360deg); } }\n@keyframes spin-ccw { 100% { transform: rotate(-360deg); } }\n\n@keyframes piston-pump {\n    0%   { transform: rotate(0deg) translateX(0); }\n    25%  { transform: rotate(15deg) translateX(10px); }\n    50%  { transform: rotate(0deg) translateX(0); }\n    75%  { transform: rotate(-15deg) translateX(10px); }\n    100% { transform: rotate(0deg) translateX(0); }\n}\n\n@keyframes steam-rise {\n    0%   { transform: translateY(0) scale(0.5); opacity: 0; }\n    20%  { opacity: 0.6; }\n    100% { transform: translateY(-60px) scale(2); opacity: 0; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "subdermal-retina-biometric-scanner-loader",
+        "title": "Subdermal Retina Biometric Scanner Loading Animation",
+        "description": "A high-tech, futuristic pure CSS biometric security scanner.", 
+        "tags": [
+            "Biometric", "Retina Scanner", "Security UI", "Fintech", "Cybersecurity", 
+            "Loading Screen", "Pure CSS", "Tech Dashboard", "Laser Scan", "Futuristic", 
+            "Authentication", "Wait State", "Frontend Design", "UI Component", "Cyberpunk", 
+            "Dark Theme", "Grid Background", "Visual Effects", "CSS Animation", "Interactive Design"
+        ],
+        "keywords": [
+            "retina scanner css animation", "biometric loading screen", "fintech security ui component", 
+            "cybersecurity wait state", "laser scanning effect css", "pure css tech dashboard", 
+            "rotating iris animation", "futuristic login loader", "dark theme security ui", 
+            "custom css spinner alternative", "authentication loading indicator", "neon grid background css", 
+            "animated tech UI elements", "cyberpunk web design", "frontend visual effects", 
+            "css keyframe rotation", "scanline overlay css", "identity verification animation", 
+            "modern web loaders", "creative coding css"
+        ],
+        "code": {
+            "html": "<div class=\"bio-scene\">\n    <div class=\"scan-container\">\n        <div class=\"eye-outer\">\n            <div class=\"eye-iris\">\n                <div class=\"pupil\"></div>\n                <div class=\"iris-segment s1\"></div>\n                <div class=\"iris-segment s2\"></div>\n                <div class=\"iris-segment s3\"></div>\n            </div>\n            <div class=\"scan-line\"></div>\n            <div class=\"scan-overlay\"></div>\n        </div>\n        <div class=\"bracket tl\"></div>\n        <div class=\"bracket tr\"></div>\n        <div class=\"bracket bl\"></div>\n        <div class=\"bracket br\"></div>\n    </div>\n    <div class=\"bio-text\">\n        <span class=\"status\">VERIFYING IDENTITY</span>\n        <span class=\"code\">ID: 492-XFA-99</span>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --bio-bg-color: #000510;                 /* Background color */\n    --bio-grid-color: rgba(0, 255, 255, 0.05); /* Grid line color */\n    \n    /* Scanner Colors */\n    --bio-scanner-cyan: #00ffff;             /* Primary neon cyan */\n    --bio-scanner-dark: #000000;             /* Pupil color */\n    --bio-scanner-bg: rgba(0, 20, 40, 0.5);  /* Background inside the eye */\n    \n    /* Typography */\n    --bio-text-primary: #00ffff;             /* Status text color */\n    --bio-text-secondary: #008888;           /* Code text color */\n    --bio-font: 'Courier New', monospace;    /* Tech font */\n    \n    /* Animation Speeds */\n    --bio-scan-speed: 2s;                    /* Speed of the vertical laser */\n    --bio-iris-speed: 10s;                   /* Base speed of the spinning iris */\n}\n\n.bio-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--bio-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 30px;\n    font-family: var(--bio-font);\n    background-image: \n        linear-gradient(var(--bio-grid-color) 1px, transparent 1px),\n        linear-gradient(90deg, var(--bio-grid-color) 1px, transparent 1px);\n    background-size: 40px 40px;\n}\n\n.scan-container {\n    position: relative;\n    width: 150px;\n    height: 150px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.eye-outer {\n    position: relative;\n    width: 120px;\n    height: 120px;\n    border-radius: 50%;\n    border: 2px solid rgba(0, 255, 255, 0.3);\n    overflow: hidden;\n    background: var(--bio-scanner-bg);\n    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);\n}\n\n.eye-iris {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 80px; \n    height: 80px;\n    border-radius: 50%;\n    border: 1px dashed var(--bio-scanner-cyan);\n    animation: rotate-iris var(--bio-iris-speed) linear infinite;\n}\n\n.pupil {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    width: 30px; \n    height: 30px;\n    background: var(--bio-scanner-dark);\n    border: 1px solid var(--bio-scanner-cyan);\n    border-radius: 50%;\n    box-shadow: 0 0 10px var(--bio-scanner-cyan);\n}\n\n.iris-segment {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    border-radius: 50%;\n    border: 4px solid transparent;\n    border-top-color: rgba(0, 255, 255, 0.5);\n    border-bottom-color: rgba(0, 255, 255, 0.5);\n}\n\n.s1 { width: 60px; height: 60px; animation: spin-cw 4s linear infinite; }\n.s2 { width: 100px; height: 100px; animation: spin-ccw 5s linear infinite; border-width: 2px; }\n.s3 { width: 40px; height: 40px; animation: spin-cw 2s linear infinite; border-width: 6px; border-left-color: rgba(0,255,255,0.3); border-right-color: rgba(0,255,255,0.3); }\n\n.scan-line {\n    position: absolute;\n    top: 0; \n    left: 0;\n    width: 100%; \n    height: 2px;\n    background: var(--bio-scanner-cyan);\n    box-shadow: 0 0 15px var(--bio-scanner-cyan);\n    animation: scan-down var(--bio-scan-speed) ease-in-out infinite;\n    z-index: 10;\n}\n\n.scan-overlay {\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(to bottom, rgba(0,255,255,0) 0%, rgba(0,255,255,0.2) 50%, rgba(0,255,255,0) 100%);\n    background-size: 100% 200%;\n    animation: scan-move var(--bio-scan-speed) ease-in-out infinite;\n    pointer-events: none;\n}\n\n/* Target Brackets */\n.bracket {\n    position: absolute;\n    width: 20px; \n    height: 20px;\n    border: 2px solid var(--bio-scanner-cyan);\n    opacity: 0.6;\n}\n.tl { top: 0; left: 0; border-right: none; border-bottom: none; }\n.tr { top: 0; right: 0; border-left: none; border-bottom: none; }\n.bl { bottom: 0; left: 0; border-right: none; border-top: none; }\n.br { bottom: 0; right: 0; border-left: none; border-top: none; }\n\n.bio-text {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 5px;\n}\n\n.status {\n    color: var(--bio-text-primary);\n    font-size: 14px;\n    letter-spacing: 2px;\n    animation: blink 0.5s infinite alternate;\n}\n\n.code {\n    color: var(--bio-text-secondary);\n    font-size: 10px;\n}\n\n@keyframes rotate-iris { 100% { transform: translate(-50%, -50%) rotate(360deg); } }\n@keyframes spin-cw { 100% { transform: translate(-50%, -50%) rotate(360deg); } }\n@keyframes spin-ccw { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }\n\n@keyframes scan-down {\n    0%   { top: 0%; opacity: 0; }\n    10%  { opacity: 1; }\n    90%  { opacity: 1; }\n    100% { top: 100%; opacity: 0; }\n}\n\n@keyframes scan-move {\n    0%   { background-position: 0% 0%; }\n    100% { background-position: 0% 100%; }\n}\n\n@keyframes blink { 100% { opacity: 0.5; } }",
+            "js": ""
+        }
+    },
+    {
+        "id": "deep-sea-bioluminescent-jellyfish-loader",
+        "title": "Deep Sea Bioluminescent Jellyfish Loading Animation",
+        "description": "A photorealistic, pure CSS loading animation of a deep-sea jellyfish.  Features fluid tentacle swimming physics, glowing internal organs, surface caustics, and drifting plankton to create a serene, cinematic underwater wait state.",
+        "tags": [
+            "Bioluminescence", "Jellyfish", "Underwater", "Nature Simulation", "Cinematic", 
+            "Loading Screen", "Pure CSS", "Fluid Dynamics", "Particle Effect", "Deep Sea", 
+            "Wait State", "Creative Coding", "Web Design", "Atmospheric", "Frontend Design", 
+            "Visual Effects", "Floating Objects", "CSS Keyframes", "Organic Motion", "UI Component"
+        ],
+        "keywords": [
+            "bioluminescent jellyfish css animation", "deep sea loading screen", "underwater wait state ui", 
+            "pure css fluid dynamics", "floating plankton particles", "photorealistic css creature", 
+            "cinematic web design loader", "custom loading spinner alternative", "ocean theme ui component", 
+            "organic css animation", "glowing neon jellyfish", "css caustics effect", 
+            "creative frontend animations", "animated nature graphic", "css keyframe swimming", 
+            "calming loading indicator", "webgl alternative css", "advanced css gradients", 
+            "transparent ui elements", "atmospheric web effects"
+        ],
+        "code": {
+            "html": "<div class=\"deep-sea-scene\">\n    <div class=\"caustics-overlay\"></div>\n    \n    <div class=\"jellyfish-wrapper\">\n        <div class=\"bell-outer\">\n            <div class=\"bell-inner\">\n                <div class=\"organs\">\n                    <span class=\"organ o1\"></span>\n                    <span class=\"organ o2\"></span>\n                    <span class=\"organ o3\"></span>\n                </div>\n            </div>\n            <div class=\"bell-rim\"></div>\n        </div>\n\n        <div class=\"oral-arms\">\n            <div class=\"arm a1\"></div>\n            <div class=\"arm a2\"></div>\n            <div class=\"arm a3\"></div>\n        </div>\n\n        <div class=\"tentacles-long\">\n            <div class=\"tentacle l1\"></div>\n            <div class=\"tentacle l2\"></div>\n            <div class=\"tentacle l3\"></div>\n            <div class=\"tentacle l4\"></div>\n            <div class=\"tentacle l5\"></div>\n        </div>\n    </div>\n\n    <div class=\"plankton-field\">\n        <div class=\"speck s1\"></div>\n        <div class=\"speck s2\"></div>\n        <div class=\"speck s3\"></div>\n        <div class=\"speck s4\"></div>\n        <div class=\"speck s5\"></div>\n        <div class=\"speck s6\"></div>\n    </div>\n\n    <div class=\"depth-text\">DEPTH: 4,000m</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --jelly-bg-top: #001e36;                   /* Ocean background top */\n    --jelly-bg-bottom: #000810;                /* Ocean background bottom (deep) */\n    \n    --jelly-bell-cyan: rgba(100, 220, 255, 0.1);/* Main bell color */\n    --jelly-bell-blue: rgba(0, 150, 255, 0.05); /* Main bell shade */\n    --jelly-organ-pink: #ff00aa;               /* Glowing internal organs */\n    --jelly-arm-pink: rgba(255, 100, 200, 0.3);/* Oral arms color */\n    --jelly-tentacle: rgba(100, 220, 255, 0.8);/* Long thin tentacles */\n    \n    --jelly-text-color: rgba(0, 150, 255, 0.6);/* Depth text color */\n    --jelly-swim-speed: 6s;                    /* Duration of one full swim cycle */\n}\n\n.deep-sea-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: radial-gradient(circle at 50% -20%, var(--jelly-bg-top), var(--jelly-bg-bottom) 80%);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n    perspective: 1000px;\n}\n\n.caustics-overlay {\n    position: absolute;\n    top: 0; left: 0; width: 100%; height: 100%;\n    background: \n        radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 40%),\n        radial-gradient(circle at 70% 60%, rgba(0, 100, 255, 0.03) 0%, transparent 40%);\n    pointer-events: none;\n    z-index: 10;\n}\n\n.jellyfish-wrapper {\n    position: relative;\n    width: 140px;\n    height: 250px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    animation: swim-cycle var(--jelly-swim-speed) ease-in-out infinite;\n    filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.2));\n}\n\n/* The Bell (Head) */\n.bell-outer {\n    position: relative;\n    width: 120px;\n    height: 90px;\n    background: linear-gradient(180deg, var(--jelly-bell-cyan), var(--jelly-bell-blue));\n    border-radius: 50% 50% 20% 20%;\n    border-top: 1px solid rgba(255, 255, 255, 0.3);\n    backdrop-filter: blur(4px);\n    -webkit-backdrop-filter: blur(4px);\n    box-shadow: inset 0 10px 20px rgba(255, 255, 255, 0.1);\n    z-index: 5;\n    transform-origin: bottom center;\n    animation: bell-contract calc(var(--jelly-swim-speed) / 2) ease-in-out infinite;\n    overflow: hidden;\n}\n\n.bell-inner {\n    position: absolute;\n    top: 10px; left: 10px; right: 10px; bottom: 5px;\n    background: radial-gradient(circle at 50% 30%, rgba(0, 200, 255, 0.1), transparent 70%);\n    border-radius: 50% 50% 30% 30%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.organs {\n    position: relative;\n    width: 50px; height: 30px;\n}\n\n.organ {\n    position: absolute;\n    width: 15px; \n    height: 15px;\n    background: radial-gradient(circle, var(--jelly-organ-pink), transparent);\n    border-radius: 50%;\n    filter: blur(2px);\n    opacity: 0.6;\n    animation: glow-pulse 3s infinite alternate;\n}\n.o1 { top: 0; left: 17px; }\n.o2 { bottom: 0; left: 0; }\n.o3 { bottom: 0; right: 0; }\n\n.bell-rim {\n    position: absolute;\n    bottom: 0;\n    width: 100%; \n    height: 10px;\n    background: rgba(255, 255, 255, 0.1);\n    filter: blur(2px);\n    border-radius: 50%;\n}\n\n/* Oral Arms (Frilly center) */\n.oral-arms {\n    position: absolute;\n    top: 80px;\n    width: 40px;\n    z-index: 4;\n    display: flex;\n    justify-content: center;\n}\n\n.arm {\n    width: 8px; \n    height: 60px;\n    background: linear-gradient(to bottom, var(--jelly-arm-pink), transparent);\n    filter: blur(1px);\n    border-radius: 50%;\n    position: absolute;\n    transform-origin: top;\n}\n.a1 { left: 10px; animation: frill-sway 3s ease-in-out infinite 0s; }\n.a2 { right: 10px; animation: frill-sway 3s ease-in-out infinite 0.5s; }\n.a3 { width: 12px; height: 70px; background: linear-gradient(to bottom, rgba(255, 100, 200, 0.5), transparent); animation: frill-sway 3s ease-in-out infinite 0.2s; }\n\n/* Long Tentacles */\n.tentacles-long {\n    position: absolute;\n    top: 85px;\n    width: 100px;\n    height: 150px;\n    z-index: 3;\n}\n\n.tentacle {\n    position: absolute;\n    width: 2px;\n    background: linear-gradient(to bottom, var(--jelly-tentacle), transparent);\n    border-radius: 1px;\n    transform-origin: top;\n    opacity: 0.6;\n}\n.l1 { left: 10%; height: 120px; animation: tentacle-wave 4s ease-in-out infinite 0s; }\n.l2 { left: 30%; height: 150px; animation: tentacle-wave 4s ease-in-out infinite 0.5s; }\n.l3 { left: 50%; height: 130px; animation: tentacle-wave 4s ease-in-out infinite 1s; }\n.l4 { left: 70%; height: 160px; animation: tentacle-wave 4s ease-in-out infinite 1.5s; }\n.l5 { left: 90%; height: 110px; animation: tentacle-wave 4s ease-in-out infinite 2s; }\n\n/* Plankton Particles */\n.plankton-field {\n    position: absolute;\n    width: 100%; \n    height: 100%;\n    pointer-events: none;\n}\n.speck {\n    position: absolute;\n    background: rgba(255, 255, 255, 0.4);\n    border-radius: 50%;\n    animation: drift 10s linear infinite;\n}\n.s1 { width: 2px; height: 2px; top: 80%; left: 20%; animation-duration: 12s; }\n.s2 { width: 3px; height: 3px; top: 60%; left: 80%; animation-duration: 8s; filter: blur(1px); }\n.s3 { width: 1px; height: 1px; top: 40%; left: 40%; animation-duration: 15s; }\n.s4 { width: 4px; height: 4px; top: 20%; left: 10%; animation-duration: 20s; filter: blur(2px); opacity: 0.2; }\n.s5 { width: 2px; height: 2px; top: 90%; left: 60%; animation-duration: 9s; }\n.s6 { width: 1px; height: 1px; top: 10%; left: 90%; animation-duration: 18s; }\n\n.depth-text {\n    position: absolute;\n    bottom: 40px;\n    font-family: 'Verdana', sans-serif;\n    color: var(--jelly-text-color);\n    font-size: 10px;\n    letter-spacing: 4px;\n}\n\n@keyframes swim-cycle {\n    0%   { transform: translateY(0); }\n    30%  { transform: translateY(-30px); } /* Propel upwards */\n    100% { transform: translateY(0); }     /* Drift downwards */\n}\n\n@keyframes bell-contract {\n    0%   { transform: scaleX(1) scaleY(1); }\n    20%  { transform: scaleX(0.85) scaleY(1.1); } /* Squeeze in */\n    50%  { transform: scaleX(1.05) scaleY(0.95); } /* Push water out */\n    100% { transform: scaleX(1) scaleY(1); }\n}\n\n@keyframes glow-pulse {\n    0%   { opacity: 0.4; transform: scale(1); }\n    100% { opacity: 0.8; transform: scale(1.2); }\n}\n\n@keyframes frill-sway {\n    0%, 100% { transform: rotate(5deg) scaleY(1); }\n    50%      { transform: rotate(-5deg) scaleY(0.9); }\n}\n\n@keyframes tentacle-wave {\n    0%   { transform: rotate(2deg) translateX(0); }\n    50%  { transform: rotate(-2deg) translateX(10px); }\n    100% { transform: rotate(2deg) translateX(0); }\n}\n\n@keyframes drift {\n    from { transform: translateY(0); }\n    to   { transform: translateY(-100vh); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "cinematic-orient-express-steam-train-loader",
+        "title": "Cinematic Orient Express Steam Train Loading Animation",
+        "description": "An atmospheric, pure CSS cinematic loading animation featuring a classic steam locomotive traveling through the night. Includes multi-layered parallax scenery, volumetric headlights, spinning wheels, and dynamic smoke and spark effects.",
+        "tags": [
+            "Train Animation", "Cinematic", "Parallax Scenery", "Steam Locomotive", "Night Atmosphere", 
+            "Pure CSS", "Loading Screen", "Volumetric Light", "Particle Effects", "Travel Theme", 
+            "Wait State", "Web Design", "Frontend Design", "Creative Coding", "CSS Keyframes", 
+            "Silhouette", "Storytelling UI", "Retro UI", "Transportation", "Visual Effects"
+        ],
+        "keywords": [
+            "cinematic train css animation", "steam locomotive loader", "parallax night scenery css", 
+            "volumetric headlight effect", "pure css particle sparks", "orient express web design", 
+            "travel theme loading screen", "animated silhouette css", "custom css loading spinner alternative", 
+            "storytelling wait state", "frontend visual effects", "css keyframe parallax", 
+            "atmospheric web design", "creative loading indicator", "dynamic smoke animation css", 
+            "spinning train wheels css", "transportation ui components", "immersive website loader", 
+            "dark mode scenic loader", "css background animation"
+        ],
+        "code": {
+            "html": "<div class=\"night-run-scene\">\n    <div class=\"sky-gradient\"></div>\n    <div class=\"moon-glow\"></div>\n    \n    <div class=\"mountains layer-3\"></div>\n    <div class=\"forest layer-2\"></div>\n    <div class=\"fog-layer\"></div>\n    \n    <div class=\"train-container\">\n        <div class=\"engine-body\">\n            <div class=\"chimney\">\n                <div class=\"smoke-emitter\">\n                    <div class=\"puff p1\"></div>\n                    <div class=\"puff p2\"></div>\n                    <div class=\"puff p3\"></div>\n                </div>\n            </div>\n            <div class=\"dome\"></div>\n            <div class=\"cabin-roof\"></div>\n            <div class=\"cabin-window\"></div>\n            \n            <div class=\"headlight\">\n                <div class=\"beam-cone\"></div>\n            </div>\n            \n            <div class=\"piston-rod\"></div>\n            <div class=\"wheels-assembly\">\n                <div class=\"big-wheel w1\">\n                    <div class=\"spoke\"></div>\n                    <div class=\"spoke\"></div>\n                </div>\n                <div class=\"big-wheel w2\">\n                    <div class=\"spoke\"></div>\n                    <div class=\"spoke\"></div>\n                </div>\n                <div class=\"small-wheel w3\"></div>\n            </div>\n            \n            <div class=\"sparks-emitter\"></div>\n        </div>\n    </div>\n    \n    <div class=\"track-bed\">\n        <div class=\"ties\"></div>\n        <div class=\"rail\"></div>\n    </div>\n    <div class=\"foreground-blur\"></div>\n    \n    <div class=\"cinematic-text\">DESTINATION: UNKNOWN</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --train-bg-color: #050510;                /* Scene background */\n    --train-sky-top: #020205;                 /* Sky gradient top */\n    --train-sky-bottom: #1a1a3a;              /* Sky gradient bottom */\n    --train-moon-color: rgba(200, 200, 255, 0.8);\n    \n    /* Scenery Colors */\n    --train-mountain-color: #080810;\n    --train-forest-color: #050508;\n    \n    /* Train Colors */\n    --train-body-gradient: linear-gradient(180deg, #222222, #000000);\n    --train-window-light: #ffaa00;\n    --train-headlight-beam: rgba(255, 255, 200, 0.4);\n    \n    /* Text */\n    --train-text-color: #888888;\n    \n    /* Animation Speeds */\n    --train-wheel-speed: 0.5s;                /* Base speed for train motion */\n    --train-mountain-speed: 30s;              /* Parallax background speed */\n    --train-forest-speed: 8s;                 /* Parallax midground speed */\n}\n\n.night-run-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--train-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n}\n\n.sky-gradient {\n    position: absolute;\n    top: 0; left: 0; width: 100%; height: 60%;\n    background: linear-gradient(to bottom, var(--train-sky-top), #101025 80%, var(--train-sky-bottom) 100%);\n    z-index: 0;\n}\n\n.moon-glow {\n    position: absolute;\n    top: 15%; right: 15%;\n    width: 80px; height: 80px;\n    background: radial-gradient(circle, var(--train-moon-color), transparent 60%);\n    filter: blur(10px);\n    opacity: 0.6;\n}\n\n/* Parallax Scenery */\n.mountains {\n    position: absolute;\n    bottom: 40%;\n    width: 200%; height: 40%;\n    background: \n        linear-gradient(170deg, transparent 40%, var(--train-mountain-color) 40%),\n        linear-gradient(190deg, transparent 40%, var(--train-mountain-color) 40%);\n    background-size: 300px 100%;\n    filter: blur(2px);\n    animation: scroll-left var(--train-mountain-speed) linear infinite;\n    opacity: 0.8;\n}\n\n.forest {\n    position: absolute;\n    bottom: 40%;\n    width: 200%; height: 100px;\n    background: conic-gradient(from 160deg at 50% 0, transparent 0deg, var(--train-forest-color) 0deg, var(--train-forest-color) 40deg, transparent 40deg);\n    background-size: 50px 100px;\n    filter: blur(1px);\n    animation: scroll-left var(--train-forest-speed) linear infinite;\n    z-index: 2;\n}\n\n.fog-layer {\n    position: absolute;\n    bottom: 30%;\n    width: 200%; height: 150px;\n    background: linear-gradient(to top, rgba(255, 255, 255, 0.05), transparent);\n    filter: blur(20px);\n    animation: scroll-left calc(var(--train-forest-speed) / 2) linear infinite;\n    z-index: 3;\n}\n\n/* The Train Engine */\n.train-container {\n    position: relative;\n    z-index: 10;\n    width: 240px; height: 120px;\n    transform: scale(1.2);\n    margin-bottom: -15px;\n}\n\n.engine-body {\n    position: relative;\n    width: 100%; height: 100%;\n    background: var(--train-body-gradient);\n    border-radius: 5px 20px 5px 5px;\n    /* Silhouette mapped via clip-path */\n    clip-path: polygon(\n        20% 0%, 55% 0%, 55% 20%, 65% 20%, 65% 0%, 90% 0%, 100% 30%, \n        100% 100%, 0% 100%, 0% 60%, 10% 40%, 20% 40%\n    );\n    box-shadow: inset 10px 0 20px rgba(0,0,0,0.8);\n    animation: rumble 0.1s infinite alternate;\n}\n\n.chimney {\n    position: absolute;\n    top: 0; left: 35px;\n    width: 25px; height: 40px;\n    background: #111111;\n    z-index: 11;\n}\n\n.smoke-emitter {\n    position: absolute;\n    top: -10px; left: 50%;\n}\n\n.puff {\n    position: absolute;\n    background: rgba(200, 200, 200, 0.1);\n    border-radius: 50%;\n    filter: blur(8px);\n}\n.p1 { width: 30px; height: 30px; animation: smoke-trail 2s linear infinite; }\n.p2 { width: 40px; height: 40px; animation: smoke-trail 2s linear infinite 0.6s; }\n.p3 { width: 25px; height: 25px; animation: smoke-trail 2s linear infinite 1.2s; }\n\n.cabin-window {\n    position: absolute;\n    top: 40px; right: 20px;\n    width: 30px; height: 25px;\n    background: var(--train-window-light);\n    box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);\n    opacity: 0.8;\n}\n\n.headlight {\n    position: absolute;\n    top: 65px; left: -5px;\n    width: 10px; height: 15px;\n    background: #ffffff;\n    border-radius: 2px;\n    box-shadow: 0 0 10px #ffffff;\n    z-index: 12;\n}\n\n.beam-cone {\n    position: absolute;\n    top: -30px; right: 10px; /* Shoot left */\n    width: 300px; height: 80px;\n    background: linear-gradient(to left, var(--train-headlight-beam), transparent);\n    clip-path: polygon(100% 45%, 0% 0%, 0% 100%, 100% 55%);\n    filter: blur(5px);\n    mix-blend-mode: screen;\n}\n\n.wheels-assembly {\n    position: absolute;\n    bottom: -15px; left: 10px;\n    width: 100%;\n    display: flex;\n    align-items: flex-end;\n}\n\n.big-wheel {\n    width: 45px; height: 45px;\n    border-radius: 50%;\n    border: 3px solid #555555;\n    background: #111111;\n    margin-right: 5px;\n    position: relative;\n    overflow: hidden;\n    animation: spin-wheel var(--train-wheel-speed) linear infinite;\n}\n\n.spoke {\n    position: absolute;\n    top: 50%; left: 0;\n    width: 100%; height: 2px;\n    background: #333333;\n}\n.spoke:nth-child(2) { transform: rotate(90deg); }\n\n.small-wheel {\n    width: 30px; height: 30px;\n    border-radius: 50%;\n    border: 3px solid #555555;\n    background: #111111;\n    margin-left: 10px;\n    animation: spin-wheel calc(var(--train-wheel-speed) * 0.6) linear infinite;\n}\n\n.piston-rod {\n    position: absolute;\n    bottom: 25px; left: 25px;\n    width: 90px; height: 6px;\n    background: #888888;\n    transform-origin: right;\n    animation: piston-move var(--train-wheel-speed) linear infinite;\n    z-index: 13;\n}\n\n.sparks-emitter {\n    position: absolute;\n    bottom: 0; left: 20px;\n    width: 100px; height: 5px;\n    background-image: radial-gradient(circle, var(--train-window-light) 1px, transparent 1px);\n    background-size: 10px 5px;\n    opacity: 0;\n    animation: sparks-fly var(--train-wheel-speed) linear infinite;\n}\n\n.track-bed {\n    position: relative;\n    width: 100%; height: 40px;\n    background: #050505;\n    z-index: 9;\n    margin-top: -10px;\n}\n\n.rail {\n    position: absolute;\n    top: 0; width: 100%; height: 4px;\n    background: #333333;\n    box-shadow: 0 0 5px #000000;\n}\n\n.foreground-blur {\n    position: absolute;\n    bottom: 0;\n    width: 100%; height: 100px;\n    background: linear-gradient(to bottom, transparent, #000000);\n    z-index: 20;\n    backdrop-filter: blur(2px);\n    -webkit-backdrop-filter: blur(2px);\n}\n\n.cinematic-text {\n    position: absolute;\n    bottom: 40px;\n    font-family: 'Courier New', monospace;\n    letter-spacing: 6px;\n    color: var(--train-text-color);\n    font-size: 12px;\n    z-index: 30;\n    text-shadow: 0 2px 4px #000000;\n}\n\n@keyframes scroll-left {\n    from { background-position: 0 0; }\n    to   { background-position: -600px 0; }\n}\n\n@keyframes spin-wheel {\n    from { transform: rotate(0deg); }\n    to   { transform: rotate(-360deg); }\n}\n\n@keyframes rumble {\n    from { transform: translateY(0); }\n    to   { transform: translateY(1px); }\n}\n\n@keyframes smoke-trail {\n    0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }\n    100% { transform: translate(-150px, -20px) scale(3); opacity: 0; }\n}\n\n@keyframes piston-move {\n    0%   { transform: translateX(0) rotate(0deg); }\n    25%  { transform: translateX(-10px) rotate(5deg); }\n    50%  { transform: translateX(0) rotate(0deg); }\n    75%  { transform: translateX(10px) rotate(-5deg); }\n    100% { transform: translateX(0) rotate(0deg); }\n}\n\n@keyframes sparks-fly {\n    0%   { opacity: 0.8; transform: translateX(0); }\n    100% { opacity: 0; transform: translateX(-50px); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "cyberpunk-terminal-decryption-text-loader",
+        "title": "Cyberpunk Terminal Decryption Text Loader",
+        "description": "An immersive cyberpunk-themed terminal loading animation.  It simulates a high-tech brute-force password decryption process with rapidly cycling characters, a filling progress bar, and a retro CRT aesthetic. Ideal for hacker-themed portfolios, cybersecurity sites, or sci-fi interfaces.",
+        "tags": [
+            "Cyberpunk", "Terminal", "Decryption", "Hacker", "Glitch", 
+            "Matrix", "Security", "Text Animation", "Loading Screen", "Pure CSS", 
+            "Sci-Fi", "Retro UI", "CRT Effect", "Wait State", "UI Component", 
+            "Brute Force", "Web Design", "Frontend", "Typography", "Neon"
+        ],
+        "keywords": [
+            "cyberpunk loading animation", "terminal text effect css", "hacker decryption loader", 
+            "matrix style text animation", "brute force password css", "sci fi ui component", 
+            "retro crt terminal css", "neon green text loader", "animated text glitch", 
+            "cybersecurity wait state", "custom css spinner alternative", "typewriter effect css", 
+            "monospace font animation", "creative coding loader", "frontend security design", 
+            "scrambling text effect", "command prompt animation", "web design retro ui", 
+            "interactive hacking effect", "css keyframe text cycle"
+        ],
+        "code": {
+            "html": "<div class=\"hack-scene\">\n    <div class=\"terminal-window\">\n        <div class=\"header\">\n            <span class=\"dot red\"></span>\n            <span class=\"dot yellow\"></span>\n            <span class=\"dot green\"></span>\n        </div>\n        <div class=\"screen\">\n            <div class=\"code-line\">> INITIALIZING DAEMON...</div>\n            <div class=\"code-line\">> TARGET: MAINFRAME</div>\n            <div class=\"code-line\">> DECRYPTING KEY:</div>\n            \n            <div class=\"decrypt-box\">\n                <span class=\"char c1\">A</span>\n                <span class=\"char c2\">C</span>\n                <span class=\"char c3\">C</span>\n                <span class=\"char c4\">E</span>\n                <span class=\"char c5\">S</span>\n                <span class=\"char c6\">S</span>\n            </div>\n            \n            <div class=\"progress-bar\">\n                <div class=\"fill\"></div>\n            </div>\n        </div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');\n\n:root {\n    --term-scene-bg: #000000;              /* Main background color */\n    --term-window-bg: #0c0c0c;             /* Terminal window background */\n    --term-window-border: #333333;         /* Terminal window border */\n    --term-header-bg: #1a1a1a;             /* Terminal top bar background */\n    \n    --term-text-color: #00ff00;            /* Primary hacker green text */\n    --term-text-locked: #ffffff;           /* Color when a letter is 'decrypted' */\n    --term-locked-bg: #008800;             /* Background of 'decrypted' letter */\n    --term-font-family: 'VT323', monospace;\n    \n    /* Animation Timings */\n    --term-typing-speed: 0.5s;             /* Speed of the initial typing effect */\n    --term-flicker-speed: 0.1s;            /* Speed of the character scrambling */\n    --term-progress-speed: 4s;             /* Speed of the loading bar */\n}\n\n.hack-scene {\n    width: 100%;\n    height: 100vh;\n    min-height: 400px;\n    background: var(--term-scene-bg);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    font-family: var(--term-font-family);\n}\n\n.terminal-window {\n    width: 300px;\n    height: 200px;\n    background: var(--term-window-bg);\n    border: 1px solid var(--term-window-border);\n    border-radius: 5px;\n    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);\n    overflow: hidden;\n}\n\n.header {\n    height: 25px;\n    background: var(--term-header-bg);\n    border-bottom: 1px solid var(--term-window-border);\n    display: flex;\n    align-items: center;\n    padding-left: 10px;\n    gap: 5px;\n}\n\n.dot { width: 10px; height: 10px; border-radius: 50%; }\n.red { background: #ff5f56; }\n.yellow { background: #ffbd2e; }\n.green { background: #27c93f; }\n\n.screen {\n    padding: 20px;\n    color: var(--term-text-color);\n}\n\n.code-line {\n    font-size: 14px;\n    opacity: 0;\n    animation: type-line var(--term-typing-speed) forwards;\n}\n.code-line:nth-child(1) { animation-delay: 0s; }\n.code-line:nth-child(2) { animation-delay: 0.8s; }\n.code-line:nth-child(3) { animation-delay: 1.6s; margin-bottom: 15px; }\n\n.decrypt-box {\n    font-size: 32px;\n    letter-spacing: 5px;\n    margin-bottom: 20px;\n    display: flex;\n}\n\n.char {\n    display: inline-block;\n    width: 20px;\n    position: relative;\n    overflow: hidden;\n    color: var(--term-text-color);\n    animation: flicker-char var(--term-flicker-speed) infinite;\n}\n\n/* Timing the locking mechanism */\n.c1 { animation: lock-char 0s forwards 2.5s; }\n.c2 { animation: lock-char 0s forwards 2.7s; }\n.c3 { animation: lock-char 0s forwards 2.9s; }\n.c4 { animation: lock-char 0s forwards 3.1s; }\n.c5 { animation: lock-char 0s forwards 3.3s; }\n.c6 { animation: lock-char 0s forwards 3.5s; }\n\n.progress-bar {\n    width: 100%;\n    height: 10px;\n    background: #111111;\n    border: 1px solid var(--term-text-color);\n}\n\n.fill {\n    height: 100%;\n    background: var(--term-text-color);\n    width: 0%;\n    animation: fill-bar var(--term-progress-speed) steps(20) infinite;\n}\n\n@keyframes type-line {\n    from { opacity: 0; transform: translateY(5px); }\n    to { opacity: 1; transform: translateY(0); }\n}\n\n@keyframes flicker-char {\n    0% { opacity: 0.5; transform: scaleY(1.1); text-shadow: 0 0 5px var(--term-text-color); }\n    50% { opacity: 1; transform: scaleY(1); }\n    100% { opacity: 0.5; transform: scaleY(1.1); }\n}\n\n@keyframes lock-char {\n    to { \n        animation: none; \n        opacity: 1; \n        color: var(--term-text-locked);\n        background: var(--term-locked-bg);\n        text-shadow: none;\n    }\n}\n\n@keyframes fill-bar {\n    0% { width: 0%; }\n    100% { width: 100%; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "newtons-cradle-kinetic-energy-orbit-loader",
+        "title": "Newton's Cradle Kinetic Energy Orbit Loader",
+        "description": "A physics-based abstract loading animation inspired by Newton's cradle.  Orbital particles swing inward to strike a central glowing core, triggering expanding shockwaves and rhythmic, satisfying motion. Perfect for science, physics, or modern tech websites.",
+        "tags": [
+            "Physics", "Kinetic", "Orbit", "Abstract", "Science", 
+            "Impact", "Energy", "Modern UI", "Loading Spinner", "Pure CSS", 
+            "Shockwave", "Newton's Cradle", "Wait State", "Web Component", "Frontend", 
+            "Motion Design", "Visual Effects", "Particle Collision", "Tech Dashboard", "Creative"
+        ],
+        "keywords": [
+            "kinetic energy css animation", "newtons cradle loader", "physics based loading spinner", 
+            "orbital particle animation", "shockwave ripple effect css", "abstract tech wait state", 
+            "modern science ui component", "energy impact animation", "custom css loaders", 
+            "glowing core spinner", "frontend motion design", "rhythmic loading screen", 
+            "pure css collision physics", "web design loading indicators", "creative tech loader", 
+            "animated ui elements", "neon glow shockwave", "interactive physics css", 
+            "circular orbit animation", "sleek modern spinner"
+        ],
+        "code": {
+            "html": "<div class=\"kinetic-scene\">\n    <div class=\"system\">\n        <div class=\"core-star\"></div>\n        \n        <div class=\"shockwave s1\"></div>\n        <div class=\"shockwave s2\"></div>\n        \n        <div class=\"swing-arm left\">\n            <div class=\"orb\"></div>\n        </div>\n        <div class=\"swing-arm right\">\n            <div class=\"orb\"></div>\n        </div>\n    </div>\n    <div class=\"kinetic-text\">CALCULATING PHYSICS...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --kin-bg-color: #121212;                 /* Main background */\n    --kin-text-color: #888888;               /* Loading text color */\n    \n    /* Center Core Colors */\n    --kin-core-idle: #ffffff;                /* Center star idle color */\n    --kin-core-flash1: #ccffff;              /* Center star flash color 1 */\n    --kin-core-flash2: #ffccff;              /* Center star flash color 2 */\n    \n    /* Orbital Orbs */\n    --kin-orb-left: #00aaff;                 /* Left swinging orb color */\n    --kin-orb-right: #ff0055;                /* Right swinging orb color */\n    --kin-shockwave: rgba(255, 255, 255, 0.5); /* Ripple effect color */\n    \n    /* Timing */\n    --kin-swing-speed: 2s;                   /* Full cycle time */\n}\n\n.kinetic-scene {\n    width: 100%;\n    height: 100vh;\n    min-height: 300px;\n    background: var(--kin-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: 60px;\n}\n\n.system {\n    position: relative;\n    width: 200px;\n    height: 100px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.core-star {\n    width: 30px; \n    height: 30px;\n    background: var(--kin-core-idle);\n    border-radius: 50%;\n    box-shadow: 0 0 20px var(--kin-core-idle);\n    z-index: 10;\n    animation: core-flash var(--kin-swing-speed) ease-in-out infinite;\n}\n\n.swing-arm {\n    position: absolute;\n    top: -50px;\n    width: 20px; \n    height: 100px;\n    transform-origin: top center;\n}\n\n.orb {\n    position: absolute;\n    bottom: 0; \n    left: 0;\n    width: 20px; \n    height: 20px;\n    border-radius: 50%;\n    background: var(--kin-orb-left);\n    box-shadow: 0 0 15px var(--kin-orb-left);\n}\n\n.left {\n    left: 40px;\n    animation: swing-left var(--kin-swing-speed) ease-in-out infinite;\n}\n\n.right {\n    right: 40px;\n    animation: swing-right var(--kin-swing-speed) ease-in-out infinite;\n}\n\n.right .orb {\n    background: var(--kin-orb-right);\n    box-shadow: 0 0 15px var(--kin-orb-right);\n}\n\n.shockwave {\n    position: absolute;\n    top: 50%; \n    left: 50%;\n    transform: translate(-50%, -50%);\n    border: 2px solid var(--kin-shockwave);\n    border-radius: 50%;\n    opacity: 0;\n}\n\n.s1 { animation: ripple var(--kin-swing-speed) ease-out infinite 0s; }\n.s2 { animation: ripple var(--kin-swing-speed) ease-out infinite calc(var(--kin-swing-speed) / 2); }\n\n.kinetic-text {\n    font-family: 'Helvetica', sans-serif;\n    font-weight: 300;\n    letter-spacing: 2px;\n    color: var(--kin-text-color);\n    font-size: 10px;\n    text-transform: uppercase;\n}\n\n/* Cycle logic to sync impacts */\n@keyframes swing-left {\n    0% { transform: rotate(0deg); }   /* Hit */\n    25% { transform: rotate(45deg); } /* Swing Out */\n    50% { transform: rotate(0deg); }  /* Return to center */\n    100% { transform: rotate(0deg); }\n}\n\n@keyframes swing-right {\n    0% { transform: rotate(0deg); }\n    50% { transform: rotate(0deg); }  /* Wait for left */\n    75% { transform: rotate(-45deg); }/* Swing Out */\n    100% { transform: rotate(0deg); } /* Hit */\n}\n\n@keyframes core-flash {\n    0%   { transform: scale(1.2); background: var(--kin-core-flash1); } \n    10%  { transform: scale(1);   background: var(--kin-core-idle); }\n    50%  { transform: scale(1.2); background: var(--kin-core-flash2); } \n    60%  { transform: scale(1);   background: var(--kin-core-idle); }\n    100% { transform: scale(1.2); background: var(--kin-core-flash1); }\n}\n\n@keyframes ripple {\n    0%   { width: 30px; height: 30px; opacity: 1; border-width: 4px; }\n    100% { width: 150px; height: 150px; opacity: 0; border-width: 0px; }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "generative-3d-neural-network-mesh-canvas-loader",
+        "title": "Generative 3D Neural Network Mesh Canvas Loader",
+        "description": "An ultra-modern, generative HTML5 Canvas loading spinner.  Floating particles autonomously weave a complex, interconnected neural mesh in real-time, accompanied by a dynamic scanning HUD and synchronized data readouts. Excellent for AI, machine learning, and data-heavy applications.",
+        "tags": [
+            "Neural Network", "Generative Art", "HTML5 Canvas", "Data Visualization", "JavaScript Animation", 
+            "Tech UI", "Cyberpunk", "Loading Spinner", "Mesh Network", "Particle System", 
+            "AI Theme", "HUD", "Scanning Effect", "Web Design", "Frontend", 
+            "Creative Coding", "Modern", "Dynamic UI", "Wait State", "Visual Effects"
+        ],
+        "keywords": [
+            "generative neural network animation", "html5 canvas mesh loader", "ai themed loading screen", 
+            "particle connection background", "javascript data visualization", "cyberpunk hud overlay", 
+            "dynamic scanning laser effect", "real time particle mesh", "machine learning ui components", 
+            "tech dashboard wait state", "custom canvas spinner", "frontend generative art", 
+            "animated synapse network", "interactive data loader", "modern web design graphics", 
+            "creative coding canvas", "webgl alternative 2d mesh", "node connection animation", 
+            "futuristic loading indicator", "javascript physics particles"
+        ],
+        "code": {
+            "html": "<div class=\"loom-scene\">\n    <canvas id=\"loomCanvas\"></canvas>\n    \n    <div class=\"interface-overlay\">\n        <div class=\"scanner-line\"></div>\n        <div class=\"data-readout\">\n            <span class=\"label\">NEURAL MESH:</span>\n            <span class=\"value\" id=\"meshPercent\">0%</span>\n        </div>\n    </div>\n    \n    <div class=\"loom-status\">WEAVING SYNAPSES...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --loom-bg-color: #020205;                   /* Deep void background */\n    --loom-hud-border: rgba(0, 242, 255, 0.1);  /* Circular scanner boundary */\n    --loom-scanner: #00f2ff;                    /* Scanning laser color */\n    --loom-text-color: #ffffff;                 /* Status text color */\n    \n    --loom-scan-speed: 4s;                      /* Laser vertical sweep speed */\n    --loom-canvas-glow: rgba(0, 242, 255, 0.3); /* Base glow of the neural mesh */\n}\n\n.loom-scene {\n    width: 100%;\n    height: 100vh;\n    min-height: 400px;\n    background: var(--loom-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n}\n\ncanvas {\n    width: 100%;\n    height: 100%;\n    filter: drop-shadow(0 0 10px var(--loom-canvas-glow));\n}\n\n/* HUD OVERLAY */\n.interface-overlay {\n    position: absolute;\n    width: 280px;\n    height: 280px;\n    border: 1px solid var(--loom-hud-border);\n    border-radius: 50%;\n    pointer-events: none;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.scanner-line {\n    position: absolute;\n    width: 100%;\n    height: 2px;\n    background: linear-gradient(90deg, transparent, var(--loom-scanner), transparent);\n    top: 50%;\n    animation: scanner-sweep var(--loom-scan-speed) ease-in-out infinite;\n    opacity: 0.3;\n}\n\n.data-readout {\n    position: absolute;\n    bottom: -40px;\n    font-family: 'Courier New', monospace;\n    font-size: 10px;\n    color: var(--loom-scanner);\n    letter-spacing: 2px;\n    display: flex;\n    gap: 10px;\n}\n\n.loom-status {\n    position: absolute;\n    bottom: 40px;\n    font-family: 'Helvetica', sans-serif;\n    font-weight: 100;\n    color: var(--loom-text-color);\n    letter-spacing: 8px;\n    font-size: 11px;\n    text-transform: uppercase;\n    animation: text-pulse 2s infinite alternate;\n}\n\n@keyframes scanner-sweep {\n    0%, 100% { transform: translateY(-140px); opacity: 0; }\n    50%      { transform: translateY(140px); opacity: 0.5; }\n}\n\n@keyframes text-pulse {\n    from { opacity: 0.3; filter: blur(1px); }\n    to   { opacity: 0.8; filter: blur(0); }\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    particleCount: 60,              // Number of floating nodes\n    connectionDist: 120,            // Max distance (px) between nodes to draw a connecting line\n    particleSpeed: 2,               // Max velocity of the nodes\n    impulseIntervalMs: 4000,        // Time between bright flash/update impulses\n    impulseSpeed: 0.05,             // How fast the impulse decays (higher = faster decay)\n    colorIdle: '0, 242, 255',       // RGB color for idle state connections\n    colorFlash: '255, 255, 255'     // RGB color for the impulse flash\n};\n\nconst canvas = document.getElementById('loomCanvas');\nconst ctx = canvas.getContext('2d');\nconst meshText = document.getElementById('meshPercent');\n\nlet width, height, particles = [];\nlet impulseActive = false;\nlet impulseProgress = 0;\n\nfunction init() {\n    resize();\n    for(let i=0; i<CONFIG.particleCount; i++) {\n        particles.push({\n            x: Math.random() * width,\n            y: Math.random() * height,\n            vx: (Math.random() - 0.5) * CONFIG.particleSpeed,\n            vy: (Math.random() - 0.5) * CONFIG.particleSpeed\n        });\n    }\n    animate();\n    setInterval(triggerImpulse, CONFIG.impulseIntervalMs);\n}\n\nfunction resize() {\n    // Binds to parent dimensions for seamless integration\n    width = canvas.width = canvas.parentElement.clientWidth;\n    height = canvas.height = canvas.parentElement.clientHeight;\n}\n\nfunction triggerImpulse() {\n    impulseActive = true;\n    impulseProgress = 0;\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, width, height);\n    \n    // Draw connections (The Weave)\n    for(let i=0; i<particles.length; i++) {\n        const p1 = particles[i];\n        p1.x += p1.vx;\n        p1.y += p1.vy;\n        \n        // Boundary bounce logic\n        if(p1.x < 0 || p1.x > width) p1.vx *= -1;\n        if(p1.y < 0 || p1.y > height) p1.vy *= -1;\n\n        for(let j=i+1; j<particles.length; j++) {\n            const p2 = particles[j];\n            const dx = p1.x - p2.x;\n            const dy = p1.y - p2.y;\n            const dist = Math.sqrt(dx*dx + dy*dy);\n\n            if(dist < CONFIG.connectionDist) {\n                ctx.beginPath();\n                \n                let opacity = 1 - (dist / CONFIG.connectionDist);\n                let color = impulseActive \n                    ? `rgba(${CONFIG.colorFlash}, ${opacity})` \n                    : `rgba(${CONFIG.colorIdle}, ${opacity * 0.4})`;\n                \n                ctx.strokeStyle = color;\n                ctx.lineWidth = impulseActive ? 2 : 0.5;\n                ctx.moveTo(p1.x, p1.y);\n                ctx.lineTo(p2.x, p2.y);\n                ctx.stroke();\n            }\n        }\n    }\n    \n    if(impulseActive) {\n        impulseProgress += CONFIG.impulseSpeed;\n        if(impulseProgress > 1) impulseActive = false;\n        meshText.innerText = Math.floor(Math.random() * 100) + \"%\";\n    }\n\n    requestAnimationFrame(animate);\n}\n\nwindow.addEventListener('resize', resize);\ninit();"
+        }
+    },
+    {
+        "id": "8bit-retro-pixel-art-glitch-loader",
+        "title": "8-Bit Retro Pixel Art Glitch Loading Animation",
+        "description": "A nostalgic 8-bit retro gaming loading animation.  Features a pixel-art hero jumping over obstacles in a scrolling landscape, enhanced with dynamic SVG displacement filters to simulate authentic CRT glitch effects.",
+        "tags": [
+            "8-Bit", "Retro Gaming", "Pixel Art", "Glitch Effect", "CSS Animation", 
+            "Loading Screen", "SVG Filter", "Scrolling Background", "Sprite Animation", "Nostalgia", 
+            "Arcade Style", "UI Component", "Wait State", "Creative Coding", "Frontend Design", 
+            "Web Animation", "Fun UI", "Character Animation", "CSS Keyframes", "Gaming"
+        ],
+        "keywords": [
+            "8-bit css animation", "retro pixel art loader", "glitch effect css svg", 
+            "scrolling game background css", "css sprite jump animation", "arcade style loading screen", 
+            "nostalgic ui components", "pure css character animation", "svg displacement map glitch", 
+            "creative wait state design", "retro gaming website elements", "pixelated css render", 
+            "mario style css animation", "custom loading indicators", "frontend web design effects", 
+            "animated pixel hero", "css keyframe scrolling", "fun ui interactions", 
+            "crt glitch screen", "interactive loading screens"
+        ],
+        "code": {
+            "html": "<div class=\"quest-scene\">\n    \n    <svg style=\"width: 0; height: 0; position: absolute;\">\n        <defs>\n            <filter id=\"retro-glitch\">\n                <feTurbulence type=\"fractalNoise\" baseFrequency=\"0.15\" numOctaves=\"3\" result=\"noise\" />\n                <feDisplacementMap in=\"SourceGraphic\" in2=\"noise\" scale=\"10\" />\n            </filter>\n        </defs>\n    </svg>\n\n    <div class=\"world-viewport\">\n        <div class=\"bg-mountains\"></div>\n        <div class=\"scrolling-ground\"></div>\n        <div class=\"block\">?</div>\n\n        <div class=\"hero-container\">\n            <div class=\"hero-sprite\">\n                <div class=\"hero-head\"></div>\n                <div class=\"hero-body\"></div>\n                <div class=\"hero-feet\"></div>\n            </div>\n        </div>\n\n        <div class=\"level-up-particles\">\n            <span></span><span></span><span></span><span></span><span></span>\n        </div>\n    </div>\n\n    <div class=\"hud-text\">LEVEL 1-1: LOADING...</div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');\n\n:root {\n    --quest-bg-color: #000000;           /* Container background */\n    --quest-sky-color: #5c94fc;          /* Classic 8-bit sky blue */\n    --quest-ground-base: #885010;        /* Brown dirt color */\n    --quest-ground-grass: #00a000;       /* Green grass top */\n    \n    --quest-hero-skin: #ffcca5;          /* Character skin color */\n    --quest-hero-shirt: #ff0000;         /* Character shirt color */\n    --quest-hero-shoes: #885010;         /* Character shoes color */\n    \n    --quest-block-color: #f83800;        /* Obstacle block color */\n    --quest-text-color: #ffffff;         /* HUD text color */\n    \n    --quest-scroll-speed: 2s;            /* Speed of ground moving */\n    --quest-jump-speed: 2.5s;            /* Duration of one jump cycle */\n}\n\n.quest-scene {\n    width: 100%;\n    min-height: 400px;\n    height: 100vh;\n    background: var(--quest-bg-color);\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    overflow: hidden;\n    position: relative;\n    /* Essential to keep borders sharp and pixelated */\n    image-rendering: pixelated; \n}\n\n.world-viewport {\n    position: relative;\n    width: 320px;\n    height: 180px;\n    background: var(--quest-sky-color);\n    border: 4px solid #ffffff;\n    overflow: hidden;\n    animation: glitch-flash 5s infinite;\n}\n\n/* --- SCENERY --- */\n.bg-mountains {\n    position: absolute;\n    bottom: 40px;\n    width: 200%;\n    height: 60px;\n    background: linear-gradient(transparent 70%, var(--quest-ground-grass) 70%);\n    background-image: repeating-linear-gradient(135deg, #007000 0, #007000 20px, transparent 20px, transparent 40px);\n    opacity: 0.5;\n    animation: scroll 10s linear infinite;\n}\n\n.scrolling-ground {\n    position: absolute;\n    bottom: 0;\n    width: 200%;\n    height: 40px;\n    background: var(--quest-ground-base);\n    border-top: 4px solid var(--quest-ground-grass);\n    background-image: radial-gradient(#000000 2px, transparent 2px);\n    background-size: 20px 20px;\n    animation: scroll var(--quest-scroll-speed) linear infinite;\n}\n\n/* --- THE HERO --- */\n.hero-container {\n    position: absolute;\n    bottom: 40px;\n    left: 40px;\n    width: 32px;\n    height: 40px;\n    z-index: 10;\n    animation: hero-physics var(--quest-jump-speed) infinite ease-in-out;\n}\n\n.hero-sprite {\n    width: 100%; \n    height: 100%;\n    display: flex; \n    flex-direction: column; \n    align-items: center;\n}\n\n.hero-head { \n    width: 16px; \n    height: 16px; \n    background: var(--quest-hero-skin); \n    box-shadow: 4px 4px 0 #000000; \n}\n\n.hero-body { \n    width: 20px; \n    height: 16px; \n    background: var(--quest-hero-shirt); \n    margin-top: 2px; \n}\n\n.hero-feet { \n    width: 24px; \n    height: 6px; \n    background: var(--quest-hero-shoes); \n    margin-top: 2px; \n    animation: run-step 0.2s steps(2) infinite; \n}\n\n/* --- OBSTACLE --- */\n.block {\n    position: absolute;\n    bottom: 40px;\n    right: -40px;\n    width: 32px;\n    height: 32px;\n    background: var(--quest-block-color);\n    border: 4px solid #000000;\n    color: #ffffff;\n    font-family: 'Press Start 2P', cursive;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    font-size: 16px;\n    animation: block-move var(--quest-jump-speed) infinite linear;\n}\n\n/* --- PAYOFF FX --- */\n.level-up-particles span {\n    position: absolute;\n    width: 8px; \n    height: 8px;\n    background: #ffff00;\n    bottom: 60px; \n    left: 60px;\n    opacity: 0;\n    animation: particle-burst var(--quest-jump-speed) infinite;\n}\n\n.level-up-particles span:nth-child(2) { animation-delay: 0.1s; background: #00ff00; }\n.level-up-particles span:nth-child(3) { animation-delay: 0.2s; background: #ff00ff; }\n\n.hud-text {\n    margin-top: 30px;\n    font-family: 'Press Start 2P', cursive;\n    color: var(--quest-text-color);\n    font-size: 12px;\n    letter-spacing: 2px;\n}\n\n/* --- ANIMATIONS --- */\n@keyframes scroll { \n    from { transform: translateX(0); } \n    to   { transform: translateX(-50%); } \n}\n\n@keyframes block-move { \n    0%   { transform: translateX(0); }\n    100% { transform: translateX(-400px); }\n}\n\n@keyframes hero-physics {\n    0%, 50%, 90%, 100% { transform: translateY(0); }\n    65% { transform: translateY(-70px) rotate(10deg); } /* The Jump */\n    80% { transform: translateY(0) scaleY(0.8); }       /* The Landing Squash */\n}\n\n@keyframes run-step {\n    from { transform: translateX(-2px); }\n    to   { transform: translateX(2px); }\n}\n\n@keyframes particle-burst {\n    0%, 75% { transform: scale(0); opacity: 0; }\n    80%     { opacity: 1; transform: scale(1) translateY(0); }\n    100%    { transform: scale(0) translateY(-60px); opacity: 0; }\n}\n\n@keyframes glitch-flash {\n    0%, 40%, 45%, 90%, 100% { filter: none; }\n    42% { filter: url('#retro-glitch') invert(1); }\n    95% { filter: url('#retro-glitch') hue-rotate(90deg); }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "interactive-kinetic-magnetic-button",
+        "title": "Interactive Kinetic Magnetic Hover Button",
+        "description": "A high-fidelity interactive button utilizing spring physics logic. The button dynamically gravitates toward the cursor, while an internal typography layer and a light glint overlay create a multi-plane 3D parallax effect.",
+        "tags": [
+            "Magnetic Button", "Interactive UI", "Spring Physics", "Hover Effect", "JavaScript", 
+            "Parallax", "Call to Action", "Web Component", "Minimalist", "Premium Design", 
+            "Motion Graphics", "Frontend Development", "UI Animation", "Cursor Tracking", "Sleek"
+        ],
+        "keywords": [
+            "magnetic button javascript", "spring physics hover effect", "interactive parallax button", 
+            "cursor tracking ui component", "kinetic button animation", "modern call to action", 
+            "smooth snap back transition", "dynamic light glint css", "premium web design button", 
+            "custom javascript interactions", "minimalist hover states", "frontend motion design", 
+            "ui ux button interaction", "creative coding web elements", "fluid mouse tracking", 
+            "3d depth hover effect", "website interaction design", "custom button styles", 
+            "javascript dom manipulation", "sleek ui components"
+        ],
+        "code": {
+            "html": "<div class=\"magnetic-item\" id=\"magnetWrap\">\n    <button class=\"kinetic-btn\" id=\"magnetBtn\">\n        <span class=\"btn-label\" id=\"magnetText\">INITIALIZE CORE</span>\n        <div class=\"btn-glint\" id=\"magnetGlint\"></div>\n        <div class=\"btn-grain\"></div>\n    </button>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');\n\n:root {\n    --kin-btn-bg: #111111;                     /* Button base color */\n    --kin-btn-text: #ffffff;                   /* Text color */\n    --kin-btn-border: rgba(255, 255, 255, 0.1);/* Idle border color */\n    --kin-btn-border-hover: rgba(255, 255, 255, 0.4); /* Hover border color */\n    \n    --kin-glint-color: rgba(255, 255, 255, 0.1); /* Color of the dynamic highlight */\n    --kin-font-family: 'Inter', sans-serif;\n}\n\n.magnetic-item {\n    position: relative;\n    will-change: transform;\n    /* Spring transition for smooth snapping back when cursor leaves */\n    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);\n    /* Centering in preview */\n    margin: 50px auto;\n    width: fit-content;\n}\n\n.kinetic-btn {\n    position: relative;\n    padding: 28px 70px;\n    background: var(--kin-btn-bg);\n    color: var(--kin-btn-text);\n    border: 1px solid var(--kin-btn-border);\n    border-radius: 2px;\n    font-family: var(--kin-font-family);\n    font-size: 14px;\n    letter-spacing: 5px;\n    cursor: pointer;\n    overflow: hidden;\n    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);\n    transition: border-color 0.3s, box-shadow 0.3s;\n}\n\n.btn-label {\n    position: relative;\n    z-index: 10;\n    display: block;\n    will-change: transform;\n    transition: transform 0.2s ease-out;\n}\n\n/* --- DYNAMIC LIGHT GLINT --- */\n.btn-glint {\n    position: absolute;\n    width: 200px;\n    height: 200px;\n    background: radial-gradient(circle, var(--kin-glint-color) 0%, transparent 70%);\n    top: 0; left: 0;\n    pointer-events: none;\n    transform: translate(-50%, -50%);\n    z-index: 5;\n    mix-blend-mode: overlay;\n}\n\n/* --- MATERIAL TEXTURE --- */\n.btn-grain {\n    position: absolute;\n    inset: 0;\n    opacity: 0.03;\n    background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\");\n    pointer-events: none;\n}\n\n.kinetic-btn:hover {\n    border-color: var(--kin-btn-border-hover);\n    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);\n}\n\n.kinetic-btn:active {\n    transform: scale(0.97);\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    interactionRadius: 250, // Distance (px) from center where magnetic pull begins\n    pullStrength: 0.4,      // How strongly the outer button moves towards cursor\n    parallaxStrength: 0.3   // Multiplier for the inner text parallax effect\n};\n\nconst wrap = document.getElementById('magnetWrap');\nconst btn = document.getElementById('magnetBtn');\nconst text = document.getElementById('magnetText');\nconst glint = document.getElementById('magnetGlint');\n\ndocument.addEventListener('mousemove', (e) => {\n    if(!btn) return;\n    const rect = btn.getBoundingClientRect();\n    \n    const centerX = rect.left + rect.width / 2;\n    const centerY = rect.top + rect.height / 2;\n    \n    const dx = e.clientX - centerX;\n    const dy = e.clientY - centerY;\n    const distance = Math.hypot(dx, dy);\n    \n    if (distance < CONFIG.interactionRadius) {\n        // Power curve: effect strengthens as cursor gets closer\n        const power = (CONFIG.interactionRadius - distance) / CONFIG.interactionRadius;\n        \n        const xMove = dx * power * CONFIG.pullStrength;\n        const yMove = dy * power * CONFIG.pullStrength;\n        \n        // Move Outer Wrapper\n        wrap.style.transform = `translate(${xMove}px, ${yMove}px)`;\n        \n        // Move Inner Text (Parallax)\n        text.style.transform = `translate(${xMove * CONFIG.parallaxStrength}px, ${yMove * CONFIG.parallaxStrength}px)`;\n        \n        // Position the light glint exactly under the cursor\n        const glintX = e.clientX - rect.left;\n        const glintY = e.clientY - rect.top;\n        glint.style.left = `${glintX}px`;\n        glint.style.top = `${glintY}px`;\n        glint.style.opacity = power;\n    } else {\n        // Snap back when outside radius\n        wrap.style.transform = 'translate(0px, 0px)';\n        text.style.transform = 'translate(0px, 0px)';\n        glint.style.opacity = '0';\n    }\n});"
+        }
+    },
+    {
+        "id": "cinematic-flickering-neon-sign-button",
+        "title": "Cinematic Flickering Neon Sign Button",
+        "description": "A highly realistic pure CSS neon sign button.  It simulates gas-tube ignition flickering on hover, complete with layered volumetric glowing, glass reflection sheen, and authentic chromatic bleed.",
+        "tags": [
+            "Neon Button", "CSS Hover Effect", "Retro Arcade", "Cyberpunk", "Cinematic", 
+            "Glow Animation", "Flicker Effect", "Pure CSS", "UI Component", "Call to Action", 
+            "Dark UI", "Web Design", "Frontend", "Vintage Sign", "Text Shadow"
+        ],
+        "keywords": [
+            "flickering neon button css", "realistic neon sign animation", "gas tube ignition effect", 
+            "cyberpunk ui components", "retro arcade web design", "volumetric glow css", 
+            "glass reflection sheen css", "hover flicker animation", "custom css neon text", 
+            "dark mode call to action", "pure css button effects", "cinematic ui elements", 
+            "vintage neon sign css", "animated box shadow glow", "frontend lighting effects", 
+            "creative hover states", "neon tube rendering", "web design neon aesthetic", 
+            "interactive glow button", "css keyframe flicker"
+        ],
+        "code": {
+            "html": "<button class=\"neon-btn\">\n    <span class=\"neon-core\">OPEN SHOP</span>\n    <span class=\"neon-glow\"></span>\n    <span class=\"glass-sheen\"></span>\n</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');\n\n:root {\n    --neon-base-bg: transparent;              /* Default button background */\n    --neon-border-idle: #1a1a1f;              /* Default border color */\n    --neon-text-idle: #2a2a2a;                /* Default 'off' text color */\n    \n    /* Active Glow Colors (Magenta/Pink theme) */\n    --neon-color-main: #ff00cc;\n    --neon-color-core: #ff4dff;               /* The hot white/pink center of the text */\n    --neon-color-shadow: #ff00ff;\n    \n    --neon-font-family: 'Orbitron', monospace;\n}\n\nbody {\n    /* Added to ensure visibility in preview */\n    background: #050505;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    margin: 0;\n}\n\n/* BUTTON BASE */\n.neon-btn {\n    position: relative;\n    padding: 22px 60px;\n    background: var(--neon-base-bg);\n    border: 2px solid var(--neon-border-idle);\n    border-radius: 8px;\n    cursor: pointer;\n    overflow: hidden;\n    transition: 0.3s ease;\n    backdrop-filter: blur(2px);\n}\n\n/* TEXT CORE (HOT CENTER OF TUBE) */\n.neon-core {\n    position: relative;\n    z-index: 3;\n    font-family: var(--neon-font-family);\n    font-size: 1.3rem;\n    letter-spacing: 4px;\n    color: var(--neon-text-idle);\n    transition: 0.3s ease;\n}\n\n/* OUTER GLOW LAYER */\n.neon-glow {\n    position: absolute;\n    inset: 0;\n    border-radius: 8px;\n    pointer-events: none;\n    z-index: 1;\n    opacity: 0;\n    transition: 0.3s ease;\n}\n\n/* GLASS REFLECTION */\n.glass-sheen {\n    position: absolute;\n    inset: 0;\n    border-radius: 8px;\n    background: linear-gradient(\n        120deg,\n        rgba(255, 255, 255, 0.15) 0%,\n        transparent 40%\n    );\n    mix-blend-mode: overlay;\n    opacity: 0.4;\n    pointer-events: none;\n    z-index: 4;\n}\n\n/* HOVER = IGNITION */\n.neon-btn:hover {\n    border-color: var(--neon-color-main);\n}\n\n.neon-btn:hover .neon-core {\n    color: var(--neon-color-core);\n    text-shadow:\n        0 0 3px var(--neon-color-core),\n        0 0 8px var(--neon-color-shadow),\n        0 0 18px var(--neon-color-shadow),\n        0 0 40px var(--neon-color-shadow);\n    animation: ignite 1.4s infinite;\n}\n\n.neon-btn:hover .neon-glow {\n    opacity: 1;\n    background: radial-gradient(circle at center, rgba(255, 0, 255, 0.35), transparent 70%);\n    box-shadow:\n        0 0 40px rgba(255, 0, 255, 0.6),\n        0 0 80px rgba(255, 0, 255, 0.4),\n        0 0 140px rgba(255, 0, 255, 0.2);\n    animation: outer-flicker 1.4s infinite;\n}\n\n/* ACTIVE CLICK */\n.neon-btn:active {\n    transform: scale(0.96);\n    /* Shift color slightly when pressed */\n    filter: hue-rotate(30deg); \n}\n\n/* IGNITION FLICKER TIMING (Irregular pattern simulates faulty gas tube) */\n@keyframes ignite {\n    0%, 12%, 18%, 22%, 100% { opacity: 1; }\n    14%, 20% { opacity: 0.4; }\n    16% { opacity: 0.8; }\n}\n\n@keyframes outer-flicker {\n    0%, 15%, 21%, 23%, 100% {\n        box-shadow:\n            0 0 40px rgba(255, 0, 255, 0.6),\n            0 0 80px rgba(255, 0, 255, 0.4),\n            0 0 140px rgba(255, 0, 255, 0.2);\n    }\n    17%, 19% {\n        box-shadow:\n            0 0 10px rgba(255, 0, 255, 0.2);\n    }\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "3d-glassmorphism-kinetic-auth-card",
+        "title": "3D Glassmorphism Kinetic Authentication Card",
+        "description": "A luxury-grade, interactive authentication UI component. It features high-fidelity glassmorphism, realistic metallic hinges, and a seamless 360-degree kinetic 3D rotation transition between login and signup states.",
+        "tags": [
+            "Authentication", "Glassmorphism", "3D Animation", "Kinetic UI", "Login Form", 
+            "Signup Form", "Interactive Card", "Premium Design", "CSS 3D Transform", "JavaScript UI", 
+            "Web Component", "Frontend Design", "Luxury UI", "State Transition", "Dark Theme", 
+            "Dynamic Interface", "User Experience", "Modern Web", "Creative Coding", "Skeuomorphic"
+        ],
+        "keywords": [
+            "3d glassmorphism auth card", "kinetic login signup transition", "interactive authentication ui", 
+            "premium css glass effect", "3d flip card animation", "metallic hinge css design", 
+            "javascript state transition ui", "modern web login component", "luxury frontend design", 
+            "custom login form animation", "dynamic interface glassmorphism", "css perspective 3d card", 
+            "creative coding auth flow", "smooth 360 rotation css", "user experience login flow", 
+            "dark mode auth component", "skeuomorphic web elements", "frosted glass css card", 
+            "advanced css animations", "interactive frontend components"
+        ],
+        "code": {
+            "html": "<div class=\"auth-scene\">\n    <div class=\"mount-base\"></div>\n    <div class=\"suspension-bar\">\n        <div class=\"cap left\"></div>\n        <div class=\"cap right\"></div>\n    </div>\n    \n    <div class=\"kinetic-assembly\" id=\"swingPlate\">\n        <div class=\"hinge-group\">\n            <div class=\"hinge left\"></div>\n            <div class=\"hinge right\"></div>\n        </div>\n\n        <div class=\"glass-card\" id=\"plateContent\">\n            <div class=\"state-container\">\n                <div class=\"top-accent\"></div>\n                <h2 class=\"card-heading\">New here?</h2>\n                <p class=\"card-sub\">Choose your path to continue.</p>\n                <div class=\"btn-group\">\n                    <button class=\"choice-btn yes\" onclick=\"swingToState('signup')\">Yes</button>\n                    <button class=\"choice-btn no\" onclick=\"swingToState('login')\">No</button>\n                </div>\n            </div>\n        </div>\n        <div class=\"surface-glare\"></div>\n    </div>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');\n\n:root {\n    /* Typography */\n    --auth-font-family: 'Plus Jakarta Sans', sans-serif;\n    \n    /* Card Dimensions & Glass */\n    --auth-card-width: 340px;\n    --auth-card-height: 220px;\n    --auth-glass-bg: rgba(30, 30, 35, 0.85);\n    --auth-glass-blur: 24px;\n    \n    /* Hardware Colors */\n    --auth-hardware-dark: #222222;\n    --auth-hardware-metal: linear-gradient(180deg, #999999, #eeeeee 40%, #777777);\n    --auth-hinge-metal: linear-gradient(90deg, #333333, #aaaaaa, #333333);\n    \n    /* State Colors */\n    --auth-color-signup: rgba(255, 50, 100, 0.15);\n    --auth-color-signup-border: rgba(255, 50, 100, 0.4);\n    --auth-color-login: rgba(0, 200, 255, 0.15);\n    --auth-color-login-border: rgba(0, 200, 255, 0.4);\n    \n    /* Animation */\n    --auth-swing-speed: 0.9s;\n}\n\n.auth-scene {\n    width: 100%; \n    min-height: 400px;\n    display: flex; \n    flex-direction: column; \n    align-items: center; \n    justify-content: center;\n    perspective: 1600px; /* Required for the 3D flip to look correct */\n    font-family: var(--auth-font-family);\n}\n\n/* --- HARDWARE --- */\n.mount-base {\n    width: 140px; \n    height: 12px; \n    background: var(--auth-hardware-dark);\n    border-radius: 0 0 12px 12px; \n    margin-bottom: -6px; \n    z-index: 5;\n    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);\n    border: 1px solid rgba(255, 255, 255, 0.05);\n    border-top: none;\n}\n\n.suspension-bar {\n    position: relative;\n    width: calc(var(--auth-card-width) + 20px); \n    height: 12px;\n    background: var(--auth-hardware-metal);\n    border-radius: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);\n    z-index: 10;\n}\n\n.cap {\n    position: absolute; \n    top: -3px; \n    width: 18px; \n    height: 18px;\n    background: radial-gradient(circle at 30% 30%, #ffffff, #888888);\n    border-radius: 50%;\n    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);\n}\n.cap.left { left: -4px; }\n.cap.right { right: -4px; }\n\n/* --- KINETIC ASSEMBLY --- */\n.kinetic-assembly {\n    position: relative;\n    transform-style: preserve-3d;\n    transform-origin: top center;\n    transition: transform var(--auth-swing-speed) cubic-bezier(0.25, 1, 0.5, 1);\n    top: -6px;\n}\n\n.hinge-group {\n    display: flex; \n    justify-content: space-between; \n    width: calc(var(--auth-card-width) - 120px); \n    margin: 0 auto;\n}\n\n.hinge {\n    width: 14px; \n    height: 28px;\n    background: var(--auth-hinge-metal);\n    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);\n    border-radius: 2px;\n}\n\n/* --- THE CARD --- */\n.glass-card {\n    position: relative;\n    width: var(--auth-card-width); \n    height: var(--auth-card-height);\n    background: var(--auth-glass-bg);\n    border: 1px solid rgba(255, 255, 255, 0.08);\n    border-top: 3px solid #555555;\n    border-radius: 0 0 20px 20px;\n    display: flex; \n    flex-direction: column; \n    align-items: center; \n    justify-content: center;\n    box-shadow: \n        0 25px 60px rgba(0, 0, 0, 0.7),\n        inset 0 0 0 1px rgba(255, 255, 255, 0.03);\n    backdrop-filter: blur(var(--auth-glass-blur));\n    -webkit-backdrop-filter: blur(var(--auth-glass-blur));\n    overflow: hidden;\n}\n\n/* --- CONTENT --- */\n.state-container {\n    width: 100%; \n    display: flex; \n    flex-direction: column; \n    align-items: center;\n    animation: fade-up 0.5s ease forwards;\n}\n\n.top-accent {\n    width: 40px; \n    height: 4px; \n    border-radius: 10px;\n    background: rgba(255, 255, 255, 0.1); \n    margin-bottom: 25px;\n}\n\n.card-heading {\n    color: #ffffff; \n    font-size: 26px; \n    margin: 0 0 8px 0; \n    font-weight: 800; \n    letter-spacing: -0.5px;\n    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);\n}\n\n.card-sub {\n    color: rgba(255, 255, 255, 0.5); \n    font-size: 13px; \n    margin: 0 0 30px 0; \n    font-weight: 500;\n}\n\n.btn-group { display: flex; gap: 16px; }\n\n.choice-btn {\n    padding: 12px 36px; \n    border-radius: 10px; \n    border: none;\n    font-family: var(--auth-font-family);\n    font-weight: 700; \n    font-size: 15px; \n    cursor: pointer;\n    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);\n}\n\n.yes { \n    background: linear-gradient(135deg, #ffffff, #e0e0e0); \n    color: #000000; \n    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);\n}\n.yes:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25); }\n\n.no { \n    background: rgba(255, 255, 255, 0.05); \n    border: 1px solid rgba(255, 255, 255, 0.1); \n    color: rgba(255, 255, 255, 0.8); \n}\n.no:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; border-color: rgba(255, 255, 255, 0.3); }\n\n/* --- DYNAMIC STATES --- */\n.glass-card.signup-mode {\n    background: radial-gradient(circle at 50% 0%, var(--auth-color-signup), var(--auth-glass-bg) 70%);\n    border-color: var(--auth-color-signup-border);\n    box-shadow: 0 30px 80px rgba(255, 0, 85, 0.15);\n}\n.glass-card.login-mode {\n    background: radial-gradient(circle at 50% 0%, var(--auth-color-login), var(--auth-glass-bg) 70%);\n    border-color: var(--auth-color-login-border);\n    box-shadow: 0 30px 80px rgba(0, 242, 255, 0.15);\n}\n\n.final-btn {\n    width: 80%; \n    padding: 16px 0; \n    border: none; \n    border-radius: 10px;\n    font-family: var(--auth-font-family);\n    font-weight: 800; \n    font-size: 15px; \n    text-transform: uppercase; \n    letter-spacing: 1px;\n    cursor: pointer; \n    margin-top: 5px;\n    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);\n    transition: transform 0.2s;\n}\n.final-btn:hover { transform: translateY(-2px); }\n\n.signup-btn { background: linear-gradient(135deg, #ff3366, #ff0044); color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }\n.login-btn { background: linear-gradient(135deg, #00eeff, #00bbff); color: #000000; }\n\n.back-link {\n    margin-top: 25px; \n    color: rgba(255, 255, 255, 0.3); \n    font-size: 12px; \n    cursor: pointer; \n    font-weight: 600;\n    transition: color 0.2s;\n}\n.back-link:hover { color: #ffffff; }\n\n.surface-glare {\n    position: absolute; \n    inset: 0; \n    pointer-events: none;\n    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.0) 50%);\n    z-index: 20;\n}\n\n@keyframes fade-up {\n    from { opacity: 0; transform: translateY(15px); } \n    to { opacity: 1; transform: translateY(0); }\n}",
+            "js": "// --- BEHAVIOR CONTROLS ---\nconst CONFIG = {\n    flipDurationMs: 900, // Matches the CSS transition speed\n    contentSwapMs: 250   // When to swap the HTML content during the spin\n};\n\nconst plate = document.getElementById('swingPlate');\nconst contentBox = document.getElementById('plateContent');\nlet currentRotation = 0; \nlet isAnimating = false;\n\n// Content Templates for different states\nconst templates = {\n    initial: `\n        <div class=\"state-container\">\n            <div class=\"top-accent\"></div>\n            <h2 class=\"card-heading\">New here?</h2>\n            <p class=\"card-sub\">Choose your path to continue.</p>\n            <div class=\"btn-group\">\n                <button class=\"choice-btn yes\" onclick=\"swingToState('signup')\">Yes</button>\n                <button class=\"choice-btn no\" onclick=\"swingToState('login')\">No</button>\n            </div>\n        </div>`,\n    signup: `\n        <div class=\"state-container\">\n            <h2 class=\"card-heading\">Create Account</h2>\n            <p class=\"card-sub\">Start your premium journey.</p>\n            <button class=\"final-btn signup-btn\">Sign Up Now</button>\n            <div class=\"back-link\" onclick=\"swingToState('initial')\">Go back</div>\n        </div>`,\n    login: `\n        <div class=\"state-container\">\n            <h2 class=\"card-heading\">Welcome Back</h2>\n            <p class=\"card-sub\">Access your dashboard.</p>\n            <button class=\"final-btn login-btn\">Log In</button>\n            <div class=\"back-link\" onclick=\"swingToState('initial')\">Go back</div>\n        </div>`\n};\n\nwindow.swingToState = function(targetState) {\n    if (isAnimating) return;\n    isAnimating = true;\n\n    // 1. Trigger Kinetic Spin\n    currentRotation += 360;\n    plate.style.transform = `rotateX(${currentRotation}deg)`;\n\n    // 2. Invisible Content Swap mid-spin\n    setTimeout(() => {\n        contentBox.className = 'glass-card'; // Reset classes\n        \n        if (targetState === 'signup') contentBox.classList.add('signup-mode');\n        if (targetState === 'login') contentBox.classList.add('login-mode');\n        \n        contentBox.innerHTML = templates[targetState];\n    }, CONFIG.contentSwapMs);\n\n    // 3. Unlock interaction after animation completes\n    setTimeout(() => {\n        isAnimating = false;\n    }, CONFIG.flipDurationMs);\n};"
+        }
+    },
+    {
+        "id": "cyberpunk-high-contrast-scan-hover-button",
+        "title": "Cyberpunk High-Contrast Scan Hover Button",
+        "description": "A high-tech cyberpunk button featuring a dynamic scanning overlay, text-inversion via CSS mix-blend-mode, and a neon glow bleed. Optimized for high legibility and impact during animated state changes.",
+        "tags": [
+            "Cyberpunk", "Button", "Scanlines", "High Contrast", "Neon", 
+            "Hover Effect", "UI Component", "CSS Animation", "Futuristic", "Mix Blend Mode", 
+            "Legibility", "Tech UI", "Interactive", "Frontend", "Web Design", 
+            "Sci-Fi", "Dark Theme", "Glowing Edge", "Call to Action", "Microinteraction"
+        ],
+        "keywords": [
+            "cyberpunk scan button", "high contrast ui button", "neon glow hover effect", 
+            "css scanline overlay", "mix blend mode text inversion", "futuristic call to action", 
+            "animated tech button", "pure css hover animation", "glowing edge button", 
+            "sci fi web design", "legible animated button", "interactive dark mode ui", 
+            "cyberpunk frontend elements", "custom css button", "scan effect css", 
+            "dynamic button hover", "retro tech ui", "glowing cyberpunk button", 
+            "web component button", "modern css styling"
+        ],
+        "code": {
+            "html": "<button class=\"tunnel-btn\">\n    <span class=\"btn-label\">AUTH_ACCESS</span>\n    <div class=\"scan-overlay\"></div>\n</button>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --scan-btn-color: #00f2ff;             /* Primary neon color */\n    --scan-btn-text-hover: #ffffff;        /* Text color on hover */\n    --scan-btn-bg: transparent;            /* Button background */\n    \n    --scan-font-family: 'Orbitron', sans-serif;\n    --scan-letter-spacing: 4px;            /* Default letter spacing */\n    --scan-letter-spacing-hover: 6px;      /* Expanded letter spacing on hover */\n    \n    --scan-overlay-opacity: 0.5;           /* Opacity of the scanlines */\n    --scan-transition-speed: 0.4s;         /* Overall transition speed */\n}\n\n.tunnel-btn {\n    position: relative;\n    padding: 20px 50px;\n    background: var(--scan-btn-bg);\n    border: 1px solid rgba(0, 242, 255, 0.4); /* Uses neon color base with opacity */\n    color: var(--scan-btn-color);\n    font-family: var(--scan-font-family);\n    font-size: 14px;\n    font-weight: 900;\n    letter-spacing: var(--scan-letter-spacing);\n    cursor: pointer;\n    overflow: hidden;\n    transition: all var(--scan-transition-speed) cubic-bezier(0.19, 1, 0.22, 1);\n}\n\n.btn-label {\n    position: relative;\n    z-index: 10;\n    /* Ensures text inverts/stays sharp regardless of the glowing background */\n    mix-blend-mode: exclusion; \n    transition: letter-spacing var(--scan-transition-speed);\n}\n\n.scan-overlay {\n    position: absolute;\n    inset: 0;\n    background: repeating-linear-gradient(\n        transparent 0px,\n        transparent 2px,\n        rgba(0, 242, 255, 0.2) 2px,\n        rgba(0, 242, 255, 0.2) 4px\n    );\n    background-size: 100% 4px;\n    opacity: var(--scan-overlay-opacity);\n    z-index: 1;\n    pointer-events: none;\n    transition: all 0.3s;\n}\n\n.tunnel-btn:hover {\n    color: var(--scan-btn-text-hover);\n    border-color: var(--scan-btn-color);\n    box-shadow: \n        0 0 20px rgba(0, 242, 255, 0.4),\n        inset 0 0 15px rgba(0, 242, 255, 0.2);\n}\n\n.tunnel-btn:hover .scan-overlay {\n    background: var(--scan-btn-color);\n    opacity: 1;\n    animation: scan-pulse 0.2s steps(2) infinite;\n}\n\n.tunnel-btn:hover .btn-label {\n    letter-spacing: var(--scan-letter-spacing-hover);\n}\n\n@keyframes scan-pulse {\n    0%   { transform: scaleY(1); opacity: 0.8; }\n    100% { transform: scaleY(1.1); opacity: 1; }\n}\n\n.tunnel-btn:active {\n    transform: scale(0.95);\n    filter: hue-rotate(-20deg);\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "expandable-social-media-pill-badge",
+        "title": "Expandable Social Media Pill Badge",
+        "description": "A sleek, compact social media profile link that smoothly expands horizontally on hover to reveal the user's full name and handle. Features premium minimalist aesthetics and fluid CSS transitions.",
+        "tags": [
+            "Social Media", "Pill Button", "Expandable", "Hover Animation", "UI Component", 
+            "Link", "Minimalist", "Premium", "Profile Badge", "Interactive", 
+            "CSS Transition", "Frontend", "Web Design", "UX Pattern", "Call to Action", 
+            "Navigation Element", "Fluid Motion", "Modern UI", "Dark Mode", "Microinteraction"
+        ],
+        "keywords": [
+            "expandable social button css", "pill shaped link hover", "social media profile badge", 
+            "modern ui hover animation", "expanding button css", "minimalist social link", 
+            "smooth css transition button", "premium web design components", "frontend microinteractions", 
+            "interactive profile pill", "dark mode social button", "custom css link animation", 
+            "fluid hover expansion", "user profile badge css", "animated social icon", 
+            "custom expandable link", "modern frontend ui", "css width transition", 
+            "sleek button design", "social handle display"
+        ],
+        "code": {
+            "html": "<a href=\"#\" class=\"social-pill-link\">\n    <div class=\"icon-circle\">\n        <span class=\"brand-icon\">𝕏</span>\n    </div>\n    <div class=\"label-box\">\n        <span class=\"full-name\">Aman</span>\n        <span class=\"handle\">@aman_dev</span>\n    </div>\n</a>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --pill-bg-idle: #1a1a1a;               /* Button background when idle */\n    --pill-bg-hover: #222222;              /* Button background on hover */\n    --pill-icon-bg: #000000;               /* Background of the inner icon circle */\n    \n    --pill-text-primary: #ffffff;          /* Icon and primary name color */\n    --pill-text-secondary: #888888;        /* Secondary handle text color */\n    --pill-font-family: 'Inter', sans-serif;\n    \n    --pill-size-idle: 52px;                /* Base diameter of the idle circle */\n    --pill-size-expanded: 240px;           /* Width of the button when expanded */\n    --pill-transition-speed: 0.5s;         /* Speed of the width expansion */\n}\n\n.social-pill-link {\n    display: inline-flex; \n    align-items: center; \n    padding: 6px;\n    background: var(--pill-bg-idle); \n    border-radius: 100px;\n    cursor: pointer;\n    text-decoration: none;\n    width: var(--pill-size-idle); \n    height: var(--pill-size-idle); \n    overflow: hidden;\n    transition: width var(--pill-transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease;\n}\n\n.social-pill-link:hover {\n    width: var(--pill-size-expanded); \n    background: var(--pill-bg-hover); \n}\n\n.icon-circle {\n    position: relative; \n    min-width: var(--pill-size-idle); \n    height: var(--pill-size-idle);\n    background: var(--pill-icon-bg); \n    border-radius: 50%;\n    display: flex; \n    align-items: center; \n    justify-content: center;\n    flex-shrink: 0;\n}\n\n.brand-icon {\n    color: var(--pill-text-primary); \n    font-size: 22px; \n    font-weight: bold; \n}\n\n.label-box {\n    margin-left: 18px; \n    display: flex; \n    flex-direction: column;\n    opacity: 0; \n    transform: translateX(-20px);\n    transition: opacity 0.3s ease, transform 0.4s ease;\n    white-space: nowrap;\n}\n\n.social-pill-link:hover .label-box {\n    opacity: 1; \n    transform: translateX(0); \n}\n\n.full-name {\n    color: var(--pill-text-primary); \n    font-family: var(--pill-font-family); \n    font-weight: bold; \n    font-size: 16px; \n    line-height: 1.2;\n}\n\n.handle {\n    color: var(--pill-text-secondary); \n    font-family: var(--pill-font-family); \n    font-size: 13px; \n}\n\n.social-pill-link:active {\n    transform: scale(0.96);\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "glowing-instagram-profile-hover-button",
+        "title": "Glowing Instagram Profile Hover Button",
+        "description": "A premium Instagram profile button featuring a conic gradient glow, an animated ring border, and a smooth pill-shaped expansion on hover to reveal account details. Perfectly geometrically rounded in its idle state.",
+        "tags": [
+            "Instagram", "Social Media", "Profile Button", "Glowing", "Conic Gradient", 
+            "Expandable", "Hover Effect", "Premium UI", "CSS Animation", "SVG Icon", 
+            "Fluid Transition", "Web Design", "Frontend", "Microinteraction", "Call to Action", 
+            "Pill Shape", "Modern", "Sleek", "Dark UI", "Interactive"
+        ],
+        "keywords": [
+            "instagram profile button css", "glowing social link hover", "conic gradient button css", 
+            "expandable pill button", "premium instagram badge", "animated social media link", 
+            "custom svg icon hover", "fluid css expansion animation", "modern dark ui button", 
+            "interactive web component", "glowing ring css effect", "perfect circle button css", 
+            "instagram hover state", "custom profile link css", "frontend ui elements", 
+            "sleek social button design", "css transition width", "social follow button", 
+            "animated gradient glow", "web design microinteractions"
+        ],
+        "code": {
+            "html": "<a href=\"#\" class=\"insta-premium-btn\">\n    <div class=\"btn-glow\"></div>\n    <div class=\"btn-content\">\n        <div class=\"icon-wrapper\">\n            <div class=\"icon-ring\"></div>\n            <svg class=\"insta-icon\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                <rect x=\"2\" y=\"2\" width=\"20\" height=\"20\" rx=\"5\" ry=\"5\"></rect>\n                <path d=\"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z\"></path>\n                <line x1=\"17.5\" y1=\"6.5\" x2=\"17.51\" y2=\"6.5\"></line>\n            </svg>\n        </div>\n        <div class=\"text-content\">\n            <div class=\"name\">Jessica Sanders</div>\n            <div class=\"action\">View Profile</div>\n        </div>\n    </div>\n</a>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --insta-grad: conic-gradient(#833ab4, #fd1d1d, #fcb045, #833ab4); /* Instagram brand gradient */\n    \n    --insta-bg-color: rgba(30, 30, 30, 0.8);      /* Pill background color */\n    --insta-icon-bg: #000000;                     /* Inner icon circle background */\n    \n    --insta-text-main: #ffffff;                   /* Name text color */\n    --insta-text-sub: rgba(255, 255, 255, 0.6);   /* Action text color */\n    --insta-font-family: 'Inter', sans-serif;\n    \n    --insta-size-idle: 76px;                      /* Size of the perfect circle (52px content + 24px padding) */\n    --insta-size-expanded: 210px;                 /* Width when expanded */\n    \n    --insta-glow-idle: 0.5;                       /* Glow opacity before hover */\n    --insta-glow-hover: 0.8;                      /* Glow opacity on hover */\n    --insta-transition-speed: 0.5s;               /* Speed of the width expansion */\n}\n\n.insta-premium-btn {\n    position: relative;\n    text-decoration: none;\n    display: inline-flex;\n    align-items: center;\n    border-radius: 60px;\n    z-index: 1;\n}\n\n.btn-glow {\n    position: absolute;\n    inset: -4px;\n    background: var(--insta-grad);\n    border-radius: 60px;\n    filter: blur(15px);\n    opacity: var(--insta-glow-idle);\n    z-index: -1;\n    transition: opacity 0.3s ease;\n}\n\n.btn-content {\n    display: flex;\n    align-items: center;\n    padding: 12px;\n    width: var(--insta-size-idle); \n    background: var(--insta-bg-color);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border-radius: 60px;\n    border: 1px solid rgba(255, 255, 255, 0.1);\n    overflow: hidden;\n    transition: width var(--insta-transition-speed) cubic-bezier(0.19, 1, 0.22, 1);\n}\n\n.icon-wrapper {\n    position: relative;\n    width: 52px;\n    height: 52px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    border-radius: 50%;\n    background: var(--insta-icon-bg);\n    flex-shrink: 0; \n}\n\n.icon-ring {\n    position: absolute;\n    inset: 0;\n    border-radius: 50%;\n    padding: 3px;\n    background: var(--insta-grad);\n    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n    -webkit-mask-composite: xor;\n    mask-composite: exclude;\n}\n\n.insta-icon {\n    color: var(--insta-text-main); \n    z-index: 2; \n}\n\n.text-content {\n    display: flex;\n    flex-direction: column;\n    margin-left: 15px;\n    opacity: 0;\n    transform: translateX(-20px);\n    transition: opacity 0.3s ease, transform 0.4s ease;\n    white-space: nowrap; \n}\n\n.name {\n    color: var(--insta-text-main);\n    font-weight: 700;\n    font-size: 15px;\n    font-family: var(--insta-font-family);\n}\n\n.action {\n    color: var(--insta-text-sub);\n    font-size: 12px;\n    font-family: var(--insta-font-family);\n}\n\n/* --- HOVER STATES --- */\n.insta-premium-btn:hover .btn-content {\n    width: var(--insta-size-expanded);\n}\n\n.insta-premium-btn:hover .text-content {\n    opacity: 1;\n    transform: translateX(0);\n    transition-delay: 0.1s;\n}\n\n.insta-premium-btn:hover .btn-glow {\n    opacity: var(--insta-glow-hover);\n}\n\n.insta-premium-btn:active {\n    transform: scale(0.96);\n}",
+            "js": ""
+        }
+    },
+    {
+        "id": "rocket-launch-spritesheet-animation-button",
+        "title": "Rocket Launch Get started Animation Button",
+        "description": "A high-fidelity cinematic rocket launch button animation utilizing a CSS spritesheet. It features precise dual-axis background stepping to skip corrupted frames, handle fractional grid iteration, and hard-stop exactly at the end of the sequence to prevent visual glitches.",
+        "tags": [
+            "Button", "Spritesheet", "Animation", "CSS Steps", "Cinematic", 
+            "Hover Effect", "Rocket Launch", "Call to Action", "Frontend", "Interactive", 
+            "Web Component", "Creative Coding", "Visual Effects", "Keyframes", "Performance", 
+            "No-JS", "Pixel Perfect", "Gaming UI", "Microinteraction", "Web Design"
+        ],
+        "keywords": [
+            "css spritesheet animation button", "rocket launch hover effect", "dual axis step animation css", 
+            "fractional iteration count css", "spritesheet frame skip animation", "cinematic call to action", 
+            "interactive gaming button ui", "pure css frame by frame", "custom animated button", 
+            "frontend sprite animation", "web design visual effects", "high fidelity css button", 
+            "microinteraction css button", "pixel perfect sprite steps", "no js animation button", 
+            "css keyframe background position", "ui component spritesheet", "animated launch button", 
+            "creative hover state css", "spritesheet alignment fix"
+        ],
+        "code": {
+            "html": "\n<div class=\"rocket-wrapper\">\n    <button class=\"rocket-btn\" aria-label=\"Get Started\"></button>\n</div>",
+            "css": "/* --- STYLE CONTROLS --- */\n:root {\n    --sprite-url: url('https://res.cloudinary.com/dspjypkoz/image/upload/v1771534562/sprites_ekyezp.png'); /* URL to the 5x14 spritesheet */\n    \n    /* Display Dimensions */\n    --rocket-btn-width: 200px;\n    --rocket-btn-height: 167px;\n    \n    /* Math calculated for a 5x14 grid scaled to 200px width */\n    --sprite-total-width: 1000px;                /* 5 columns * 200px */\n    --sprite-total-height: 2344px;               /* 14 rows * 167px */\n    \n    /* Animation Timings */\n    --rocket-speed-x: 0.15s;                     /* Speed of one horizontal row loop */\n    --rocket-speed-y: 2.1s;                      /* Speed of vertical descent (0.15 * 14) */\n    \n    /* \n       Frame Offset: Starts at -200px (Frame 2) to skip Corrupted Frame 1.\n       Delay: Fast-forwards by 1 frame time (-0.03s) to keep timing seamless.\n    */\n    --rocket-offset-x: -200px;                   \n    --rocket-delay: -0.03s;\n}\n\n.rocket-wrapper {\n    -webkit-font-smoothing: antialiased;\n}\n\n.rocket-btn {\n    width: var(--rocket-btn-width);\n    height: var(--rocket-btn-height);\n    background-image: var(--sprite-url);\n    background-repeat: no-repeat;\n    background-size: var(--sprite-total-width) var(--sprite-total-height);\n    background-position: var(--rocket-offset-x) 0;\n\n    border: none;\n    cursor: pointer;\n    background-color: transparent;\n    transition: transform 0.1s;\n}\n\n.rocket-btn:active {\n    transform: scale(0.98);\n}\n\n.rocket-btn:hover {\n    animation-name: sprite-x, sprite-y;\n    animation-duration: var(--rocket-speed-x), var(--rocket-speed-y);\n    animation-timing-function: steps(5), steps(14);\n    animation-delay: var(--rocket-delay), var(--rocket-delay);\n    \n    /* \n       MAGIC NUMBERS: \n       X = 13.2 (13 full rows + 1 frame) \n       Y = 0.9428 (Stops exactly on frame 66 out of 70 total slots)\n    */\n    animation-iteration-count: 13.2, 0.9428; \n    animation-fill-mode: forwards;\n}\n\n@keyframes sprite-x {\n    from { background-position-x: 0px; }\n    to   { background-position-x: calc(var(--sprite-total-width) * -1); }\n}\n\n@keyframes sprite-y {\n    from { background-position-y: 0px; }\n    to   { background-position-y: calc(var(--sprite-total-height) * -1); }\n}",
+            "js": ""
         }
     }
-    
-    if(impulseActive) {
-        impulseProgress += 0.05;
-        if(impulseProgress > 1) impulseActive = false;
-        meshText.innerText = Math.floor(Math.random() * 100) + "%";
-    }
-
-    requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', resize);
-init();`
-    }
-},
-{
-    id: "pixel-glitch-quest-pro",
-    title: "The 8-Bit Glitch Quest - Loading Animation",
-    description: "A nostalgic retro-gaming loader. A pixel character navigates a scrolling 8-bit world that occasionally suffers from digital glitching, culminating in a satisfying 'Level Up' particle burst.",
-    tags: ["Retro", "Gaming", "Pixel Art", "Glitch", "Vintage", "Action"],
-    keywords: ["pixel art animation css", "retro game loader", "8-bit glitch effect", "sprite jump animation"],
-    code: {
-        html: `
-<div class="quest-scene">
-    <svg style="width: 0; height: 0; position: absolute;">
-        <defs>
-            <filter id="retro-glitch">
-                <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" />
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="world-viewport">
-        <div class="bg-mountains"></div>
-        
-        <div class="scrolling-ground"></div>
-
-        <div class="block">?</div>
-
-        <div class="hero-container">
-            <div class="hero-sprite">
-                <div class="hero-head"></div>
-                <div class="hero-body"></div>
-                <div class="hero-feet"></div>
-            </div>
-        </div>
-
-        <div class="level-up-particles">
-            <span></span><span></span><span></span><span></span><span></span>
-        </div>
-    </div>
-
-    <div class="hud-text">LEVEL 1-1: LOADING...</div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-.quest-scene {
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    image-rendering: pixelated; /* Essential for 8-bit crispness */
-}
-
-.world-viewport {
-    position: relative;
-    width: 320px;
-    height: 180px;
-    background: #5c94fc; /* Classic Mario Blue */
-    border: 4px solid #fff;
-    overflow: hidden;
-    animation: glitch-flash 5s infinite;
-}
-
-/* --- SCENERY --- */
-.bg-mountains {
-    position: absolute;
-    bottom: 40px;
-    width: 200%;
-    height: 60px;
-    background: linear-gradient(transparent 70%, #00a000 70%);
-    background-image: repeating-linear-gradient(135deg, #007000 0, #007000 20px, transparent 20px, transparent 40px);
-    opacity: 0.5;
-    animation: scroll 10s linear infinite;
-}
-
-.scrolling-ground {
-    position: absolute;
-    bottom: 0;
-    width: 200%;
-    height: 40px;
-    background: #885010;
-    border-top: 4px solid #00a000;
-    background-image: radial-gradient(#000 2px, transparent 2px);
-    background-size: 20px 20px;
-    animation: scroll 2s linear infinite;
-}
-
-/* --- THE HERO --- */
-.hero-container {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    width: 32px;
-    height: 40px;
-    z-index: 10;
-    animation: hero-physics 2.5s infinite ease-in-out;
-}
-
-.hero-sprite {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column; align-items: center;
-}
-
-.hero-head { width: 16px; height: 16px; background: #ffcca5; box-shadow: 4px 4px 0 #000; }
-.hero-body { width: 20px; height: 16px; background: #ff0000; margin-top: 2px; }
-.hero-feet { width: 24px; height: 6px; background: #885010; margin-top: 2px; animation: run-step 0.2s steps(2) infinite; }
-
-/* --- OBSTACLE --- */
-.block {
-    position: absolute;
-    bottom: 40px;
-    right: -40px;
-    width: 32px;
-    height: 32px;
-    background: #f83800;
-    border: 4px solid #000;
-    color: #fff;
-    font-family: 'Press Start 2P', cursive;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    animation: block-move 2.5s infinite linear;
-}
-
-/* --- PAYOFF FX --- */
-.level-up-particles span {
-    position: absolute;
-    width: 8px; height: 8px;
-    background: #ffff00;
-    bottom: 60px; left: 60px;
-    opacity: 0;
-    animation: particle-burst 2.5s infinite;
-}
-
-.level-up-particles span:nth-child(2) { animation-delay: 0.1s; background: #00ff00; }
-.level-up-particles span:nth-child(3) { animation-delay: 0.2s; background: #ff00ff; }
-
-.hud-text {
-    margin-top: 30px;
-    font-family: 'Press Start 2P', cursive;
-    color: #fff;
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-@keyframes block-move { 
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-400px); }
-}
-
-@keyframes hero-physics {
-    0%, 50%, 90%, 100% { transform: translateY(0); }
-    65% { transform: translateY(-70px) rotate(10deg); } /* The Jump */
-    80% { transform: translateY(0) scaleY(0.8); } /* The Landing Squash */
-}
-
-@keyframes run-step {
-    from { transform: translateX(-2px); }
-    to { transform: translateX(2px); }
-}
-
-@keyframes particle-burst {
-    0%, 75% { transform: scale(0); opacity: 0; }
-    80% { opacity: 1; transform: scale(1) translateY(0); }
-    100% { transform: scale(0) translateY(-60px); opacity: 0; }
-}
-
-@keyframes glitch-flash {
-    0%, 40%, 45%, 90%, 100% { filter: none; }
-    42% { filter: url('#retro-glitch') invert(1); }
-    95% { filter: url('#retro-glitch') hue-rotate(90deg); }
-}
-`,
-        js: `// High-Score Syncing...`
-    }
-},
-{
-    id: "kinetic-magnet-pro",
-    title: "Kinetic Magnet — Button",
-    description: "A high-fidelity interactive button using spring physics. The button base gravitates toward the cursor while the internal label floats on a secondary parallax plane, creating a tangible sense of mass and magnetism.",
-    tags: ["Magnetic", "Physics", "Minimal", "Interactive", "Premium"],
-    keywords: ["magnetic button css", "spring physics ui", "parallax button hover", "kinetic interaction"],
-    code: {
-        html: `
-    <div class="magnetic-item" id="magnetWrap">
-        <button class="kinetic-btn" id="magnetBtn">
-            <span class="btn-label" id="magnetText">INITIALIZE CORE</span>
-            
-            <div class="btn-glint" id="magnetGlint"></div>
-            
-            <div class="btn-grain"></div>
-        </button>
-    </div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
-
-
-.magnetic-item {
-    position: relative;
-    will-change: transform;
-    /* Spring transition for smooth snapping back */
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.kinetic-btn {
-    position: relative;
-    padding: 28px 70px;
-    background: #111;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    letter-spacing: 5px;
-    cursor: pointer;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.btn-label {
-    position: relative;
-    z-index: 10;
-    display: block;
-    will-change: transform;
-    transition: transform 0.2s ease-out;
-}
-
-/* --- DYNAMIC LIGHT GLINT --- */
-.btn-glint {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-    top: 0; left: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    mix-blend-mode: overlay;
-}
-
-/* --- MATERIAL TEXTURE --- */
-.btn-grain {
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    pointer-events: none;
-}
-
-.kinetic-btn:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
-}
-
-.kinetic-btn:active {
-    transform: scale(0.97);
-}
-`,
-        js: `
-const wrap = document.getElementById('magnetWrap');
-const btn = document.getElementById('magnetBtn');
-const text = document.getElementById('magnetText');
-const glint = document.getElementById('magnetGlint');
-
-document.addEventListener('mousemove', (e) => {
-    const rect = btn.getBoundingClientRect();
-    
-    // Calculate center of the button
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Distance between mouse and button center
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-    const distance = Math.hypot(dx, dy);
-    
-    // Interaction Radius (how far out it starts pulling)
-    const radius = 250;
-
-    if (distance < radius) {
-        // Power curve: gets stronger as you get closer
-        const power = (radius - distance) / radius;
-        
-        // Displacement factors
-        const xMove = dx * power * 0.4;
-        const yMove = dy * power * 0.4;
-        
-        // Apply Magnetism to the Wrap
-        wrap.style.transform = \`translate(\${xMove}px, \${yMove}px)\`;
-        
-        // Apply Parallax to the Text (Inner float)
-        text.style.transform = \`translate(\${xMove * 0.3}px, \${yMove * 0.3}px)\`;
-        
-        // Position the Glint (The interactive highlight)
-        const glintX = e.clientX - rect.left;
-        const glintY = e.clientY - rect.top;
-        glint.style.left = \`\${glintX}px\`;
-        glint.style.top = \`\${glintY}px\`;
-        glint.style.opacity = power;
-    } else {
-        // Reset position when mouse is outside radius
-        wrap.style.transform = 'translate(0px, 0px)';
-        text.style.transform = 'translate(0px, 0px)';
-        glint.style.opacity = '0';
-    }
-});`
-    }
-},
-{
-    id: "retro-neon-tube-pro",
-    title: "Retro Neon Tube — Button",
-    description: "A cinematic neon sign button featuring realistic gas-tube ignition flicker, layered volumetric glow, chromatic bleed, and glass reflection detailing.",
-    tags: ["Neon", "Retro", "Arcade", "Cyberpunk", "Vintage", "Glow"],
-    code: {
-        html: `
-    <button class="neon-btn">
-        <span class="neon-core">OPEN SHOP</span>
-        <span class="neon-glow"></span>
-        <span class="glass-sheen"></span>
-    </button>
-`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
-
-/* BUTTON BASE */
-.neon-btn{
-    position:relative;
-    padding:22px 60px;
-    background:transparent;
-    border:2px solid #1a1a1f;
-    border-radius:8px;
-    cursor:pointer;
-    overflow:hidden;
-    transition:.3s ease;
-    backdrop-filter:blur(2px);
-}
-
-/* TEXT CORE (HOT CENTER OF TUBE) */
-.neon-core{
-    position:relative;
-    z-index:3;
-    font-family:'Orbitron',monospace;
-    font-size:1.3rem;
-    letter-spacing:4px;
-    color:#2a2a2a;
-    transition:.3s ease;
-}
-
-/* OUTER GLOW LAYER */
-.neon-glow{
-    position:absolute;
-    inset:0;
-    border-radius:8px;
-    pointer-events:none;
-    z-index:1;
-    opacity:0;
-    transition:.3s ease;
-}
-
-/* GLASS REFLECTION */
-.glass-sheen{
-    position:absolute;
-    inset:0;
-    border-radius:8px;
-    background:linear-gradient(
-        120deg,
-        rgba(255,255,255,0.15) 0%,
-        transparent 40%
-    );
-    mix-blend-mode:overlay;
-    opacity:.4;
-    pointer-events:none;
-    z-index:4;
-}
-
-/* HOVER = IGNITION */
-.neon-btn:hover{
-    border-color:#ff00cc;
-}
-
-/* Gas ignition flicker */
-.neon-btn:hover .neon-core{
-    color:#ff4dff;
-    text-shadow:
-        0 0 3px #ff4dff,
-        0 0 8px #ff00ff,
-        0 0 18px #ff00ff,
-        0 0 40px #ff00ff;
-    animation:ignite 1.4s infinite;
-}
-
-.neon-btn:hover .neon-glow{
-    opacity:1;
-    background:
-        radial-gradient(circle at center,
-            rgba(255,0,255,0.35),
-            transparent 70%);
-    box-shadow:
-        0 0 40px rgba(255,0,255,0.6),
-        0 0 80px rgba(255,0,255,0.4),
-        0 0 140px rgba(255,0,255,0.2);
-    animation:outer-flicker 1.4s infinite;
-}
-
-/* IGNITION FLICKER TIMING (Irregular) */
-@keyframes ignite{
-    0%, 12%, 18%, 22%, 100% { opacity:1; }
-    14%, 20% { opacity:.4; }
-    16% { opacity:.8; }
-}
-
-@keyframes outer-flicker{
-    0%, 15%, 21%, 23%, 100%{
-        box-shadow:
-            0 0 40px rgba(255,0,255,0.6),
-            0 0 80px rgba(255,0,255,0.4),
-            0 0 140px rgba(255,0,255,0.2);
-    }
-    17%, 19%{
-        box-shadow:
-            0 0 10px rgba(255,0,255,0.2);
-    }
-}
-
-/* ACTIVE CLICK */
-.neon-btn:active{
-    transform:scale(.96);
-    filter:hue-rotate(30deg);
-}
-`
-    }
-},
-{
-    id: "quantum-tunnel",
-    title: "Quantum Tunnel — High-Contrast Scan Button",
-    description: "An optimized version of the scan-line button. Uses text-inversion and a controlled glow-bleed to ensure 100% legibility during high-intensity state changes.",
-    tags: ["Cyber", "Legibility", "Animation", "Tech"],
-    code: {
-        html: `
-    <button class="tunnel-btn">
-        <span class="btn-label">AUTH_ACCESS</span>
-        <div class="scan-overlay"></div>
-        <div class="glow-edge"></div>
-    </button>`,
-        css: `
-
-.tunnel-btn {
-    position: relative;
-    padding: 20px 50px;
-    background: transparent;
-    border: 1px solid rgba(0, 242, 255, 0.4);
-    color: #00f2ff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.btn-label {
-    position: relative;
-    z-index: 10;
-    /* Ensuring text stays sharp regardless of background */
-    mix-blend-mode: exclusion; 
-    transition: letter-spacing 0.4s;
-}
-
-.scan-overlay {
-    position: absolute;
-    inset: 0;
-    /* Horizontal scan-lines */
-    background: repeating-linear-gradient(
-        transparent 0px,
-        transparent 2px,
-        rgba(0, 242, 255, 0.2) 2px,
-        rgba(0, 242, 255, 0.2) 4px
-    );
-    background-size: 100% 4px;
-    opacity: 0.5;
-    z-index: 1;
-    pointer-events: none;
-    transition: all 0.3s;
-}
-
-/* --- THE HOVER REFINEMENT --- */
-.tunnel-btn:hover {
-    color: #fff; /* Switch to white for maximum punch */
-    border-color: #00f2ff;
-    box-shadow: 
-        0 0 20px rgba(0, 242, 255, 0.4),
-        inset 0 0 15px rgba(0, 242, 255, 0.2);
-}
-
-.tunnel-btn:hover .scan-overlay {
-    background: #00f2ff;
-    opacity: 1;
-    /* Move lines horizontally while solidifying */
-    animation: scan-pulse 0.2s steps(2) infinite;
-}
-
-.tunnel-btn:hover .btn-label {
-    letter-spacing: 6px; /* Expanding effect adds 'digital' weight */
-}
-
-@keyframes scan-pulse {
-    0% { transform: scaleY(1); opacity: 0.8; }
-    100% { transform: scaleY(1.1); opacity: 1; }
-}
-
-.tunnel-btn:active {
-    transform: scale(0.95);
-    filter: hue-rotate(-20deg);
-}
-`,
-        js: `// Refined CSS-only interaction`
-    }
-},
-{
-    id: "social-reveal-link",
-    title: "The Social Reveal Link",
-    description: "An upscaled version of the social handle link. Increased base diameter to 52px for better visibility and a wider expansion for comfortable legibility of longer handles.",
-    tags: ["Social", "UI", "Link", "Compact", "Premium"],
-    code: {
-        html: `
-<a href="#" class="social-pill-link x-brand">
-    <div class="icon-circle">
-        <span class="brand-icon">𝕏</span>
-    </div>
-    <div class="label-box">
-        <span class="full-name">Aman</span>
-        <span class="handle">@aman_dev</span>
-    </div>
-</a>`,
-        css: `
-.social-pill-link {
-    display: inline-flex; 
-    align-items: center; 
-    padding: 6px;
-    background: #1a1a1a; 
-    border-radius: 100px;
-    cursor: pointer;
-    text-decoration: none;
-    /* Increased base size */
-    width: 52px; 
-    height: 52px; 
-    overflow: hidden;
-    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease;
-}
-
-.social-pill-link:hover { 
-    /* Increased expanded width */
-    width: 240px; 
-    background: #222; 
-}
-
-.icon-circle {
-    position: relative; 
-    /* Increased inner circle size */
-    min-width: 52px; 
-    height: 52px;
-    background: #000; 
-    border-radius: 50%;
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.brand-icon { 
-    color: #fff; 
-    /* Increased icon size */
-    font-size: 22px; 
-    font-weight: bold; 
-}
-
-.label-box {
-    margin-left: 18px; 
-    display: flex; 
-    flex-direction: column;
-    opacity: 0; 
-    transform: translateX(-20px);
-    transition: opacity 0.3s ease, transform 0.4s ease;
-    white-space: nowrap;
-}
-
-.social-pill-link:hover .label-box { 
-    opacity: 1; 
-    transform: translateX(0); 
-}
-
-.full-name { 
-    color: #fff; 
-    font-family: 'Inter', sans-serif; 
-    font-weight: bold; 
-    /* Increased font size */
-    font-size: 16px; 
-    line-height: 1.2;
-}
-
-.handle { 
-    color: #888; 
-    font-family: 'Inter', sans-serif; 
-    /* Increased font size */
-    font-size: 13px; 
-}
-
-.social-pill-link:active {
-    transform: scale(0.96);
-}`
-    }
-},
-{
-    id: "insta-premium-circle-expand",
-    title: "Instagram social handle button",
-    description: "The refined version of the social expand button. Corrects the aspect ratio to ensure the button is a geometrically perfect circle in its idle state before expanding into a pill shape.",
-    tags: ["Social", "Premium", "Circle", "Animation", "Fixed"],
-    code: {
-        html: `
-    <a href="#" class="insta-premium-btn">
-        <div class="btn-glow"></div>
-        <div class="btn-content">
-            <div class="icon-wrapper">
-                <div class="icon-ring"></div>
-                <svg class="insta-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-            </div>
-            <div class="text-content">
-                <div class="name">Jessica Sanders</div>
-                <div class="action">View Profile</div>
-            </div>
-        </div>
-    </a>`,
-        css: `
-:root {
-    --insta-grad: conic-gradient(#833ab4, #fd1d1d, #fcb045, #833ab4);
-}
-
-/* Main button container */
-.insta-premium-btn {
-    position: relative;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 60px;
-    z-index: 1;
-}
-
-/* The soft, multi-color glow */
-.btn-glow {
-    position: absolute;
-    inset: -4px;
-    background: var(--insta-grad);
-    border-radius: 60px;
-    filter: blur(15px);
-    opacity: 0.5;
-    z-index: -1;
-    transition: opacity 0.3s ease;
-}
-
-/* Button content wrapper - The animating pill */
-.btn-content {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    
-    /* FIX: Set width to match icon-wrapper (52px) exactly. 
-       52px content + 24px padding = 76px total width.
-       Height is also 76px. Result: Perfect Circle. */
-    width: 52px; 
-    
-    background: rgba(30, 30, 30, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 60px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    
-    /* Animation props */
-    overflow: hidden;
-    transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-/* Icon Wrapper */
-.icon-wrapper {
-    position: relative;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #000;
-    flex-shrink: 0; 
-}
-
-/* Gradient ring */
-.icon-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    padding: 3px;
-    background: var(--insta-grad);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-}
-
-.insta-icon { color: #fff; z-index: 2; }
-
-/* Text Styling - Hidden by default */
-.text-content {
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.3s ease, transform 0.4s ease;
-    white-space: nowrap; 
-}
-
-.name {
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-    font-family: 'Inter', sans-serif;
-}
-
-.action {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 12px;
-    font-family: 'Inter', sans-serif;
-}
-
-/* --- HOVER STATES --- */
-
-/* Expand width on hover */
-.insta-premium-btn:hover .btn-content {
-    width: 210px; /* Expanded width to fit text */
-}
-
-.insta-premium-btn:hover .text-content {
-    opacity: 1;
-    transform: translateX(0);
-    transition-delay: 0.1s;
-}
-
-.insta-premium-btn:hover .btn-glow {
-    opacity: 0.8;
-}
-
-.insta-premium-btn:active {
-    transform: scale(0.96);
-}
-`
-    }
-},
-{
-    id: "kinetic-auth-premium",
-    title: "Kinetic Auth — Premium Glass",
-    description: "A luxury-grade authentication component featuring high-fidelity glassmorphism, realistic metallic accents, and a frictionless 360° kinetic transition. Designed for high-end web applications.",
-    tags: ["3D", "Premium", "Glassmorphism", "Auth", "Kinetic", "Production-Ready"],
-    code: {
-        html: `
-<div class="premium-scene">
-    <div class="mount-base"></div>
-    
-    <div class="suspension-bar">
-        <div class="cap left"></div>
-        <div class="cap right"></div>
-    </div>
-    
-    <div class="kinetic-assembly" id="swingPlate">
-        <div class="hinge-group">
-            <div class="hinge left"></div>
-            <div class="hinge right"></div>
-        </div>
-
-        <div class="glass-card" id="plateContent">
-            <div class="state-container">
-                <div class="top-accent"></div>
-                <h2 class="card-heading">New here?</h2>
-                <p class="card-sub">Choose your path to continue.</p>
-                <div class="btn-group">
-                    <button class="choice-btn yes" onclick="swingToState('signup')">Yes</button>
-                    <button class="choice-btn no" onclick="swingToState('login')">No</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="surface-glare"></div>
-    </div>
-</div>`,
-        css: `
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-
-.premium-scene {
-    width: 100%; height: 550px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    perspective: 1600px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    overflow: hidden;
-}
-
-/* --- HARDWARE --- */
-.mount-base {
-    width: 140px; height: 12px; background: #222;
-    border-radius: 0 0 12px 12px; margin-bottom: -6px; z-index: 5;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-top: none;
-}
-
-.suspension-bar {
-    position: relative;
-    width: 360px; height: 12px;
-    background: linear-gradient(180deg, #999, #eee 40%, #777);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.9);
-    z-index: 10;
-}
-
-.cap {
-    position: absolute; top: -3px; width: 18px; height: 18px;
-    background: radial-gradient(circle at 30% 30%, #fff, #888);
-    border-radius: 50%;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.6);
-}
-.cap.left { left: -4px; }
-.cap.right { right: -4px; }
-
-/* --- KINETIC ASSEMBLY --- */
-.kinetic-assembly {
-    position: relative;
-    transform-style: preserve-3d;
-    transform-origin: top center;
-    transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1); /* Elegant easing */
-    top: -6px;
-}
-
-.hinge-group {
-    display: flex; justify-content: space-between; width: 220px; margin: 0 auto;
-}
-.hinge {
-    width: 14px; height: 28px;
-    background: linear-gradient(90deg, #333, #aaa, #333);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-    border-radius: 2px;
-}
-
-/* --- THE CARD --- */
-.glass-card {
-    position: relative;
-    width: 340px; height: 220px;
-    background: rgba(30, 30, 35, 0.85);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-top: 3px solid #555; /* Hinge Weight */
-    border-radius: 0 0 20px 20px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 
-        0 25px 60px rgba(0,0,0,0.7),
-        inset 0 0 0 1px rgba(255,255,255,0.03);
-    backdrop-filter: blur(24px);
-    overflow: hidden;
-}
-
-/* --- CONTENT --- */
-.state-container {
-    width: 100%; display: flex; flex-direction: column; align-items: center;
-    animation: fade-up 0.5s ease forwards;
-}
-
-.top-accent {
-    width: 40px; height: 4px; border-radius: 10px;
-    background: rgba(255,255,255,0.1); margin-bottom: 25px;
-}
-
-.card-heading {
-    color: #fff; font-size: 26px; margin: 0 0 8px 0; font-weight: 800; letter-spacing: -0.5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-.card-sub {
-    color: rgba(255,255,255,0.5); font-size: 13px; margin: 0 0 30px 0; font-weight: 500;
-}
-
-.btn-group { display: flex; gap: 16px; }
-
-.choice-btn {
-    padding: 12px 36px; border-radius: 10px; border: none;
-    font-weight: 700; font-size: 15px; cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.yes { 
-    background: linear-gradient(135deg, #fff, #e0e0e0); 
-    color: #000; 
-    box-shadow: 0 4px 15px rgba(255,255,255,0.15);
-}
-.yes:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,255,255,0.25); }
-
-.no { 
-    background: rgba(255,255,255,0.05); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    color: rgba(255,255,255,0.8); 
-}
-.no:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.3); }
-
-/* --- DYNAMIC STATES --- */
-.glass-card.signup-mode {
-    background: radial-gradient(circle at 50% 0%, rgba(255, 50, 100, 0.15), rgba(30, 30, 35, 0.95) 70%);
-    border-color: rgba(255, 50, 100, 0.4);
-    box-shadow: 0 30px 80px rgba(255, 0, 85, 0.15);
-}
-.glass-card.login-mode {
-    background: radial-gradient(circle at 50% 0%, rgba(0, 200, 255, 0.15), rgba(30, 30, 35, 0.95) 70%);
-    border-color: rgba(0, 200, 255, 0.4);
-    box-shadow: 0 30px 80px rgba(0, 242, 255, 0.15);
-}
-
-.final-btn {
-    width: 80%; padding: 16px 0; border: none; border-radius: 10px;
-    font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
-    cursor: pointer; margin-top: 5px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-}
-.final-btn:hover { transform: translateY(-2px); }
-
-.signup-btn { background: linear-gradient(135deg, #ff3366, #ff0044); color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-.login-btn { background: linear-gradient(135deg, #00eeff, #00bbff); color: #000; }
-
-.back-link {
-    margin-top: 25px; color: rgba(255,255,255,0.3); font-size: 12px; cursor: pointer; font-weight: 600;
-    transition: color 0.2s;
-}
-.back-link:hover { color: #fff; }
-
-.surface-glare {
-    position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.0) 50%);
-    z-index: 20;
-}
-
-@keyframes fade-up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-`,
-        js: `
-const plate = document.getElementById('swingPlate');
-const contentBox = document.getElementById('plateContent');
-let currentRotation = 0; 
-let isAnimating = false;
-
-// Content Templates
-const templates = {
-    initial: \`
-        <div class="state-container">
-            <div class="top-accent"></div>
-            <h2 class="card-heading">New here?</h2>
-            <p class="card-sub">Choose your path to continue.</p>
-            <div class="btn-group">
-                <button class="choice-btn yes" onclick="swingToState('signup')">Yes</button>
-                <button class="choice-btn no" onclick="swingToState('login')">No</button>
-            </div>
-        </div>\`,
-    signup: \`
-        <div class="state-container">
-            <h2 class="card-heading">Create Account</h2>
-            <p class="card-sub">Start your premium journey.</p>
-            <button class="final-btn signup-btn">Sign Up Now</button>
-            <div class="back-link" onclick="swingToState('initial')">Go back</div>
-        </div>\`,
-    login: \`
-        <div class="state-container">
-            <h2 class="card-heading">Welcome Back</h2>
-            <p class="card-sub">Access your dashboard.</p>
-            <button class="final-btn login-btn">Log In</button>
-            <div class="back-link" onclick="swingToState('initial')">Go back</div>
-        </div>\`
-};
-
-window.swingToState = function(targetState) {
-    if (isAnimating) return;
-    isAnimating = true;
-
-    // 1. Kinetic Spin
-    currentRotation += 360;
-    plate.style.transform = \`rotateX(\${currentRotation}deg)\`;
-
-    // 2. Invisible Content Swap (at 250ms)
-    setTimeout(() => {
-        contentBox.className = 'glass-card'; // Reset
-        
-        if (targetState === 'signup') contentBox.classList.add('signup-mode');
-        if (targetState === 'login') contentBox.classList.add('login-mode');
-        
-        contentBox.innerHTML = templates[targetState];
-    }, 250);
-
-    // 3. Reset Lock
-    setTimeout(() => {
-        isAnimating = false;
-    }, 900);
-}`
-    }
-},
-
-
-
 ];

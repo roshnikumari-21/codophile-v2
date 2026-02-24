@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense, useTransition } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation"; // Import hooks
+import { ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { effectsData } from "./data";
 import { LivePreview } from "@/components/EffectsUI/LivePreview";
 
@@ -22,33 +22,31 @@ export default function EffectsPage() {
 
 function EffectsContent() {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [, startTransition] = useTransition(); // Using transition fixes the double-back-click bug
 
-  // 1. Read page from URL, default to 1 if missing or invalid
-  const pageParam = searchParams.get("page");
-  const initialPage = pageParam ? parseInt(pageParam, 10) : 1;
-  const [page, setPage] = useState(initialPage);
-
-  // 2. Sync state when URL changes (e.g., browser back button)
-  useEffect(() => {
-    const p = searchParams.get("page");
-    if (p) {
-      setPage(parseInt(p, 10));
-    } else {
-      setPage(1);
-    }
-  }, [searchParams]);
-
-  // 3. Custom page setter that updates both State and URL
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage); // Optimistic UI update
-    // Scroll to top of grid smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Update URL without reloading the page
-    router.push(`?page=${newPage}`, { scroll: false });
-  };
-
+  // 1. Single Source of Truth: Read directly from the URL. 
+  // Next.js will automatically re-render this component when the URL changes.
+  const page = parseInt(searchParams.get("page") || "1", 10);
   const totalPages = Math.ceil(effectsData.length / ITEMS_PER_PAGE);
+
+  // 2. Navigation Handler
+  const handlePageChange = (newPage: number) => {
+    if (newPage === page || newPage < 1 || newPage > totalPages) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+
+    // Wrapping in startTransition prevents the Suspense boundary from creating 
+    // a duplicate history entry, which is what caused the double-click bug.
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    });
+
+    // Smooth scroll to top of the grid
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const paginatedData = effectsData.slice(
     (page - 1) * ITEMS_PER_PAGE,
@@ -83,7 +81,7 @@ function EffectsContent() {
             className="text-4xl md:text-7xl font-bold tracking-tight mb-6 flex flex-nowrap justify-center items-center whitespace-nowrap"
           >
             Cool CSS{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-400 via-purple-400 to-indigo-400 animate-gradient-x">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 animate-gradient-x">
               Effects
             </span>
           </motion.h1>
@@ -119,7 +117,7 @@ function EffectsContent() {
         <ConstellationPagination
           totalPages={totalPages}
           currentPage={page}
-          onChange={handlePageChange} // Use the new handler
+          onChange={handlePageChange}
         />
 
       </main>
@@ -129,8 +127,7 @@ function EffectsContent() {
   );
 }
 
-function EffectCard({ effect, index }: { effect: any, index: number }) {
-  // ... (Keep existing EffectCard code exactly as is)
+function EffectCard({ effect, index }: { effect: any; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -166,7 +163,6 @@ function EffectCard({ effect, index }: { effect: any, index: number }) {
   );
 }
 
-// ... (Keep existing ConstellationPagination code exactly as is)
 export function ConstellationPagination({
   totalPages,
   currentPage,
@@ -176,14 +172,9 @@ export function ConstellationPagination({
   currentPage: number;
   onChange: (p: number) => void;
 }) {
-  /**
-   * Robust pagination logic:
-   * 1. Always show first and last.
-   * 2. Show a window (delta) around the current page.
-   * 3. Intelligently insert "..." or the missing number if the gap is only 1.
-   */
+
   const getPages = () => {
-    const delta = 2; // How many pages to show around current
+    const delta = 2;
     const range: number[] = [];
     const rangeWithDots: (number | string)[] = [];
     let prev: number | undefined;
@@ -216,17 +207,26 @@ export function ConstellationPagination({
   const visiblePages = getPages();
 
   return (
-    <div className="relative mt-32 mb-16 flex justify-center items-center">
-      <div className="relative flex items-center gap-6 md:gap-10">
+    <div className="relative mt-32 mb-16 flex justify-center items-center gap-6 md:gap-12">
+      
+      {/* Previous Button - Removed cursor-not-allowed, added disabled:cursor-default */}
+      <button
+        onClick={() => onChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+        className="group flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-pink-400 disabled:opacity-30 disabled:hover:text-gray-400 transition-colors outline-none cursor-pointer disabled:cursor-default"
+      >
+        <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 group-disabled:translate-x-0" />
+        <span className="hidden sm:inline tracking-widest">PREV</span>
+      </button>
 
-        {/* The Constellation Path (Background Line) */}
+      {/* Constellation Nodes */}
+      <div className="relative flex items-center gap-6 md:gap-10">
         <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-pink-500/30 to-transparent -translate-y-1/2" />
 
         {visiblePages.map((page, index) => {
-          // Render the "..." Separator
           if (page === "...") {
             return (
-              <div key={`dots-${index}`} className="text-gray-600 tracking-tighter text-xl select-none px-1 translate-y-[-2px]">
+              <div key={`dots-${index}`} className="text-gray-600 text-xl select-none px-1">
                 ⋯
               </div>
             );
@@ -237,16 +237,17 @@ export function ConstellationPagination({
 
           return (
             <motion.button
-              suppressHydrationWarning
               key={`page-${pageNum}`}
               onClick={() => onChange(pageNum)}
-              className="relative z-10 flex flex-col items-center group outline-none"
+              className="relative z-10 flex flex-col items-center group outline-none cursor-pointer"
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.9 }}
             >
               <div className={`relative w-3.5 h-3.5 rounded-full transition-all duration-500 ease-out ${active ? "bg-pink-400 shadow-[0_0_15px_#22d3ee,0_0_30px_#22d3ee]" : "bg-white/20 group-hover:bg-white/70 shadow-none"}`}>
                 {active && <div className="absolute inset-0 rounded-full bg-white blur-[1px] opacity-50" />}
               </div>
+              
+              {/* Preserved the animated glow from the original */}
               <AnimatePresence>
                 {active && (
                   <>
@@ -255,6 +256,7 @@ export function ConstellationPagination({
                   </>
                 )}
               </AnimatePresence>
+
               <span className={`absolute top-8 font-mono text-[10px] tracking-[0.3em] transition-all duration-300 ${active ? "text-cyan-400 font-bold translate-y-1" : "text-gray-500 opacity-60"}`}>
                 {String(pageNum).padStart(2, "0")}
               </span>
@@ -262,8 +264,17 @@ export function ConstellationPagination({
           );
         })}
       </div>
+
+      {/* Next Button - Removed cursor-not-allowed, added disabled:cursor-default */}
+      <button
+        onClick={() => onChange(currentPage + 1)}
+        disabled={currentPage >= totalPages}
+        className="group flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-pink-400 disabled:opacity-30 disabled:hover:text-gray-400 transition-colors outline-none cursor-pointer disabled:cursor-default"
+      >
+        <span className="hidden sm:inline tracking-widest">NEXT</span>
+        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-disabled:translate-x-0" />
+      </button>
+
     </div>
   );
 }
-
-
