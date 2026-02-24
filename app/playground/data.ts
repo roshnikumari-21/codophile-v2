@@ -145,6 +145,11 @@ export const playgroundData = {
                 title: "Tailwind Buttons Playground - Button Components & Variants",
                 description: "Design and customize Tailwind CSS buttons. Experiment with sizes, rounded corners, colors, hover states, and button groups using utility classes.",
                 keywords: ["tailwind buttons", "button components", "tailwind button variants", "button hover tailwind", "button group tailwind"]
+            },
+            masks: {
+                title: "Tailwind Mask Utilities Playground - Image & Gradient Masking",
+                description: "Master Tailwind mask utilities including mask-image, mask-clip, mask-size, and gradient masks with interactive controls.",
+                keywords: ["tailwind mask", "mask-image", "mask-clip", "gradient mask", "tailwind masking"]
             }
         }
     }

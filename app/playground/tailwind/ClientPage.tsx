@@ -136,6 +136,13 @@ const categories = [
         icon: "/icons/interactivity.png",
         href: "/playground/tailwind/select-menus",
         color: "from-violet-500 to-purple-500"
+    },
+    {
+        title: "Masks",
+        description: "Control element visibility using image and gradient masks.",
+        icon: "/icons/filters.png",
+        href: "/playground/tailwind/masks",
+        color: "from-teal-400 to-cyan-500"
     }
 ];
 
