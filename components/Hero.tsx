@@ -76,6 +76,23 @@ export default function Hero() {
                         Manipulate properties in real-time, inspect physics-based interactions,
                         and export clean Tailwind code instantly.
                     </motion.p>
+                    <div className="sr-only">
+                    <h1>
+                        Visual CSS Playground, Tailwind CSS Generator & CSS Effects Library
+                    </h1>
+
+                    <p>
+                            Codophile is a visual CSS playground and Tailwind CSS generator that allows developers to design user interfaces
+                            in real-time, generate Tailwind CSS classes, and explore cool CSS effects with code.
+                            It includes a CSS editor with live preview, CSS playground tools, Tailwind generator features,
+                            and a collection of modern UI animations and effects for web development.
+                        
+                    </p>
+
+                    <h2>CSS Playground with Live Preview</h2>
+                    <h2>Tailwind CSS Generator Online</h2>
+                    <h2>Cool CSS Effects with Code Examples</h2>
+                    </div>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
